@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>我的第一篇博客 | UNCEIR的个人博客</title>
+    <title>进程和线程 | UNCEIR的个人博客</title>
     <meta name="author" content="David Huang" />
     <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
     <meta name="keywords" content="" />
@@ -156,7 +156,7 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>我的第一篇博客</h1>
+        <h1>进程和线程</h1>
     </div>
     <div class="info">
         <span class="date">
@@ -170,7 +170,26 @@
     </div>
     
     <div class="content" v-pre>
-        <h1 id="哈哈哈"><a href="#哈哈哈" class="headerlink" title="哈哈哈"></a>哈哈哈</h1>
+        <h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h4 id="1-概念的讲述"><a href="#1-概念的讲述" class="headerlink" title="1.概念的讲述"></a>1.概念的讲述</h4><p> 首先分清这两个之间的区别非常重要。</p>
+<pre><code>	进程是操作系统中的应用程序、是资源分配的基本单位。
+	线程是用来执行具体的任务和功能，是CPU调度和分派的最小单位。
+	一个进程往往可以包含多个线程，至少包含一个。
+</code></pre>
+<p>1.1进程<br>	<br>    一个进程往往可以包含多个线程，至少包含一个。<br>    Java默认有两个线程：一个 main， 一个GC。</p>
+<p> 1.2线程<br> 	<br>    对于Java而言：Thread、Runable、Callable 是进行开启线程的。java是没有权限去开启线程的、操作硬件的，这是一个 native 的一个本地方法，它调用的底层是c++代码。只不过线程的创建与管理权限是操作系统（OS）内核提供的。Java 本身不能“直接”去操作 CPU 或硬件，而是通过 JVM（Java 虚拟机） 和 操作系统的线程 API 来间接完成的。</p>
+<p> 1.3并发</p>
+<ul>
+<li>多线程操作同一个资源</li>
+<li>CPU只有一核，模拟出来多条线程。可以使用CPU快速交替，来模拟多线程。</li>
+<li>并发编程的本质：充分利用CPU的资源。</li>
+<li>类比：一个拉面师傅同时接了 10 个订单，他不会一下子做完一个再做下一个，而是 揉一会面、煮一会汤、切一会菜，在多个任务之间来回切换，看起来像是“同时”在干很多事。</li>
+</ul>
+<p>1.4并行</p>
+<ul>
+<li>CPU多核，多个线程可以同时执行。 我们可以使用线程池</li>
+<li>类比：有 3 个厨师，每人同时炒一个菜，3 个菜可以真正同时出锅。</li>
+</ul>
+
     </div>
     
     
