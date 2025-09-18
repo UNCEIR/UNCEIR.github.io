@@ -182,7 +182,7 @@
 
 <div class="post">
     <a href="/2025/09/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-1/">
-        <h2 class="post-title">进程和线程</h2>
+        <h2 class="post-title">JUC并发编程01：进程和线程</h2>
     </a>
     <div class="category-and-date">
         
@@ -216,6 +216,49 @@
 <ul>
 <li>CPU多核，多个线程可以同时执行。 我们可以使用线程池</li>
 <li>类比：有 3 个厨师，每人同时炒一个菜，3 个菜可以真正同时出锅。</li>
+</ul>
+<p>1.5线程的状态</p>
+<hr>
+<pre><code>public enum State &#123;
+    // 线程新生
+    NEW,
+
+  	//运行状态
+    RUNNABLE,
+
+    //阻塞
+    BLOCKED,
+
+    //等待，死死地等
+    WAITING,
+
+    //超时等待
+    TIMED_WAITING,
+
+    //终止
+    TERMINATED;
+&#125;
+</code></pre>
+<hr>
+<p>1.6 wait和sleep的区别	<br>	<br>来自不同的类：</p>
+<ul>
+<li>wait -&gt; Object</li>
+<li>sleep -&gt; Thread</li>
+</ul>
+<p>锁的释放</p>
+<ul>
+<li>wait 会释放锁。</li>
+<li>sleep 处于睡眠状态，不会释放锁。</li>
+</ul>
+<p>使用的范围不同</p>
+<ul>
+<li>wait 必须在同步代码块中。</li>
+<li>sleep 可以在任何地方处于睡眠。</li>
+</ul>
+<p>是否需要捕获异常</p>
+<ul>
+<li>wait 不需要捕获异常。</li>
+<li>sleep 必须要捕获异常。</li>
 </ul>
 
             
