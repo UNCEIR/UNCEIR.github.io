@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>Archives | UNCEIR的个人博客</title>
+    <title>项目一笔记04：利用乐观锁解决单体下多单超卖问题 | UNCEIR的个人博客</title>
     <meta name="author" content="David Huang" />
     <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
     <meta name="keywords" content="" />
@@ -37,6 +37,10 @@
 
 
 <script src="/js/lib/preview.js"></script>
+
+
+
+
 
 
 
@@ -150,124 +154,53 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            
-<div id="archives">
-    
-    <div id="timeline-wrap" ref="timeline">
+            <div class="article">
+    <div>
+        <h1>项目一笔记04：利用乐观锁解决单体下多单超卖问题</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/9/21
+        </span>
         
-        <div class="timeline" data-title="helloworld">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/9/14</div>
-                <a href="/2025/09/14/hello-world/">
-                    <h3>Hello World</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="juc并发编程01：进程和线程">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/9/15</div>
-                <a href="/2025/09/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-1/">
-                    <h3>JUC并发编程01：进程和线程</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="项目一笔记01：session集群共享问题的解决">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/9/20</div>
-                <a href="/2025/09/20/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B001%EF%BC%9ASession%E9%9B%86%E7%BE%A4%E5%85%B1%E4%BA%AB%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
-                    <h3>项目一笔记01：Session集群共享问题的解决</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="项目一笔记02：数据一致性问题的解决">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/9/21</div>
-                <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B002%EF%BC%9A%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/">
-                    <h3>项目一笔记02：数据一致性问题的解决</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="项目一笔记03：缓存穿透，雪崩，击穿三大问题的解决">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/9/21</div>
-                <a href="/2025/09/21/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%EF%BC%8C%E9%9B%AA%E5%B4%A9%EF%BC%8C%E5%87%BB%E7%A9%BF%E4%B8%89%E5%A4%A7%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
-                    <h3>项目一笔记03：缓存穿透，雪崩，击穿三大问题的解决</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="项目一笔记04：利用乐观锁解决单体下多单超卖问题">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/9/21</div>
-                <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B004%EF%BC%9A%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
-                    <h3>项目一笔记04：利用乐观锁解决单体下多单超卖问题</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="项目一笔记05：利用悲观锁解决单体下一人一单问题">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/9/21</div>
-                <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B005%EF%BC%9A%E5%88%A9%E7%94%A8%E6%82%B2%E8%A7%82%E9%94%81%E8%A7%A3%E5%86%B3%E5%8D%95%E4%BD%93%E4%B8%8B%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%95%E9%97%AE%E9%A2%98/">
-                    <h3>项目一笔记05：利用悲观锁解决单体下一人一单问题</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="timeline" data-title="项目一笔记06：分布式锁优化集群下秒杀下单问题">
-            <div class="timeline-tail"></div>
-            <div class="timeline-content">
-                <div class="item-time">2025/9/21</div>
-                <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B006-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%BC%98%E5%8C%96%E9%9B%86%E7%BE%A4%E4%B8%8B%E7%A7%92%E6%9D%80%E4%B8%8B%E5%8D%95%E9%97%AE%E9%A2%98/">
-                    <h3>项目一笔记06：分布式锁优化集群下秒杀下单问题</h3>
-                </a>
-                <div class="info">
-                    
-                    
-                </div>
-            </div>
-        </div>
         
     </div>
+    
+    <div class="content" v-pre>
+        <h4 id="多单超卖问题的具体是指什么？"><a href="#多单超卖问题的具体是指什么？" class="headerlink" title="多单超卖问题的具体是指什么？"></a>多单超卖问题的具体是指什么？</h4><ul>
+<li>举个例子：线程一查询库存发现充足时（假设此时库存量为1），在进行判断并扣减的执行过程中间，线程二也进行了查询库存这一业务，发现充足，而线程一判断后扣减使得库存量为0，线程二随之也扣减（按它之前查询的数据为主判断是充足的）使得库存量为-1，导致出现了多单超卖问题。两个线程是这样，多个大量线程并发就会造成库存量出现严重错误。</li>
+</ul>
+<h4 id="超卖问题的常见解决方案："><a href="#超卖问题的常见解决方案：" class="headerlink" title="超卖问题的常见解决方案："></a>超卖问题的常见解决方案：</h4><ul>
+<li><p><strong>悲观锁</strong>，认为线程安全问题一定会发生，因此操作数据库之前都需要先获取锁，确保线程串行执行。常见的悲观锁有synchronized、lock。</p>
+</li>
+<li><p><strong>乐观锁</strong>，认为线程安全问题不一定发生，因此不加锁，只会在更新数据库的时候去判断有没有其它线程对数据进行修改，如果没有修改则认为是安全的，直接更新数据库中的数据即可，如果修改了则说明不安全，直接抛异常或者等待重试。常见的实现方式有：版本号法、CAS操作、乐观锁算法</p>
+</li>
+</ul>
+<h5 id="悲观锁和乐观锁之间进行比较"><a href="#悲观锁和乐观锁之间进行比较" class="headerlink" title="悲观锁和乐观锁之间进行比较"></a>悲观锁和乐观锁之间进行比较</h5><ul>
+<li><p>悲观锁比乐观锁的<strong>性能</strong>低：悲观锁需要先加锁再操作，而乐观锁不需要加锁因此通常具有更好的性能。</p>
+</li>
+<li><p>悲观锁比乐观锁的<strong>冲突处理能力</strong>低：悲观锁在冲突发生时直接阻塞其他线程，乐观锁则是在提交阶段检查冲突并进行重试。</p>
+</li>
+<li><p>悲观锁比乐观锁的<strong>并发度</strong>低：悲观锁存在锁粒度较大的问题，可能会限制并发性能；而乐观锁可以实现较高的并发度。</p>
+</li>
+<li><p>应用场景：两者都是互斥锁，悲观锁适合写入操作较多、冲突频繁的场景；乐观锁适合读取操作较多、冲突较少的场景。</p>
+</li>
+</ul>
+<h4 id="悲观锁和乐观锁在该项目业务应用的侧重点："><a href="#悲观锁和乐观锁在该项目业务应用的侧重点：" class="headerlink" title="悲观锁和乐观锁在该项目业务应用的侧重点："></a>悲观锁和乐观锁在该项目业务应用的侧重点：</h4><ul>
+<li>乐观锁是在下单过程中根据库存量这一字段进行CAS操作的，主要解决的是<strong>库存超卖</strong>问题</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
 </div>
 
             <footer id="footer">
@@ -298,6 +231,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
