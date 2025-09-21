@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>UNCEIR的个人博客</title>
+    <title>项目一笔记02：数据一致性问题 | UNCEIR的个人博客</title>
     <meta name="author" content="David Huang" />
     <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
     <meta name="keywords" content="" />
@@ -42,7 +42,9 @@
 
 
 
-<script src="/js/lib/home.js"></script>
+
+
+
 
 <link rel="stylesheet" href="/css/main.css" />
 
@@ -152,40 +154,11 @@
 </transition>
 
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
-            <div id="home-head">
-    <div
-        id="home-background"
-        ref="homeBackground"
-        data-images="/images/background.jpg"
-    ></div>
-    <div id="home-info" @click="homeClick">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>UNCEIR的个人博客</h1>
-                <h3>欢迎光临www</h3>
-                <h5>广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。</h5>
-            </div>
-        </span>
+            <div class="article">
+    <div>
+        <h1>项目一笔记02：数据一致性问题</h1>
     </div>
-</div>
-<div
-    id="home-posts-wrap"
-    ref="homePostsWrap"
-    true
->
-    <div id="home-posts">
-        
-
-<div class="post">
-    <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B002%EF%BC%9A%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/">
-        <h2 class="post-title">项目一笔记02：数据一致性问题</h2>
-    </a>
-    <div class="category-and-date">
-        
+    <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
@@ -195,10 +168,9 @@
         
         
     </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h3 id="数据一致性问题概括"><a href="#数据一致性问题概括" class="headerlink" title="数据一致性问题概括"></a>数据一致性问题概括</h3><pre><code>	- 在本项目当中，主要是确保MySQL和Redis之间的数据一致性，避免脏读导致信息读取不匹配所引起的一系列安全问题。为了保证一致性，因此就要为Redis选择一个最佳的缓存更新策略。
+    
+    <div class="content" v-pre>
+        <h3 id="数据一致性问题概括"><a href="#数据一致性问题概括" class="headerlink" title="数据一致性问题概括"></a>数据一致性问题概括</h3><pre><code>	- 在本项目当中，主要是确保MySQL和Redis之间的数据一致性，避免脏读导致信息读取不匹配所引起的一系列安全问题。为了保证一致性，因此就要为Redis选择一个最佳的缓存更新策略。
 </code></pre>
 <ul>
 <li><p>Redis常见的几种缓存更新策略：</p>
@@ -246,258 +218,13 @@
 </li>
 </ul>
 
-            
-        </div>
     </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B002%EF%BC%9A%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/09/20/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B001%EF%BC%9ASession%E9%9B%86%E7%BE%A4%E5%85%B1%E4%BA%AB%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
-        <h2 class="post-title">项目一笔记01：Session集群共享问题的解决</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/9/20
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h3 id="什么是Session集群共享问题"><a href="#什么是Session集群共享问题" class="headerlink" title="什么是Session集群共享问题"></a>什么是Session集群共享问题</h3><pre><code>- 因为通常在分布式集群环境下，会话是不共享的。默认情况下，Web应用程序的会话是保存到单个服务器上的。所以当一个请求不是访问该服务器的时候，是无法访问该独有的会话信息的。
-</code></pre>
-<h5 id="Session集群共享问题具体会对实际体验造成哪些影响"><a href="#Session集群共享问题具体会对实际体验造成哪些影响" class="headerlink" title="Session集群共享问题具体会对实际体验造成哪些影响"></a>Session集群共享问题具体会对实际体验造成哪些影响</h5><ul>
-<li>服务器之间无法共享会话的信息。例如，一个用户在一台服务器完成了注册登录，将个人用户信息存储到会话中，能够判断用户已经登录。但是当换一台服务器重新登录时(Tomcat服务器变更)，之前的会话便失效了，这是因为另一台服务器的会话是与这台隔离的，用户信息不存在，所以无法调用没有登录的服务器上的服务。</li>
-<li>简单来说，甲用这台台式电脑完成登录后有携带jwt所以不用再反复登录这么麻烦的流程便进入里面的服务，但是突然想换成笔记本远程办公就又要重新登录一遍了。</li>
-</ul>
-<h5 id="如何解决Session集群共享问题？"><a href="#如何解决Session集群共享问题？" class="headerlink" title="如何解决Session集群共享问题？"></a>如何解决Session集群共享问题？</h5><ul>
-<li>方案一：Session深拷贝（但是不推荐）<ul>
-<li>Tomcat提供了Session的拷贝功能，通过配置Tomcat可以实现Session的拷贝，但是这会增加服务器的额外开销，影响服务的性能，还会带来数据的一致性问题。</li>
-</ul>
-</li>
-<li>方案二：<strong>Redis缓存</strong>（推荐）<ul>
-<li>Redis具有session所具有的一系列方便存储的特性：基于内存，key-value存储结构。</li>
-<li>最重要的是，Redis的数据是共享的。因为单独存到一个Nosql，可多台服务器访问。</li>
-</ul>
-</li>
-</ul>
-<h5 id="Redis缓存相较于传统Session存储的优点"><a href="#Redis缓存相较于传统Session存储的优点" class="headerlink" title="Redis缓存相较于传统Session存储的优点"></a>Redis缓存相较于传统Session存储的优点</h5><ul>
-<li><strong>高性能和可伸缩性</strong> ：Redis 是一个内存数据库，具有快速的读写能力。相比于传统的 Session 存储方式，将会话数据存储在 Redis 中可以大大提高读写速度和处理能力。此外，Redis 还支持集群和分片技术，可以实现水平扩展，处理大规模的并发请求。</li>
-<li><strong>可靠性和持久性</strong>：Redis 提供了持久化机制，可以将内存中的数据定期或异步地写入磁盘，以保证数据的持久性。这样即使发生服务器崩溃或重启，会话数据也可以被恢复。</li>
-<li><strong>丰富的数据结构</strong>：Redis 不仅仅是一个键值存储数据库，它还支持多种数据结构，如字符串、列表、哈希、集合和有序集合等。这些数据结构的灵活性使得可以更方便地存储和操作复杂的会话数据。</li>
-<li><strong>分布式缓存功能</strong>：Redis 作为一个高效的缓存解决方案，可以用于缓存会话数据，减轻后端服务器的负载。与传统的 Session 存储方式相比，使用 Redis 缓存会话数据可以大幅提高系统的性能和可扩展性。</li>
-<li><strong>可用性和可部署性</strong>:Redis 是一个强大而成熟的开源工具，有丰富的社区支持和活跃的开发者社区。它可以轻松地与各种编程语言和框架集成，并且可以在多个操作系统上运行。(但是redis成本就比较高了，还有维护<br><img src="/images/%E5%9F%BA%E4%BA%8Esession%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C.jpg" alt="基于session实现登录注册"></li>
-</ul>
-<p><img src="/images/%E5%9F%BA%E4%BA%8Eredis%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C.jpg" alt="基于redis实现登录注册"></p>
-<ul>
-<li>存储用户信息使用redis的Hash结构，而不是String结构</li>
-<li>Hash 结构与 String 结构类型的比较：<ul>
-<li>String 数据结构是以 JSON 字符串的形式保存，更加直观，操作也更加简单，但是 JSON 结构会有很多非必须的内存开销，比如双引号、大括号，内存占用比 Hash 更高。</li>
-<li>Hash 数据结构是以 Hash 表的形式保存，可以对单个字段进行CRUD，更加灵活。</li>
-</ul>
-</li>
-<li>Redis替代Session需要考虑的问题：<ul>
-<li>选择合适的数据结构，了解 Hash 比 String 的区别。</li>
-<li>选择合适的key，为key设置一个业务前缀，方便区分和分组，为key拼接一个UUID，避免key冲突导致数据覆盖</li>
-<li>选择合适的存储粒度，对于验证码这类数据，一般设置TTL为3min即可，防止大量缓存数据的堆积，而对于用户信息这类数据可以稍微设置长一点，比如30min，防止频繁对Redis进行IO操作</li>
-</ul>
-</li>
-</ul>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/20/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B001%EF%BC%9ASession%E9%9B%86%E7%BE%A4%E5%85%B1%E4%BA%AB%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/09/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-1/">
-        <h2 class="post-title">JUC并发编程01：进程和线程</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/9/15
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h2 id="进程和线程"><a href="#进程和线程" class="headerlink" title="进程和线程"></a>进程和线程</h2><h4 id="1-概念的讲述"><a href="#1-概念的讲述" class="headerlink" title="1.概念的讲述"></a>1.概念的讲述</h4><p> 首先分清这两个之间的区别非常重要。</p>
-<pre><code>	进程是操作系统中的应用程序、是资源分配的基本单位。
-	线程是用来执行具体的任务和功能，是CPU调度和分派的最小单位。
-	一个进程往往可以包含多个线程，至少包含一个。
-</code></pre>
-<p>1.1进程<br>	<br>    一个进程往往可以包含多个线程，至少包含一个。<br>    Java默认有两个线程：一个 main， 一个GC。</p>
-<p> 1.2线程<br> 	<br>    对于Java而言：Thread、Runable、Callable 是进行开启线程的。java是没有权限去开启线程的、操作硬件的，这是一个 native 的一个本地方法，它调用的底层是c++代码。只不过线程的创建与管理权限是操作系统（OS）内核提供的。Java 本身不能“直接”去操作 CPU 或硬件，而是通过 JVM（Java 虚拟机） 和 操作系统的线程 API 来间接完成的。</p>
-<p> 1.3并发</p>
-<ul>
-<li>多线程操作同一个资源</li>
-<li>CPU只有一核，模拟出来多条线程。可以使用CPU快速交替，来模拟多线程。</li>
-<li>并发编程的本质：充分利用CPU的资源。</li>
-<li>类比：一个拉面师傅同时接了 10 个订单，他不会一下子做完一个再做下一个，而是 揉一会面、煮一会汤、切一会菜，在多个任务之间来回切换，看起来像是“同时”在干很多事。</li>
-</ul>
-<p>1.4并行</p>
-<ul>
-<li>CPU多核，多个线程可以同时执行。 我们可以使用线程池</li>
-<li>类比：有 3 个厨师，每人同时炒一个菜，3 个菜可以真正同时出锅。</li>
-</ul>
-<p>1.5线程的状态</p>
-<hr>
-<pre><code>public enum State &#123;
-    // 线程新生
-    NEW,
-
-  	//运行状态
-    RUNNABLE,
-
-    //阻塞
-    BLOCKED,
-
-    //等待，死死地等
-    WAITING,
-
-    //超时等待
-    TIMED_WAITING,
-
-    //终止
-    TERMINATED;
-&#125;
-</code></pre>
-<hr>
-<p>1.6 wait和sleep的区别	<br>	<br>来自不同的类：</p>
-<ul>
-<li>wait -&gt; Object</li>
-<li>sleep -&gt; Thread</li>
-</ul>
-<p>锁的释放</p>
-<ul>
-<li>wait 会释放锁。</li>
-<li>sleep 处于睡眠状态，不会释放锁。</li>
-</ul>
-<p>使用的范围不同</p>
-<ul>
-<li>wait 必须在同步代码块中。</li>
-<li>sleep 可以在任何地方处于睡眠。</li>
-</ul>
-<p>是否需要捕获异常</p>
-<ul>
-<li>wait 不需要捕获异常。</li>
-<li>sleep 必须要捕获异常。</li>
-</ul>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/15/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2-1/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/09/14/hello-world/">
-        <h2 class="post-title">Hello World</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/9/14
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/14/hello-world/" class="go-post">阅读全文</a>
-</div>
-
-
-        <div class="page-current">
     
-    <span class="current">1</span>
     
     
     
     
-</div>
-
-    </div>
     
-    <div id="home-card">
-        <div id="card-style">
-    <div id="card-div">
-        <div class="avatar">
-            <img src="/images/avatar.jpg" alt="avatar" />
-        </div>
-        <div class="name">David Huang</div>
-        <div class="description">
-            <p>Description<br>…</p>
-
-        </div>
-        
-        
-        <div class="friend-links">
-            
-            <div class="friend-link">
-                <a target="_blank" rel="noopener" href="https://argvchs.github.io">Argvchs</a>
-            </div>
-            
-        </div>
-        
-    </div>
-</div>
-
-    </div>
     
 </div>
 
@@ -529,6 +256,12 @@
         
     </div>
     <script src="/js/main.js"></script>
+    
+    
+
+
+
+
     
 </body>
 </html>
