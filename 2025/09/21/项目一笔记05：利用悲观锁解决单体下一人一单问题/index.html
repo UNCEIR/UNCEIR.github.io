@@ -189,12 +189,21 @@
 <ul>
 <li>引入AOP依赖，动态代理是AOP的常见实现之一</li>
 </ul>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.aspectj&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<pre><code>  &lt;dependency&gt;
+      &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+      &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+</code></pre>
+</li>
+</ul>
+<hr>
 <ul>
 <li>暴露动态代理对象，默认是关闭的</li>
 </ul>
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@EnableAspectJAutoProxy(exposeProxy = true)</span><br></pre></td></tr></table></figure></li>
-</ul>
+<hr>
+<p> @EnableAspectJAutoProxy(exposeProxy &#x3D; true)</p>
+<hr>
 
     </div>
     
