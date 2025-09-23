@@ -3,7 +3,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />
-    <title>项目一笔记01：Session集群共享问题的解决 | UNCEIR的个人博客</title>
+    <title>JUC并发编程03：深入Java多线程 | UNCEIR的个人博客</title>
     <meta name="author" content="David Huang" />
     <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
     <meta name="keywords" content="" />
@@ -156,58 +156,76 @@
         <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
             <div class="article">
     <div>
-        <h1>项目一笔记01：Session集群共享问题的解决</h1>
+        <h1>JUC并发编程03：深入Java多线程</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2025/9/20
+            2025/9/23
         </span>
         
         
     </div>
     
     <div class="content" v-pre>
-        <h3 id="什么是Session集群共享问题"><a href="#什么是Session集群共享问题" class="headerlink" title="什么是Session集群共享问题"></a>什么是Session集群共享问题</h3><ul>
-<li>因为通常在分布式集群环境下，会话是不共享的。默认情况下，Web应用程序的会话是保存到单个服务器上的。所以当一个请求不是访问该服务器的时候，是无法访问该独有的会话信息的。</li>
-</ul>
-<h5 id="Session集群共享问题具体会对实际体验造成哪些影响"><a href="#Session集群共享问题具体会对实际体验造成哪些影响" class="headerlink" title="Session集群共享问题具体会对实际体验造成哪些影响"></a>Session集群共享问题具体会对实际体验造成哪些影响</h5><ul>
-<li>服务器之间无法共享会话的信息。例如，一个用户在一台服务器完成了注册登录，将个人用户信息存储到会话中，能够判断用户已经登录。但是当换一台服务器重新登录时(Tomcat服务器变更)，之前的会话便失效了，这是因为另一台服务器的会话是与这台隔离的，用户信息不存在，所以无法调用没有登录的服务器上的服务。</li>
-<li>简单来说，甲用这台台式电脑完成登录后有携带jwt所以不用再反复登录这么麻烦的流程便进入里面的服务，但是突然想换成笔记本远程办公就又要重新登录一遍了。</li>
-</ul>
-<h5 id="如何解决Session集群共享问题？"><a href="#如何解决Session集群共享问题？" class="headerlink" title="如何解决Session集群共享问题？"></a>如何解决Session集群共享问题？</h5><ul>
-<li>方案一：Session深拷贝（但是不推荐）<ul>
-<li>Tomcat提供了Session的拷贝功能，通过配置Tomcat可以实现Session的拷贝，但是这会增加服务器的额外开销，影响服务的性能，还会带来数据的一致性问题。</li>
-</ul>
+        <h5 id="sleep和wait方法区别的详解"><a href="#sleep和wait方法区别的详解" class="headerlink" title="sleep和wait方法区别的详解"></a>sleep和wait方法区别的详解</h5><ul>
+<li><p><strong>所属分类的不同</strong>：sleep 是 Thread 类的静态方法，以在任何地方直接通过 Thread.sleep() 调用，无需依赖对象实例。wait 是 Object 类的实例方法，这意味着必须通过对象实例来调用。</p>
 </li>
-<li>方案二：<strong>Redis缓存</strong>（推荐）<ul>
-<li>Redis具有session所具有的一系列方便存储的特性：基于内存，key-value存储结构。</li>
-<li>最重要的是，Redis的数据是共享的。因为单独存到一个Nosql，可多台服务器访问。</li>
-</ul>
+<li><p><strong>锁释放的情况</strong>：Thread.sleep() 在调用时，线程会暂停执行指定的时间，但不会释放持有的对象锁。也就是说，在 sleep 期间，其他线程无法获得该线程持有的锁。Object.wait()：调用该方法时，线程会释放持有的对象锁，进入等待状态，直到其他线程调用相同对象的 notify() 或 notifyAll() 方法唤醒它。</p>
+</li>
+<li><p><strong>使用条件</strong>：sleep 可在任意位置调用，无需事先获取锁。 wait 必须在同步块或同步方法内调用（即线程需持有该对象的锁），否则抛出 IllegalMonitorStateException。</p>
+</li>
+<li><p><strong>唤醒机制</strong>：sleep 休眠时间结束后，线程 自动恢复 到就绪状态，等待CPU调度。wait 需要其他线程调用相同对象的 notify() 或 notifyAll() 方法才能被唤醒。notify() 会随机唤醒一个在该对象上等待的线程，而 notifyAll() 会唤醒所有在该对象上等待的线程。</p>
 </li>
 </ul>
-<h5 id="Redis缓存相较于传统Session存储的优点"><a href="#Redis缓存相较于传统Session存储的优点" class="headerlink" title="Redis缓存相较于传统Session存储的优点"></a>Redis缓存相较于传统Session存储的优点</h5><ul>
-<li><strong>高性能和可伸缩性</strong> ：Redis 是一个内存数据库，具有快速的读写能力。相比于传统的 Session 存储方式，将会话数据存储在 Redis 中可以大大提高读写速度和处理能力。此外，Redis 还支持集群和分片技术，可以实现水平扩展，处理大规模的并发请求。</li>
-<li><strong>可靠性和持久性</strong>：Redis 提供了持久化机制，可以将内存中的数据定期或异步地写入磁盘，以保证数据的持久性。这样即使发生服务器崩溃或重启，会话数据也可以被恢复。</li>
-<li><strong>丰富的数据结构</strong>：Redis 不仅仅是一个键值存储数据库，它还支持多种数据结构，如字符串、列表、哈希、集合和有序集合等。这些数据结构的灵活性使得可以更方便地存储和操作复杂的会话数据。</li>
-<li><strong>分布式缓存功能</strong>：Redis 作为一个高效的缓存解决方案，可以用于缓存会话数据，减轻后端服务器的负载。与传统的 Session 存储方式相比，使用 Redis 缓存会话数据可以大幅提高系统的性能和可扩展性。</li>
-<li><strong>可用性和可部署性</strong>:Redis 是一个强大而成熟的开源工具，有丰富的社区支持和活跃的开发者社区。它可以轻松地与各种编程语言和框架集成，并且可以在多个操作系统上运行。(但是redis成本就比较高了，还有维护<br><img src="/images/%E5%9F%BA%E4%BA%8Esession%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C.jpg" alt="基于session实现登录注册"></li>
-</ul>
-<p><img src="/images/%E5%9F%BA%E4%BA%8Eredis%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C.jpg" alt="基于redis实现登录注册"></p>
+<h5 id="sleep会释放cpu吗？"><a href="#sleep会释放cpu吗？" class="headerlink" title="sleep会释放cpu吗？"></a>sleep会释放cpu吗？</h5><ul>
+<li><p>是的，调用 Thread.sleep() 时，线程会释放 CPU，但不会释放持有的锁。</p>
 <ul>
-<li>存储用户信息使用redis的Hash结构，而不是String结构</li>
-<li>Hash 结构与 String 结构类型的比较：<ul>
-<li>String 数据结构是以 JSON 字符串的形式保存，更加直观，操作也更加简单，但是 JSON 结构会有很多非必须的内存开销，比如双引号、大括号，内存占用比 Hash 更高。</li>
-<li>Hash 数据结构是以 Hash 表的形式保存，可以对单个字段进行CRUD，更加灵活。</li>
+<li><strong>当线程调用 sleep() 后，会主动让出 CPU 时间片</strong>，进入 TIMED_WAITING 状态。此时操作系统会触发调度，将 CPU 分配给其他处于就绪状态的线程。这样其他线程（无论是需要同一锁的线程还是不相关线程）便有机会执行。</li>
+<li>sleep() 不会释放线程已持有的任何锁（如 synchronized 同步代码块或方法中获取的锁）。此，如果有其他线程试图获取同一把锁，它们仍会被阻塞，直到原线程退出同步代码块。</li>
 </ul>
 </li>
-<li>Redis替代Session需要考虑的问题：<ul>
-<li>选择合适的数据结构，了解 Hash 比 String 的区别。</li>
-<li>选择合适的key，为key设置一个业务前缀，方便区分和分组，为key拼接一个UUID，避免key冲突导致数据覆盖</li>
-<li>选择合适的存储粒度，对于验证码这类数据，一般设置TTL为3min即可，防止大量缓存数据的堆积，而对于用户信息这类数据可以稍微设置长一点，比如30min，防止频繁对Redis进行IO操作</li>
 </ul>
+<h5 id="blocked和waiting有啥区别"><a href="#blocked和waiting有啥区别" class="headerlink" title="blocked和waiting有啥区别"></a>blocked和waiting有啥区别</h5><ul>
+<li><p><strong>触发条件</strong>:线程进入BLOCKED状态通常是因为试图获取一个对象的锁（monitor lock），但该锁已经被另一个线程持有。这通常发生在尝试进入synchronized块或方法时，如果锁已被占用，则线程将被阻塞直到锁可用。线程进入WAITING状态是因为它正在等待另一个线程执行某些操作，例如调用Object.wait()方法、Thread.join()方法或LockSupport.park()方法。在这种状态下，线程将不会消耗CPU资源，并且不会参与锁的竞争。</p>
+</li>
+<li><p><strong>唤醒机制</strong>:当一个线程被阻塞等待锁时，一旦锁被释放，线程将有机会重新尝试获取锁。如果锁此时未被其他线程获取，那么线程可以从BLOCKED状态变为RUNNABLE状态。线程在WAITING状态中需要被显式唤醒。例如，如果线程调用了Object.wait()，，那么它必须等待另一个线程调用同一对象上的Object.notify()或Object.notifyAll()方法才能被唤醒。</p>
+</li>
+<li><p>所以，BLOCKED和WAITING两个状态最大的区别有两个:</p>
+<ul>
+<li><p>BLOCKED是锁竞争失败后被被动触发的状态，WAITING是人为的主动触发的状态。</p>
+</li>
+<li><p>BLOCKED的唤醒时自动触发的，而WAITING状态是必须要通过特定的方法来主动唤醒</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="notify-和-notifyAll-的区别"><a href="#notify-和-notifyAll-的区别" class="headerlink" title="notify 和 notifyAll 的区别"></a>notify 和 notifyAll 的区别</h5><ul>
+<li><p>相同点：同样是唤醒等待的线程，同样最多只有一个线程能获得锁，同样不能控制哪个线程获得锁。</p>
+</li>
+<li><p>不同的：</p>
+<ul>
+<li>方法notify：唤醒一个线程，其他线程依然处于wait的等待唤醒状态，如果被唤醒的线程结束时没调用notify，其他线程就永远没人去唤醒，只能等待超时，或者被中断。</li>
+<li>方法notifyAll：所有线程退出wait的状态，开始竞争锁，但只有一个线程能抢到，这个线程执行完后，其他线程又会有一个幸运儿脱颖而出得到锁。</li>
+</ul>
+</li>
+</ul>
+<h5 id="notify-选择哪个线程"><a href="#notify-选择哪个线程" class="headerlink" title="notify 选择哪个线程"></a>notify 选择哪个线程</h5><ul>
+<li><p>notify在源码的注释中说到notify选择唤醒的线程是任意的，但是依赖于具体实现的jvm。</p>
+</li>
+<li><p>JVM有很多实现，比较流行的就是hotspot，hotspot对notofy()的实现并不是我们以为的随机唤醒,，而是“先进先出”的顺序唤醒。</p>
+</li>
+</ul>
+<h5 id="不同的线程之间如何通信"><a href="#不同的线程之间如何通信" class="headerlink" title="不同的线程之间如何通信"></a>不同的线程之间如何通信</h5><ul>
+<li><p>共享变量是最基本的线程间通信方式。多个线程可以访问和修改同一个共享变量，从而实现信息的传递。为了保证线程安全，通常需要使用 synchronized 关键字或 volatile 关键字。</p>
+</li>
+<li><p>Object 类中的 wait()、notify() 和 notifyAll() 方法可以用于线程间的协作。wait() 方法使当前线程进入等待状态，notify() 方法唤醒在此对象监视器上等待的单个线程，notifyAll() 方法唤醒在此对象监视器上等待的所有线程。</p>
+</li>
+<li><p>java.util.concurrent.locks 包中的 Lock 和 Condition接口提供了比 synchronized 更灵活的线程间通信方式。Condition 接口的 await() 方法类似于 wait() 方法，signal() 方法类似于 notify() 方法，signalAll() 方法类似于 notifyAll() 方法。</p>
+</li>
+<li><p>java.util.concurrent 包中的 BlockingQueue 接口提供了线程安全的队列操作，当队列满时，插入元素的线程会被阻塞；当队列为空时，获取元素的线程会被阻塞。</p>
 </li>
 </ul>
 
