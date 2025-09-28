@@ -194,6 +194,72 @@
 <li><p>不过，在 Java 6 之后， synchronized 引入了大量的优化如自旋锁、适应性自旋锁、锁消除、锁粗化、偏向锁、轻量级锁等技术来减少锁操作的开销，这些优化让 synchronized 锁的效率提升了很多。因此， synchronized 还是可以在实际项目中使用的，像 JDK 源码、很多开源框架都大量使用了 synchronized 。</p>
 </li>
 </ul>
+<h5 id="synchronized关键词的底层原理"><a href="#synchronized关键词的底层原理" class="headerlink" title="synchronized关键词的底层原理"></a>synchronized关键词的底层原理</h5><ul>
+<li><p>synchronized 同步语句块的实现使用的是 monitorenter 和 monitorexit 指令，其中 monitorenter 指令指向同步代码块的开始位置，monitorexit 指令则指明同步代码块的结束位置。</p>
+</li>
+<li><p>synchronized 修饰的方法并没有 monitorenter 指令和 monitorexit 指令，取而代之的是 ACC_SYNCHRONIZED 标识，该标识指明了该方法是一个同步方法。</p>
+</li>
+<li><p><strong>两个本质都是对锁监视器monitor的获取</strong></p>
+</li>
+</ul>
+<h5 id="synchronized和volatile关键字有什么区别"><a href="#synchronized和volatile关键字有什么区别" class="headerlink" title="synchronized和volatile关键字有什么区别"></a>synchronized和volatile关键字有什么区别</h5><ul>
+<li><strong>两者是互补的关系，不是对立的关系</strong><ul>
+<li><p>volatile 关键字是线程同步的轻量级实现，所以 volatile性能肯定比synchronized关键字要好 。但是 volatile 关键字只能用于变量而 synchronized 关键字可以修饰方法以及代码块。</p>
+</li>
+<li><p>volatile 关键字能保证数据的可见性，但不能保证数据的原子性。synchronized 关键字两者都能保证。</p>
+</li>
+<li><p>volatile关键字主要用于解决变量在多个线程之间的可见性，而 synchronized 关键字解决的是多个线程之间访问资源的同步性。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="介绍ReentrantLock"><a href="#介绍ReentrantLock" class="headerlink" title="介绍ReentrantLock"></a>介绍ReentrantLock</h5><ul>
+<li><p>ReentrantLock 实现了 Lock 接口，是一个可重入且独占式的锁，和 synchronized 关键字类似。不过，ReentrantLock 更灵活、更强大，增加了轮询、超时、中断、公平锁和非公平锁等高级功能。</p>
+</li>
+<li><p>ReentrantLock 里面有一个内部类 Sync，Sync 继承 AQS，添加锁和释放锁的大部分操作实际上都是在 Sync 中实现的。Sync 有公平锁 FairSync 和非公平锁 NonfairSync 两个子类。</p>
+</li>
+</ul>
+<h5 id="公平锁和非公平锁之间的区别"><a href="#公平锁和非公平锁之间的区别" class="headerlink" title="公平锁和非公平锁之间的区别"></a>公平锁和非公平锁之间的区别</h5><ul>
+<li><p>公平锁 : 锁被释放之后，先申请的线程先得到锁。性能较差一些，因为公平锁为了保证时间上的绝对顺序，上下文切换更频繁。</p>
+</li>
+<li><p>非公平锁：锁被释放之后，后申请的线程可能会先获取到锁，是随机或者按照其他优先级排序的。性能更好，但可能会导致某些线程永远无法获取到锁。</p>
+</li>
+</ul>
+<h5 id="synchronized和ReentrantLock的区别"><a href="#synchronized和ReentrantLock的区别" class="headerlink" title="synchronized和ReentrantLock的区别"></a>synchronized和ReentrantLock的区别</h5><ul>
+<li><p>相同点：<strong>都是可重入锁</strong>。</p>
+<ul>
+<li>可重入锁 也叫递归锁，指的是线程可以再次获取自己的内部锁。比如一个线程获得了某个对象的锁，此时这个对象锁还没有释放，当其再次想要获取这个对象的锁的时候还是可以获取的，如果是不可重入锁的话，就会造成死锁。</li>
+</ul>
+</li>
+<li><p>不同点：<strong>synchronized依赖于JVM而ReentrantLock依赖于API</strong></p>
+<ul>
+<li><p>synchronized 是依赖于 JVM 实现的，前面我们也讲到了 虚拟机团队在 JDK1.6 为 synchronized 关键字进行了很多优化，但是这些优化都是在虚拟机层面实现的，并没有直接暴露给我们。</p>
+</li>
+<li><p>ReentrantLock 是 JDK 层面实现的（也就是 API 层面，需要 lock() 和 unlock() 方法配合 try&#x2F;finally 语句块来完成），所以我们可以通过查看它的源代码，来看它是如何实现的。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="线程池常见的参数"><a href="#线程池常见的参数" class="headerlink" title="线程池常见的参数"></a>线程池常见的参数</h5><ul>
+<li><p><strong>线程池的构造函数（ThreadPoolExecutor）有7个核心参数</strong>：</p>
+<ul>
+<li><p><strong>corePoolSize</strong> : 任务队列未达到队列容量时，最大可以同时运行的线程数量。</p>
+</li>
+<li><p><strong>maximumPoolSize</strong> : 任务队列中存放的任务达到队列容量的时候，当前可以同时运行的线程数量变为最大线程数。</p>
+</li>
+<li><p><strong>workQueue</strong>: 新任务来的时候会先判断当前运行的线程数量是否达到核心线程数，如果达到的话，新任务就会被存放在队列中。</p>
+</li>
+<li><p>keepAliveTime:当线程池中的线程数量大于 corePoolSize ，即有非核心线程（线程池中核心线程以外的线程）时，这些非核心线程空闲后不会立即销毁，而是会等待，直到等待的时间超过了keepAliveTime才会被回收销毁。</p>
+</li>
+<li><p>unit : keepAliveTime 参数的时间单位。</p>
+</li>
+<li><p>threadFactory :executor 创建新线程的时候会用到。</p>
+</li>
+<li><p>handler :拒绝策略（后面会单独详细介绍一下）。</p>
+</li>
+</ul>
+</li>
+</ul>
 
     </div>
     
