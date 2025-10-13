@@ -181,6 +181,68 @@
         
 
 <div class="post">
+    <a href="/2025/10/13/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9A%BE%E7%82%B901%EF%BC%9AMQ%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+        <h2 class="post-title">消息队列难点01：MQ常见问题以及消息的可靠性</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/10/13
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h4 id="如何解决消息丢失问题"><a href="#如何解决消息丢失问题" class="headerlink" title="如何解决消息丢失问题"></a>如何解决消息丢失问题</h4><h5 id="消息可靠性问题"><a href="#消息可靠性问题" class="headerlink" title="消息可靠性问题"></a>消息可靠性问题</h5><ul>
+<li><p>消息从生产者发送到交换机，再发送到对应的队列，最后才传递到消费者，有哪些导致消息丢失的情况？</p>
+<ul>
+<li><p>发送时丢失：</p>
+<ul>
+<li><p>发送的消息未到达交换机丢失</p>
+</li>
+<li><p>消息到达交换机后未发送到队列丢失</p>
+</li>
+</ul>
+</li>
+<li><p>队列丢失：</p>
+<ul>
+<li>MQ宕机了，队列中的消息丢失</li>
+</ul>
+</li>
+<li><p>消费者丢失：</p>
+<ul>
+<li>消费者接受到消息未消费宕机丢失</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="如何保障消息的可靠性"><a href="#如何保障消息的可靠性" class="headerlink" title="如何保障消息的可靠性"></a>如何保障消息的可靠性</h5><ul>
+<li><p><strong>消息确认机制</strong>：消费者在成功处理消息后，应该向消息队列发送确认ack信号。消息队列只有收到确认后，才会将消息从队列中移除。如果没有收到确认或者返回nack信号，消息队列可能会在一定时间后重新发送消息给其他消费者或者再次发送给同一个消费者。以 Kafka 为例，消费者通过commitSync或者commitAsync方法来提交偏移量（offset），从而确认消息的消费。</p>
+</li>
+<li><p><strong>消息持久化</strong>：在系统崩溃、重启或者网络故障等情况下，未处理的消息不应丢失。MQ默认情况下是用内存来存储信息，需要调用相关api来开启持久化功能。例如，像 RabbitMQ 可以通过配置将消息持久化到磁盘，通过将队列和消息都设置为持久化的方式（设置durable &#x3D; true），这样在服务器重启后，消息依然可以被重新读取和处理。</p>
+</li>
+<li><p><strong>消息重试策略</strong>：当消费者处理消息失败时，需要有合理的重试策略。默认情况下会不断requeue发送给消费者，给消息队列带来不必要巨大压力。可以利用spring的Retry机制进行本地重试。设置重试次数和重试间隔时间。例如，在第一次处理失败后，等待一段时间（如 5 秒）后进行第二次重试，如果重试多次（如 3 次）后仍然失败，默认情况是重试耗尽后直接丢弃信息，或者返回nack，也可以将消息发送到<strong>死信队列</strong>，以便后续人工排查或者采取其他特殊处理。</p>
+</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/10/13/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E9%9A%BE%E7%82%B901%EF%BC%9AMQ%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/09/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B05%EF%BC%9Ajava%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A802/">
         <h2 class="post-title">JUC并发编程05：java并发安全02</h2>
     </a>
@@ -1108,76 +1170,6 @@
         
     </div>
     <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B002%EF%BC%9A%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/09/20/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B001%EF%BC%9ASession%E9%9B%86%E7%BE%A4%E5%85%B1%E4%BA%AB%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
-        <h2 class="post-title">项目一笔记01：Session集群共享问题的解决</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/9/20
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h3 id="什么是Session集群共享问题"><a href="#什么是Session集群共享问题" class="headerlink" title="什么是Session集群共享问题"></a>什么是Session集群共享问题</h3><ul>
-<li>因为通常在分布式集群环境下，会话是不共享的。默认情况下，Web应用程序的会话是保存到单个服务器上的。所以当一个请求不是访问该服务器的时候，是无法访问该独有的会话信息的。</li>
-</ul>
-<h5 id="Session集群共享问题具体会对实际体验造成哪些影响"><a href="#Session集群共享问题具体会对实际体验造成哪些影响" class="headerlink" title="Session集群共享问题具体会对实际体验造成哪些影响"></a>Session集群共享问题具体会对实际体验造成哪些影响</h5><ul>
-<li>服务器之间无法共享会话的信息。例如，一个用户在一台服务器完成了注册登录，将个人用户信息存储到会话中，能够判断用户已经登录。但是当换一台服务器重新登录时(Tomcat服务器变更)，之前的会话便失效了，这是因为另一台服务器的会话是与这台隔离的，用户信息不存在，所以无法调用没有登录的服务器上的服务。</li>
-<li>简单来说，甲用这台台式电脑完成登录后有携带jwt所以不用再反复登录这么麻烦的流程便进入里面的服务，但是突然想换成笔记本远程办公就又要重新登录一遍了。</li>
-</ul>
-<h5 id="如何解决Session集群共享问题？"><a href="#如何解决Session集群共享问题？" class="headerlink" title="如何解决Session集群共享问题？"></a>如何解决Session集群共享问题？</h5><ul>
-<li>方案一：Session深拷贝（但是不推荐）<ul>
-<li>Tomcat提供了Session的拷贝功能，通过配置Tomcat可以实现Session的拷贝，但是这会增加服务器的额外开销，影响服务的性能，还会带来数据的一致性问题。</li>
-</ul>
-</li>
-<li>方案二：<strong>Redis缓存</strong>（推荐）<ul>
-<li>Redis具有session所具有的一系列方便存储的特性：基于内存，key-value存储结构。</li>
-<li>最重要的是，Redis的数据是共享的。因为单独存到一个Nosql，可多台服务器访问。</li>
-</ul>
-</li>
-</ul>
-<h5 id="Redis缓存相较于传统Session存储的优点"><a href="#Redis缓存相较于传统Session存储的优点" class="headerlink" title="Redis缓存相较于传统Session存储的优点"></a>Redis缓存相较于传统Session存储的优点</h5><ul>
-<li><strong>高性能和可伸缩性</strong> ：Redis 是一个内存数据库，具有快速的读写能力。相比于传统的 Session 存储方式，将会话数据存储在 Redis 中可以大大提高读写速度和处理能力。此外，Redis 还支持集群和分片技术，可以实现水平扩展，处理大规模的并发请求。</li>
-<li><strong>可靠性和持久性</strong>：Redis 提供了持久化机制，可以将内存中的数据定期或异步地写入磁盘，以保证数据的持久性。这样即使发生服务器崩溃或重启，会话数据也可以被恢复。</li>
-<li><strong>丰富的数据结构</strong>：Redis 不仅仅是一个键值存储数据库，它还支持多种数据结构，如字符串、列表、哈希、集合和有序集合等。这些数据结构的灵活性使得可以更方便地存储和操作复杂的会话数据。</li>
-<li><strong>分布式缓存功能</strong>：Redis 作为一个高效的缓存解决方案，可以用于缓存会话数据，减轻后端服务器的负载。与传统的 Session 存储方式相比，使用 Redis 缓存会话数据可以大幅提高系统的性能和可扩展性。</li>
-<li><strong>可用性和可部署性</strong>:Redis 是一个强大而成熟的开源工具，有丰富的社区支持和活跃的开发者社区。它可以轻松地与各种编程语言和框架集成，并且可以在多个操作系统上运行。(但是redis成本就比较高了，还有维护<br><img src="/images/%E5%9F%BA%E4%BA%8Esession%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C.jpg" alt="基于session实现登录注册"></li>
-</ul>
-<p><img src="/images/%E5%9F%BA%E4%BA%8Eredis%E5%AE%9E%E7%8E%B0%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C.jpg" alt="基于redis实现登录注册"></p>
-<ul>
-<li>存储用户信息使用redis的Hash结构，而不是String结构</li>
-<li>Hash 结构与 String 结构类型的比较：<ul>
-<li>String 数据结构是以 JSON 字符串的形式保存，更加直观，操作也更加简单，但是 JSON 结构会有很多非必须的内存开销，比如双引号、大括号，内存占用比 Hash 更高。</li>
-<li>Hash 数据结构是以 Hash 表的形式保存，可以对单个字段进行CRUD，更加灵活。</li>
-</ul>
-</li>
-<li>Redis替代Session需要考虑的问题：<ul>
-<li>选择合适的数据结构，了解 Hash 比 String 的区别。</li>
-<li>选择合适的key，为key设置一个业务前缀，方便区分和分组，为key拼接一个UUID，避免key冲突导致数据覆盖</li>
-<li>选择合适的存储粒度，对于验证码这类数据，一般设置TTL为3min即可，防止大量缓存数据的堆积，而对于用户信息这类数据可以稍微设置长一点，比如30min，防止频繁对Redis进行IO操作</li>
-</ul>
-</li>
-</ul>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/20/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B001%EF%BC%9ASession%E9%9B%86%E7%BE%A4%E5%85%B1%E4%BA%AB%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/" class="go-post">阅读全文</a>
 </div>
 
 
