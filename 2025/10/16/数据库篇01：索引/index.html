@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>数据库篇01：索引 | UNCEIR的个人博客</title>
+    <meta name="author" content="David Huang" />
+    <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>UNCEIR的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;UNCEIR的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>数据库篇01：索引</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/10/16
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h4 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h4><ul>
+<li>**索引是帮助MySQL高效获取库内数据的数据结构。**举个例子，当我们想查询书的具体内容时，难不成一页一页的翻看吗？-肯定不是，正常人都会先去书中的目录查看内容的大体位置，在这个场景当中，目录就相当于数据库的索引</li>
+</ul>
+<h4 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h4><ul>
+<li><p>按<strong>数据结构</strong>进行分类：<strong>B++树索引</strong>（InnoDB引擎默认），哈希索引，Full-text索引</p>
+</li>
+<li><p>按<strong>物理存储</strong>进行分类：聚簇索引（主键索引），二级索引</p>
+</li>
+<li><p>按<strong>字段特性</strong>分类：主键索引，唯一索引，普通索引，前缀索引</p>
+</li>
+<li><p>按<strong>字段个数</strong>分类：单列索引，联合索引</p>
+</li>
+</ul>
+<h5 id="MySQL的默认引擎InnoDB为什么采用B-树结构作为索引"><a href="#MySQL的默认引擎InnoDB为什么采用B-树结构作为索引" class="headerlink" title="MySQL的默认引擎InnoDB为什么采用B++树结构作为索引"></a>MySQL的默认引擎InnoDB为什么采用B++树结构作为索引</h5><ul>
+<li><p>因为相比较B树而言，B++树只在叶子节点存储实际的数据，非叶子节点仅存储引用键值和指针，因此占用在页的空间会比较小，所需的层级比较少，提高了搜索的效率</p>
+</li>
+<li><p>叶子节点之间各自增加了指向相邻节点的链表指针，提高区间内访问的性能</p>
+</li>
+<li><p>相较于Hash索引，支持区间范围查询，因为叶子节点是双向链表</p>
+</li>
+</ul>
+<h4 id="索引会失效的场景有哪些"><a href="#索引会失效的场景有哪些" class="headerlink" title="索引会失效的场景有哪些"></a>索引会失效的场景有哪些</h4><ul>
+<li><p>1.<strong>违反最左前缀法则</strong>：该法则指的是查询从索引的最左列开始，中间不要跳过索引中的列。</p>
+</li>
+<li><p>2.<strong>范围查询右边的列不能使用索引</strong></p>
+</li>
+<li><p>3.<strong>不要在索引上进行运算操作</strong></p>
+</li>
+<li><p>4.<strong>字符串不加单引号</strong>（原本索引是有的），导致类型发生了转换</p>
+</li>
+<li><p>5.<strong>以%开头的like模糊查询</strong></p>
+</li>
+</ul>
+<h5 id="聚簇索引，非聚簇索引，回表查询"><a href="#聚簇索引，非聚簇索引，回表查询" class="headerlink" title="聚簇索引，非聚簇索引，回表查询"></a>聚簇索引，非聚簇索引，回表查询</h5><ul>
+<li><p><strong>聚簇索引</strong>：数据与索引放在一块，B+树的叶子节点保存了整行数据，有且只有一个</p>
+</li>
+<li><p><strong>非聚簇索引</strong>（二级索引）：数据与索引分开存储，B++树的叶子节点保存对应的主键，可以有多个</p>
+</li>
+<li><p><strong>回表查询</strong>：通过二级索引找到对应的主键值，到聚簇索引中查找整行数据，这个过程就是回表</p>
+</li>
+</ul>
+<h5 id="MySQL分页处理优化"><a href="#MySQL分页处理优化" class="headerlink" title="MySQL分页处理优化"></a>MySQL分页处理优化</h5><ul>
+<li><p>首先明白，MySQL进行分页查询所使用的字段是limit，对应 limit offset, size 和 limit size 两种方式。也就是说，两种方式的区别在于<strong>offset是否为0</strong>。	</p>
+<ul>
+<li><p>例如sql语句：select * from page order by id limit 0, 10; –server层会调用innodb的接口，在innodb里的主键索引中获取到第0到10条完整行数据，依次返回给server层，并放到server层的结果集中，返回给客户端。</p>
+</li>
+<li><p>但是如果执行的sql语句是select * from page order by id limit 6000000, 10; –server层会调用innodb的接口，由于这次的offset&#x3D;6000000，会在innodb里的主键索引中获取到第0到（6000000 + 10）条完整行数据，返回给server层之后根据offset的值挨个抛弃，最后只留下最后面的size条，也就是10条数据，放到server层的结果集中，返回给客户端。可以看出，当offset非0时，server层会从引擎层获取到很多无用的数据，而获取的这些无用数据都是要耗时的。</p>
+</li>
+<li><p><strong>因此，mysql查询中 limit 1000,10 会比 limit 10 更慢。原因是 limit 1000,10 会取出1000+10条数据，并抛弃前1000条，这部分耗时更大</strong></p>
+</li>
+</ul>
+</li>
+<li><p>如何优化？使用覆盖索引</p>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 UNCEIR的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;David Huang
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

@@ -181,6 +181,91 @@
         
 
 <div class="post">
+    <a href="/2025/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AF%8701%EF%BC%9A%E7%B4%A2%E5%BC%95/">
+        <h2 class="post-title">数据库篇01：索引</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/10/16
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h4 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h4><ul>
+<li>**索引是帮助MySQL高效获取库内数据的数据结构。**举个例子，当我们想查询书的具体内容时，难不成一页一页的翻看吗？-肯定不是，正常人都会先去书中的目录查看内容的大体位置，在这个场景当中，目录就相当于数据库的索引</li>
+</ul>
+<h4 id="索引的分类"><a href="#索引的分类" class="headerlink" title="索引的分类"></a>索引的分类</h4><ul>
+<li><p>按<strong>数据结构</strong>进行分类：<strong>B++树索引</strong>（InnoDB引擎默认），哈希索引，Full-text索引</p>
+</li>
+<li><p>按<strong>物理存储</strong>进行分类：聚簇索引（主键索引），二级索引</p>
+</li>
+<li><p>按<strong>字段特性</strong>分类：主键索引，唯一索引，普通索引，前缀索引</p>
+</li>
+<li><p>按<strong>字段个数</strong>分类：单列索引，联合索引</p>
+</li>
+</ul>
+<h5 id="MySQL的默认引擎InnoDB为什么采用B-树结构作为索引"><a href="#MySQL的默认引擎InnoDB为什么采用B-树结构作为索引" class="headerlink" title="MySQL的默认引擎InnoDB为什么采用B++树结构作为索引"></a>MySQL的默认引擎InnoDB为什么采用B++树结构作为索引</h5><ul>
+<li><p>因为相比较B树而言，B++树只在叶子节点存储实际的数据，非叶子节点仅存储引用键值和指针，因此占用在页的空间会比较小，所需的层级比较少，提高了搜索的效率</p>
+</li>
+<li><p>叶子节点之间各自增加了指向相邻节点的链表指针，提高区间内访问的性能</p>
+</li>
+<li><p>相较于Hash索引，支持区间范围查询，因为叶子节点是双向链表</p>
+</li>
+</ul>
+<h4 id="索引会失效的场景有哪些"><a href="#索引会失效的场景有哪些" class="headerlink" title="索引会失效的场景有哪些"></a>索引会失效的场景有哪些</h4><ul>
+<li><p>1.<strong>违反最左前缀法则</strong>：该法则指的是查询从索引的最左列开始，中间不要跳过索引中的列。</p>
+</li>
+<li><p>2.<strong>范围查询右边的列不能使用索引</strong></p>
+</li>
+<li><p>3.<strong>不要在索引上进行运算操作</strong></p>
+</li>
+<li><p>4.<strong>字符串不加单引号</strong>（原本索引是有的），导致类型发生了转换</p>
+</li>
+<li><p>5.<strong>以%开头的like模糊查询</strong></p>
+</li>
+</ul>
+<h5 id="聚簇索引，非聚簇索引，回表查询"><a href="#聚簇索引，非聚簇索引，回表查询" class="headerlink" title="聚簇索引，非聚簇索引，回表查询"></a>聚簇索引，非聚簇索引，回表查询</h5><ul>
+<li><p><strong>聚簇索引</strong>：数据与索引放在一块，B+树的叶子节点保存了整行数据，有且只有一个</p>
+</li>
+<li><p><strong>非聚簇索引</strong>（二级索引）：数据与索引分开存储，B++树的叶子节点保存对应的主键，可以有多个</p>
+</li>
+<li><p><strong>回表查询</strong>：通过二级索引找到对应的主键值，到聚簇索引中查找整行数据，这个过程就是回表</p>
+</li>
+</ul>
+<h5 id="MySQL分页处理优化"><a href="#MySQL分页处理优化" class="headerlink" title="MySQL分页处理优化"></a>MySQL分页处理优化</h5><ul>
+<li><p>首先明白，MySQL进行分页查询所使用的字段是limit，对应 limit offset, size 和 limit size 两种方式。也就是说，两种方式的区别在于<strong>offset是否为0</strong>。	</p>
+<ul>
+<li><p>例如sql语句：select * from page order by id limit 0, 10; –server层会调用innodb的接口，在innodb里的主键索引中获取到第0到10条完整行数据，依次返回给server层，并放到server层的结果集中，返回给客户端。</p>
+</li>
+<li><p>但是如果执行的sql语句是select * from page order by id limit 6000000, 10; –server层会调用innodb的接口，由于这次的offset&#x3D;6000000，会在innodb里的主键索引中获取到第0到（6000000 + 10）条完整行数据，返回给server层之后根据offset的值挨个抛弃，最后只留下最后面的size条，也就是10条数据，放到server层的结果集中，返回给客户端。可以看出，当offset非0时，server层会从引擎层获取到很多无用的数据，而获取的这些无用数据都是要耗时的。</p>
+</li>
+<li><p><strong>因此，mysql查询中 limit 1000,10 会比 limit 10 更慢。原因是 limit 1000,10 会取出1000+10条数据，并抛弃前1000条，这部分耗时更大</strong></p>
+</li>
+</ul>
+</li>
+<li><p>如何优化？使用覆盖索引</p>
+</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/10/16/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AF%8701%EF%BC%9A%E7%B4%A2%E5%BC%95/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/10/13/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%9702%EF%BC%9A%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93%E9%97%AE%E9%A2%98/">
         <h2 class="post-title">消息队列02：个人总结问题</h2>
     </a>
@@ -1084,99 +1169,6 @@
         
     </div>
     <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B004%EF%BC%9A%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/09/21/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%EF%BC%8C%E9%9B%AA%E5%B4%A9%EF%BC%8C%E5%87%BB%E7%A9%BF%E4%B8%89%E5%A4%A7%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
-        <h2 class="post-title">项目一笔记03：缓存穿透，雪崩，击穿三大问题的解决</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/9/21
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h4 id="缓存穿透问题的解决方案"><a href="#缓存穿透问题的解决方案" class="headerlink" title="缓存穿透问题的解决方案"></a>缓存穿透问题的解决方案</h4><ul>
-<li><p><strong>缓存穿透</strong>是指请求的数据在缓存和数据库里面都不存在，缓存永远都不会生效，而这些请求都会打在数据库上，造成很大压力（可能MySQL服务会因此崩溃）</p>
-</li>
-<li><p>常见的解决缓存穿透问题的方案：</p>
-<ul>
-<li><p>缓存空对象：</p>
-<ul>
-<li>优点：实现简单，便于维护</li>
-<li>缺点：会造成一定的内存消耗（Redis里面存了空值）,短期的不一致性。</li>
-</ul>
-</li>
-<li><p>布隆过滤：  </p>
-<ul>
-<li>优点：内存占用较少，没有多余key</li>
-<li>缺点：实现复杂，存在误判可能（有穿透的风险），无法删除数据</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>上面两种方式都是被动的解决缓存穿透方案，此外我们还可以采用主动的方案预防缓存穿透，比如：增强id的复杂度避免被猜测id规律、做好数据的基础格式校验、加强用户权限校验、做好热点参数的限流。</p>
-</li>
-</ul>
-<h4 id="缓存雪崩问题的解决方案"><a href="#缓存雪崩问题的解决方案" class="headerlink" title="缓存雪崩问题的解决方案"></a>缓存雪崩问题的解决方案</h4><ul>
-<li><p><strong>缓存雪崩</strong>是指Redis里面同一时间段内大量key突然失效或者服务直接宕机而导致请求都打在数据库上</p>
-</li>
-<li><p>常见的解决缓存雪崩问题的方案：</p>
-<ul>
-<li>给不同key的TTL值添加随机值（避免同一时间失效）</li>
-<li>利用Redis集群提高服务的可用性</li>
-<li>给缓存业务添加降级限流策略，比如快速失败机制，让请求尽可能打不到数据库上</li>
-<li>给业务添加多级缓存</li>
-</ul>
-</li>
-</ul>
-<h4 id="缓存击穿问题的解决方案"><a href="#缓存击穿问题的解决方案" class="headerlink" title="缓存击穿问题的解决方案"></a>缓存击穿问题的解决方案</h4><ul>
-<li><p><strong>缓存击穿</strong>，也叫热点key问题，是指Redis当中高并发访问量并且重建业务耗时比较久的key突然失效，而这些key失效重建时请求都打在数据库上，造成巨大压力。</p>
-</li>
-<li><p>常见的解决缓存击穿问题的方案:</p>
-<ul>
-<li>互斥锁（时间换空间）              <ul>
-<li>优点：内存占用小，一致性高，实现简单</li>
-<li>缺点：性能较低，容易出现死锁（两个方法抢夺锁资源）</li>
-</ul>
-</li>
-<li>设置逻辑过期时间（空间换时间）<ul>
-<li>优点：性能高（其他线程不用等待这个线程一直重建完成才进行）</li>
-<li>缺点：内存占用大，脏读容易出现（重建时返回过期数据）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>两者相比较，互斥锁更加易于实现，但是容易发生死锁，且锁导致并行变成串行，导致系统性能下降，逻辑过期实现起来相较复杂，且需要耗费额外的内存，但是通过开启子线程重建缓存，使原来的同步阻塞变成异步，提高系统的响应速度，但是容易出现脏读。</p>
-</li>
-<li><p>基于<strong>互斥锁</strong>的具体实现思路：</p>
-<ul>
-<li>这里使用Redis中的setnx指令实现互斥锁，只有当值不存在时才能进行set操作</li>
-<li>锁的有效期更具体业务有关，需要灵活变动，一般锁的有效期是业务处理时长10-20倍</li>
-<li>线程获取锁后，还需要查询缓存（也就是所谓的双检），这样才能够真正有效保障缓存不被击穿</li>
-</ul>
-</li>
-<li><p>基于<strong>逻辑过期</strong>的具体实现思路：所谓的逻辑过期，类似于逻辑删除，并不是真正意义上的过期，而是新增一个字段，用来标记key的过期时间，这样能能够避免key过期而被自动删除，这样数据就永不过期了，从根本上解决因为热点key过期导致的缓存击穿。一般搞活动时，比如抢优惠券，秒杀等场景，请求量比较大就可以使用逻辑过期，等活动一过就手动删除逻辑过期的数据。</p>
-</li>
-</ul>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/21/%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%EF%BC%8C%E9%9B%AA%E5%B4%A9%EF%BC%8C%E5%87%BB%E7%A9%BF%E4%B8%89%E5%A4%A7%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/" class="go-post">阅读全文</a>
 </div>
 
 
