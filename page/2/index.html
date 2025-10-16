@@ -181,6 +181,95 @@
         
 
 <div class="post">
+    <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B002%EF%BC%9A%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/">
+        <h2 class="post-title">项目一笔记02：数据一致性问题的解决</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/9/21
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h3 id="数据一致性问题概括"><a href="#数据一致性问题概括" class="headerlink" title="数据一致性问题概括"></a>数据一致性问题概括</h3><ul>
+<li><p>在本项目当中，主要是确保MySQL和Redis之间的数据一致性，避免脏读导致信息读取不匹配所引起的一系列安全问题。为了保证一致性，因此就要为Redis选择一个最佳的缓存更新策略。</p>
+</li>
+<li><p>Redis常见的几种缓存更新策略：</p>
+<ul>
+<li>内存淘汰：默认的，相当于全自动的，不用自己去维护。当Redis发现自己内存不足的时候，会根据一定策略自动淘汰数据。这种成本最低，但是一致性最差。适用低一致性需求的常见（例如店铺类型的查询缓存）</li>
+<li>超时剔除：收到给缓存数据添加TTL（过期时间），到期后Redis自动删除，属于半自动化类型。</li>
+<li>主动更新：手动进行业务编码实现缓存更新功能，需求是更新数据库的同时更新缓存。</li>
+</ul>
+</li>
+<li><p>双写方案：人工编码方式，缓存调用者在更新完数据库后再去更新缓存。使用困难，灵活度高。</p>
+<ol>
+<li>读取（Read）：当需要读取数据时，首先检查缓存是否存在该数据。如果缓存中存在，直接返回缓存中的数据。如果缓存中不存在，则从底层数据存储（如数据库）中获取数据，并将数据存储到缓存中，以便以后的读取操作可以更快地访问该数据。<br> 2.写入（Write）：当进行数据写入操作时，首先更新底层数据存储中的数据。然后，根据具体情况，可以选择直接更新缓存中的数据（使缓存与底层数据存储保持同步），或者是简单地将缓存中与修改数据相关的条目标记为无效状态（缓存失效），以便下一次读取时重新加载最新数据。</li>
+</ol>
+</li>
+<li><p>使用双写方案需要考虑的两大问题：<br>  1.是使用更新缓存模式还是使用删除缓存模式？<br>  2.是先操作数据库再操作缓存还是先操作缓存再操作数据库？</p>
+</li>
+<li><p>更新缓存模式：每次更新数据库都更新缓存，无效写操作较多（不推荐使用）</p>
+<ul>
+<li>假如我们执行上百次更新数据库操作，那么就要执行上百次写入缓存的操作，而在这期间并没有查询请求，那么这上百次写入缓存的操作就显得没有什么意义。</li>
+</ul>
+</li>
+<li><p>删除缓存模式：每次更新数据库都删除对应的缓存，当有读操作时再更新最新数据,减少了很多无效的写操作<br>（<strong>推荐使用</strong>）</p>
+</li>
+<li><p>先操作缓存：先删缓存，再更新数据库（不推荐使用）</p>
+<ul>
+<li>当线程1删除缓存到更新数据库之间的时间段，会有其它线程进来查询数据，由于没有加锁，且前面的线程将缓存删除了，这就导致请求会直接打到数据库上，给数据库带来巨大压力（缓存击穿问题）。其次，因为更新数据库这一事务操作还没完成，因此查询到的是旧数据，会读取旧数据并更新到缓存，导致数据不一致问题的出现。</li>
+</ul>
+</li>
+<li><p>先操作数据库：先更新数据库，再删缓存（<strong>推荐使用</strong>）</p>
+<ul>
+<li>当线程1在查询缓存且未命中，此时线程1查询数据，查询完准备写入缓存时，由于没有加锁线程2乘虚而入，线程2在这期间对数据库进行了更新，此时线程1将旧数据返回了，出现了脏读，这个事件发生的概率很低，因为先是需要满足缓存未命中，且在写入缓存的那段事件内有一个线程进行更新操作，缓存的查询和写入很快，这段空隙时间很小，所以出现脏读现象的概率也很低。</li>
+</ul>
+</li>
+<li><p>选择先更新数据库，再删除缓存。那么如何保证缓存与数据库的操作的原子性（同时成功或失败）？</p>
+<ul>
+<li>对于单体系统，将缓存与数据库操作放在同一个事务中（当前项目就是一个单体项目）</li>
+<li>对于分布式系统，利用TCC（Try-Confirm-Cancel）等分布式事务方案</li>
+</ul>
+</li>
+<li><p>缓存主动更新策略的具体编码实现：</p>
+<ul>
+<li>在启动类添加@EnableTransactionManagement注解开启事务</li>
+<li>然后使用缓存主动更新策略（采用删除缓存模式，并且先操作数据库再操作缓存，同时添加事务保证数据库操作和缓存操作的原子性）解决数据一致性问题：</li>
+</ul>
+<hr>
+<p>   &#x2F;**</p>
+<ul>
+<li>根据id查询商铺数据（查询时，重建缓存）</li>
+<li></li>
+<li>@param id</li>
+<li>@return<br>   <em>&#x2F;<br>  @Override<br>  public Result queryById(Long id) {<br> String key &#x3D; CACHE_SHOP_KEY + id;<br> &#x2F;&#x2F; 1、从Redis中查询店铺数据<br> String shopJson &#x3D; stringRedisTemplate.opsForValue().get(key);<br> Shop shop &#x3D; null;<br> &#x2F;&#x2F; 2、判断缓存是否命中<br> if (StrUtil.isNotBlank(shopJson)) {<br> &#x2F;&#x2F; 2.1 缓存命中，直接返回店铺数据<br> shop &#x3D; JSONUtil.toBean(shopJson, Shop.class);<br> return Result.ok(shop);<br> }<br> &#x2F;&#x2F; 2.2 缓存未命中，从数据库中查询店铺数据<br> shop &#x3D; this.getById(id);<br> &#x2F;&#x2F; 4、判断数据库是否存在店铺数据<br> if (Objects.isNull(shop)) {<br> &#x2F;&#x2F; 4.1 数据库中不存在，返回失败信息<br> return Result.fail(“店铺不存在”);<br> }<br> &#x2F;&#x2F; 4.2 数据库中存在，重建缓存，并返回店铺数据<br> stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(shop), CACHE_SHOP_TTL, TimeUnit.MINUTES);<br> return Result.ok(shop);<br>  }<br>  &#x2F;</em>*<br>   *更新商铺数据（更新时，更新数据库，删除缓存）</li>
+<li></li>
+</ul>
+<p>   *@param shop<br>   *@return<br>   *&#x2F;<br>  @Transactional<br>  @Override<br>  public Result updateShop(Shop shop) {<br>      &#x2F;&#x2F; 参数校验, 略<br>      &#x2F;&#x2F; 1、更新数据库中的店铺数据<br>      boolean f &#x3D; this.updateById(shop);<br>      if (!f){<br>          &#x2F;&#x2F; 缓存更新失败，抛出异常，事务回滚<br>          throw new RuntimeException(“数据库更新失败”);<br>      }<br>      &#x2F;&#x2F; 2、删除缓存<br>      f &#x3D; stringRedisTemplate.delete(CACHE_SHOP_KEY + shop.getId());<br>      if (!f){<br>          &#x2F;&#x2F; 缓存删除失败，抛出异常，事务回滚<br>          throw new RuntimeException(“缓存删除失败”);<br>      }<br>      return Result.ok();<br>  }</p>
+</li>
+</ul>
+<hr>
+<p>&#96;</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B002%EF%BC%9A%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E9%97%AE%E9%A2%98/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/09/20/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B001%EF%BC%9ASession%E9%9B%86%E7%BE%A4%E5%85%B1%E4%BA%AB%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
         <h2 class="post-title">项目一笔记01：Session集群共享问题的解决</h2>
     </a>
