@@ -170,8 +170,141 @@
     </div>
     
     <div class="content" v-pre>
-        <p> 采用的线上腾讯会议电话面，面试了大概十多分钟吧，这是本人第二次参加java开发实习岗的日常实习面试，仍对整套八股文体系知识细节的了解有所欠缺，估计是挂了（（ </p>
-<h4 id="面试内容"><a href="#面试内容" class="headerlink" title="面试内容"></a>面试内容</h4><h5 id="1-HashMap的具体实现（采用了什么数据结构，原理等），JDK源码思路"><a href="#1-HashMap的具体实现（采用了什么数据结构，原理等），JDK源码思路" class="headerlink" title="1.HashMap的具体实现（采用了什么数据结构，原理等），JDK源码思路"></a>1.HashMap的具体实现（采用了什么数据结构，原理等），JDK源码思路</h5><h5 id="2-线程池的核心参数"><a href="#2-线程池的核心参数" class="headerlink" title="2.线程池的核心参数"></a>2.线程池的核心参数</h5><h5 id="3-实战当中如何开启一个新的线程，代码细节"><a href="#3-实战当中如何开启一个新的线程，代码细节" class="headerlink" title="3.实战当中如何开启一个新的线程，代码细节"></a>3.实战当中如何开启一个新的线程，代码细节</h5><h5 id="4-具体讲讲Spring当中AOP的底层"><a href="#4-具体讲讲Spring当中AOP的底层" class="headerlink" title="4.具体讲讲Spring当中AOP的底层"></a>4.具体讲讲Spring当中AOP的底层</h5><h5 id="5-bean的生命周期"><a href="#5-bean的生命周期" class="headerlink" title="5.bean的生命周期"></a>5.bean的生命周期</h5><h5 id="6-spring是怎么解决循环依赖的"><a href="#6-spring是怎么解决循环依赖的" class="headerlink" title="6.spring是怎么解决循环依赖的"></a>6.spring是怎么解决循环依赖的</h5><h5 id="7-采用spring当中构造函数方法注入，会产生循环依赖吗"><a href="#7-采用spring当中构造函数方法注入，会产生循环依赖吗" class="headerlink" title="7.采用spring当中构造函数方法注入，会产生循环依赖吗"></a>7.采用spring当中构造函数方法注入，会产生循环依赖吗</h5><h5 id="8-计算机网络模型有哪几层，TCP是哪一层，IP是哪一层"><a href="#8-计算机网络模型有哪几层，TCP是哪一层，IP是哪一层" class="headerlink" title="8.计算机网络模型有哪几层，TCP是哪一层，IP是哪一层"></a>8.计算机网络模型有哪几层，TCP是哪一层，IP是哪一层</h5><h5 id="9-详细介绍一下TCP三次握手"><a href="#9-详细介绍一下TCP三次握手" class="headerlink" title="9.详细介绍一下TCP三次握手"></a>9.详细介绍一下TCP三次握手</h5><h5 id="10-那TCP四次握手呢？有什么区别"><a href="#10-那TCP四次握手呢？有什么区别" class="headerlink" title="10.那TCP四次握手呢？有什么区别"></a>10.那TCP四次握手呢？有什么区别</h5><h4 id="反问环节"><a href="#反问环节" class="headerlink" title="反问环节"></a>反问环节</h4><h5 id="1-通过这次面试，能否给我一些建议"><a href="#1-通过这次面试，能否给我一些建议" class="headerlink" title="1.通过这次面试，能否给我一些建议"></a>1.通过这次面试，能否给我一些建议</h5><ul>
+        <p>采用的线上腾讯会议电话面，面试了大概十多分钟吧，这是本人第二次参加java开发实习岗的日常实习面试，仍对整套八股文体系知识细节的了解有所欠缺，估计是挂了（（ </p>
+<h4 id="面试内容"><a href="#面试内容" class="headerlink" title="面试内容"></a>面试内容</h4><h5 id="1-HashMap的具体实现（采用了什么数据结构，原理等），JDK源码思路"><a href="#1-HashMap的具体实现（采用了什么数据结构，原理等），JDK源码思路" class="headerlink" title="1.HashMap的具体实现（采用了什么数据结构，原理等），JDK源码思路"></a>1.HashMap的具体实现（采用了什么数据结构，原理等），JDK源码思路</h5><ul>
+<li><p><strong>JDK1.7</strong>:采用<strong>数组+链表</strong>的数据结构，通过哈希算法将新增的元素映射到数组的槽位当中（bucket）,若有哈希冲突产生（即hash()值相同）则通过链表这一数据结构解决在同一槽位的元素，因为链表的查询性能是O（n），所以查询效率比较低。</p>
+</li>
+<li><p><strong>JDK1.8</strong>:采用<strong>数组+链表+红黑树</strong>的数据结构，因为声明一个HashMap&lt;&gt;()时初始值是16（这时候是数组+链表的数据结构），当插入的数据超过设置的负载因子（默认是0.75，定义是存放元素个数占总元素个数的比重）会进行扩容机制，当链表长度超过8个，数组长度超过64个这两个条件同时满足，则会采用红黑树来存储数组上同一槽位的元素，使用红黑树的时间复杂度是O（log n）。</p>
+</li>
+<li><p><strong>扩展：HashMap的扩容机制</strong></p>
+<ul>
+<li><p>hashMap默认的负载因子是0.75，即如果hashmap中的元素个数超过了总容量75%，则会触发扩容机制。第一步，<strong>将哈希表（数组）长度扩大到原来的两倍得到新的哈希表</strong>，第二步，<strong>将原哈希表的数据迁移到新的哈希表</strong>。</p>
+</li>
+<li><p><strong>JDK1.7和JDK1.8之间扩容原理的区别</strong>：</p>
+</li>
+<li><p>在 JDK1.7 中，HashMap 整个扩容过程就是分别取出数组元素，一般该元素是最后一个放入链表中的元素，然后遍历以该元素为头的单向链表元素，，依据每个被遍历元素的 hash 值（%新的长度，例如16扩大到32，则进行和32的取模运算得到的哈希值）计算其在新数组中的下标，然后进行交换。这样的扩容方式会将原来哈希冲突的单向链表尾部变成扩容后单向链表的头部。</p>
+</li>
+<li><p>而在 JDK 1.8 中，HashMap 对扩容操作做了优化。利用高低位运算进行判断，如果判断是高位运算则移动到新的哈希值位置，低位则保持原来相对位置不变，大大提升了扩容的性能，然后采用的是尾插法，之所以能通过这种“与运算“来重新分配索引，是因为 hash 值本来就是随机的，而 hash 按位与上 newTable 得到的 0（扩容前的索引位置）和 1（扩容前索引位置加上扩容前数组长度的数值索引处）就是随机的，所以扩容的过程就能把之前哈希冲突的元素再随机分布到不同的索引中去。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="2-线程池的参数有哪些"><a href="#2-线程池的参数有哪些" class="headerlink" title="2.线程池的参数有哪些"></a>2.线程池的参数有哪些</h5><ul>
+<li><p><strong>corePoolSize</strong>:线程池核心线程数量。默认情况下，线程池中线程的数量如果 &lt;&#x3D; corePoolSize，那么即使这些线程处于空闲状态，那也不会被销毁。</p>
+</li>
+<li><p><strong>maxmiumPoolSize</strong>:限制了线程池能创建的<strong>最大线程总数</strong>（包括核心线程和非核心线程），当 corePoolSize 已满并且尝试将新任务加入阻塞队列失败（即队列已满）并且 当前线程数 &lt; maximumPoolSize，就会创建新线程执行此任务，但是当 corePoolSize 满 并且 队列满 并且线程数已达 maximumPoolSize并且 又有新任务提交时，就会触发拒绝策略。</p>
+</li>
+<li><p><strong>keepAliveTime</strong>:当线程池中线程的数量大于corePoolSize，并且某个线程的空闲时间超过keepAliveTime，那么这个线程就会被销毁。</p>
+</li>
+<li><p><strong>unit</strong>:就是keepAliveTime时间的单位。</p>
+</li>
+<li><p><strong>workQueue</strong>:工作队列。当没有空闲的线程执行新任务时，该任务就会被放入工作队列中，等待执行。</p>
+</li>
+<li><p><strong>threadFactory</strong>:线程工厂。可以用来给线程取名字等等</p>
+</li>
+<li><p><strong>handler</strong>:拒绝策略。当一个新任务交给线程池，如果此时线程池中有空闲的线程，就会直接执行，如果没有空闲的线程，就会将该任务加入到阻塞队列中，如果阻塞队列满了，就会创建一个新线程，从阻塞队列头部取出一个任务来执行，并将新任务加入到阻塞队列末尾。如果当前线程池中线程的数量等于maximumPoolSize，就不会创建新线程，就会去执行拒绝策略。</p>
+</li>
+</ul>
+<h5 id="3-实战当中如何开启一个新的线程，代码细节"><a href="#3-实战当中如何开启一个新的线程，代码细节" class="headerlink" title="3.实战当中如何开启一个新的线程，代码细节"></a>3.实战当中如何开启一个新的线程，代码细节</h5><h5 id="4-具体讲讲Spring当中AOP的底层"><a href="#4-具体讲讲Spring当中AOP的底层" class="headerlink" title="4.具体讲讲Spring当中AOP的底层"></a>4.具体讲讲Spring当中AOP的底层</h5><ul>
+<li>Spring AOP的实现依赖于**动态代理技术。**动态代理是在运行时动态生成代理对象，而不是在编译时。它允许开发者在运行时指定要代理的接口和行为，从而实现在不修改源码的情况下增强方法的功能。主要用于在不修改原始类的情况下对方法调用进行拦截和增强。<ul>
+<li><p><strong>基于接口的代理</strong>（JDK动态代理）： 这种类型的代理要求目标对象必须实现至少一个接口。Java动态代理会创建一个实现了相同接口的代理类，然后在运行时动态生成该类的实例。这种代理的实现核心是java.lang.reflect.Proxy类和java.lang.reflect.InvocationHandler接口。每一个动态代理类都必须实现InvocationHandler接口，并且每个代理类的实例都关联到一个handler。当通过代理对象调用一个方法时，这个方法的调用会被转发为由InvocationHandler接口的invoke()方法来进行调用。</p>
+</li>
+<li><p><strong>基于类的代理</strong>（CGLIB动态代理）： CGLIB（Code Generation Library）是一个强大的高性能的代码生成库，它可以在运行时动态生成一个目标类的子类。CGLIB代理不需要目标类实现接口，而是通过继承的方式创建代理类。因此，如果目标对象没有实现任何接口，可以使用CGLIB来创建动态代理。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="5-bean的生命周期"><a href="#5-bean的生命周期" class="headerlink" title="5.bean的生命周期"></a>5.bean的生命周期</h5><ul>
+<li><p>1.Spring启动，查找并加载需要被Spring管理的bean，进行Bean的实例化</p>
+</li>
+<li><p>2.Bean实例化后对将Bean的引入和值注入到Bean的属性中</p>
+</li>
+<li><p>3.如果Bean实现了BeanNameAware接口的话，Spring将Bean的Id传递给setBeanName()方法</p>
+</li>
+<li><p>4.如果Bean实现了BeanFactoryAware接口的话，Spring将调用setBeanFactory()方法，将BeanFactory容器实例传入</p>
+</li>
+<li><p>5.如果Bean实现了ApplicationContextAware接口的话，Spring将调用Bean的setApplicationContext()方法，将bean所在应用上下文引用传入进来。</p>
+</li>
+<li><p>6.如果Bean实现了BeanPostProcessor接口，Spring就将调用他们的postProcessBeforeInitialization()方法。</p>
+</li>
+<li><p>7如果Bean 实现了InitializingBean接口，Spring将调用他们的afterPropertiesSet()方法。类似的，如果bean使用init-method声明了初始化方法，该方法也会被调用</p>
+</li>
+<li><p>8.如果Bean 实现了BeanPostProcessor接口，Spring就将调用他们的postProcessAfterInitialization()方法。</p>
+</li>
+<li><p>9.此时，Bean已经准备就绪，可以被应用程序使用了。他们将一直驻留在应用上下文中，直到应用上下文被销毁。</p>
+</li>
+<li><p>10.如果bean实现了DisposableBean接口，Spring将调用它的destory()接口方法，同样，如果bean使用了destory-method 声明销毁方法，该方法也会被调用。</p>
+</li>
+</ul>
+<h5 id="6-spring是怎么解决循环依赖的"><a href="#6-spring是怎么解决循环依赖的" class="headerlink" title="6.spring是怎么解决循环依赖的"></a>6.spring是怎么解决循环依赖的</h5><ul>
+<li><p>循环依赖指的是两个类中的属性相互依赖对方：例如 A 类中有 B 属性，B 类中有 A属性，从而形成依赖闭环</p>
+</li>
+<li><p>循环依赖问题在Spring中主要有三种情况：</p>
+<ul>
+<li><p>第一种：通过构造方法进行依赖注入时产生的循环依赖问题</p>
+</li>
+<li><p>第二种：通过setter方法进行依赖注入且是在多例（原型）模式下产生的循环依赖问题</p>
+</li>
+<li><p>第三种：通过setter方法进行依赖注入在单例模式下产生的循环依赖问题</p>
+</li>
+<li><p>只有【第三种方式】的循环依赖问题被 Spring 解决了，其他两种方式在遇到循环依赖问题时，Spring都会抛出异常</p>
+</li>
+</ul>
+</li>
+<li><p>Spring通过三级缓存机制来解决，在DefaultSingletonBeanRegistry 类中维护了三个重要的缓存 (Map)：</p>
+<ul>
+<li><p>singletonObjects (一级缓存)：存放的是完全初始化好的、可用的 Bean 实例，getBean() 方法最终返回的就是这里面的 Bean。此时 Bean 已实例化、属性已填充、初始化方法已执行、AOP 代理（如果需要）也已生成。</p>
+</li>
+<li><p>earlySingletonObjects (二级缓存)：存放的是提前暴露的 Bean 的原始对象引用或早期代理对象引用，专门用来处理循环依赖。当一个 Bean 还在创建过程中（尚未完成属性填充和初始化），但它的引用需要被注入到另一个 Bean 时，此时 Bean 已实例化（调用了构造函数），但属性尚未填充，初始化方法尚未执行，它可能是一个原始对象，也可能是一个为了解决 AOP 代理问题而提前生成的代理对象。</p>
+</li>
+<li><p>singletonFactories (三级缓存)：存放的是 Bean 的 ObjectFactory 工厂对象。这是解决循环依赖和 AOP 代理协同工作的关键。当 Bean 被实例化后（刚调完构造函数），Spring 会创建一个 ObjectFactory 并将其放入三级缓存。这个工厂的 getObject() 方法负责返回该 Bean 的早期引用（可能是原始对象，也可能是提前生成的代理对象），当检测到循环依赖需要注入一个尚未完全初始化的 Bean 时，就会调用这个工厂来获取早期引用。</p>
+</li>
+<li><p>Spring 通过<strong>三级缓存</strong>和<strong>提前暴露未完全初始化的对象引用</strong>的机制来解决单例作用域 Bean 的 sette注入方式的循环依赖问题。</p>
+</li>
+</ul>
+</li>
+<li><p>Spring三级缓存机制的详细步骤</p>
+<ul>
+<li><p>第一步：<strong>创建BeanA的实例并提前暴露工厂</strong>。Spring首先调用BeanA的构造函数进行实例化，此时得到一个原始对象（尚未填充属性）。紧接着，Spring会将一个特殊的ObjectFactory工厂对象存入第三级缓存（singletonFactories）。    这个工厂的使命是：当其他Bean需要引用BeanA时，它能动态返回当前这个半成品的BeanA（可能是原始对象，也可能是为应对AOP而提前生成的代理对象）。此时BeanA的状态是”已实例化但未初始化”，像一座刚搭好钢筋骨架的大楼。</p>
+</li>
+<li><p>第二步：<strong>填充BeanA的属性时触发BeanB的创建</strong>。Spring开始为BeanA注入属性，发现它依赖BeanB。于是容器转向创建BeanB，同样先调用其构造函数实例化，并将BeanB对应的ObjectFactory工厂存入三级缓存。至此，三级缓存中同时存在BeanA和BeanB的工厂，它们都代表未完成初始化的半成品。</p>
+</li>
+<li><p>第三步：<strong>BeanB属性注入时发现循环依赖</strong>。当Spring试图填充BeanB的属性时，检测到它需要注入BeanA。此时容器启动依赖查找：</p>
+<ul>
+<li>1.在一级缓存（存放完整Bean）中未找到BeanA；</li>
+</ul>
+</li>
+<li><p>2.在二级缓存（存放已暴露的早期引用）中同样未命中；</p>
+</li>
+<li><p>3.最终在三级缓存中定位到BeanA的工厂。</p>
+</li>
+<li><p>Spring立即调用该工厂的getObject()方法。这个方法会执行关键决策：若BeanA需要AOP代理，则动态生成代理对象（即使BeanA还未初始化）；若无需代理，则直接返回原始对象。得到的这个早期引用（可能是代理）被放入二级缓存（earlySingletonObjects），同时从三级缓存清理工厂条目。最后，Spring将这个早期引用注入到BeanB的属性中。至此，BeanB成功持有BeanA的引用–尽管BeanA此时仍是个半成品。</p>
+</li>
+<li><p>第四步：<strong>完成BeanB的生命周期</strong>。BeanB获得所有依赖后，Spring执行其初始化方法（如@PostConstruct），将其转化为完整可用的Bean。随后，BeanB被提升至一级缓存（singletonObjects），二级和三级缓存中关于BeanB的临时条目均被清除。此时BeanB已准备就绪，可被其他对象使用。</p>
+</li>
+<li><p>第五步：<strong>回溯完成BeanA的构建</strong>。随着BeanB创建完毕，流程回溯到最初中断的BeanA属性注入环节。Spring将已完备的BeanB实例注入BeanA，接着执行BeanA的初始化方法。这里有个精妙细节：若之前为BeanA生成过早期代理，Spring会直接复用二级缓存中的代理对象作为最终Bean，而非重复构建。最终，完全初始化的BeanA（可能是原始对象或代理）入驻一级缓存，其早期引用从二级缓存当中移除。至此循环闭环完成，两个Bean皆可用。</p>
+</li>
+</ul>
+</li>
+<li><p>三级缓存的设计的精髓：</p>
+<ul>
+<li>三级缓存工厂（singletonFactories）负责实例化后立刻暴露对象生成能力，兼顾AOP代理的提前生成；</li>
+</ul>
+</li>
+<li><p>二级缓存（earlySingletonObjects）临时存储已确定的早期引用，避免重复生成代理；</p>
+</li>
+<li><p>一级缓存（singletonObjects）最终交付完整Bean。</p>
+</li>
+<li><p>整个机制通过中断<strong>初始化流程</strong>、<strong>逆向注入半成品</strong>、<strong>延迟代理生成</strong>三大策略，将循环依赖的死结转化为有序的接力协作。值得注意的是，此方案仅适用于Setter&#x2F;Field注入的单例Bean；构造器注入因必须在实例化前获得依赖，仍会导致无解的死锁。</p>
+</li>
+</ul>
+<h5 id="7-采用spring当中构造函数方法注入，会产生循环依赖吗"><a href="#7-采用spring当中构造函数方法注入，会产生循环依赖吗" class="headerlink" title="7.采用spring当中构造函数方法注入，会产生循环依赖吗"></a>7.采用spring当中构造函数方法注入，会产生循环依赖吗</h5><ul>
+<li>根据上面回答，会。</li>
+</ul>
+<h5 id="8-计算机网络模型有哪几层，TCP是哪一层，IP是哪一层"><a href="#8-计算机网络模型有哪几层，TCP是哪一层，IP是哪一层" class="headerlink" title="8.计算机网络模型有哪几层，TCP是哪一层，IP是哪一层"></a>8.计算机网络模型有哪几层，TCP是哪一层，IP是哪一层</h5><ul>
+<li>五层：应用层–运输层–网络层–数据链路层–物理层，TCP协议是运输层，IP是网络层</li>
+</ul>
+<h5 id="9-详细介绍一下TCP三次握手"><a href="#9-详细介绍一下TCP三次握手" class="headerlink" title="9.详细介绍一下TCP三次握手"></a>9.详细介绍一下TCP三次握手</h5><h5 id="10-那TCP四次握手呢？有什么区别"><a href="#10-那TCP四次握手呢？有什么区别" class="headerlink" title="10.那TCP四次握手呢？有什么区别"></a>10.那TCP四次握手呢？有什么区别</h5><h4 id="反问环节"><a href="#反问环节" class="headerlink" title="反问环节"></a>反问环节</h4><h5 id="1-通过这次面试，能否给我一些建议"><a href="#1-通过这次面试，能否给我一些建议" class="headerlink" title="1.通过这次面试，能否给我一些建议"></a>1.通过这次面试，能否给我一些建议</h5><ul>
 <li>对于java一整套生态，不仅要会用这些工具，还要懂得其中的原理</li>
 </ul>
 <h5 id="2-你们公司是做什么业务的"><a href="#2-你们公司是做什么业务的" class="headerlink" title="2.你们公司是做什么业务的"></a>2.你们公司是做什么业务的</h5><ul>
