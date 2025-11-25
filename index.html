@@ -181,6 +181,227 @@
         
 
 <div class="post">
+    <a href="/2025/11/25/Gemini3%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C%EF%BC%9A%E4%B8%80%E4%BA%9B%E9%A1%B9%E7%9B%AE%E7%9A%84idea/">
+        <h2 class="post-title">Gemini3使用体验：对应电商项目的些许idea</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/11/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h4 id="回答背景："><a href="#回答背景：" class="headerlink" title="回答背景："></a>回答背景：</h4><ul>
+<li><p>1.mcp+llm+rag一个项目 根据用户在一个商场购买的课程的 根据用户的各类信息结合他的购买习惯 学习课程的哪个更久一些 他的学习计划习惯  能够有一些推荐课程和总结建议的助手 我商场项目是Java springcloud那一套生态 mcp+llm+rag 用Python吧  告诉我实现流程和思路落地 根据用户在一个商场购买的课程的 根据用户的各类信息结合他的购买习惯 学习课程的哪个更久一些 他的学习计划习惯  能够有一些推荐课程和总结建议的助手 </p>
+</li>
+<li><p>2.详细说一下python侧的技术栈 3.两个疑问： 一 langchain和langgraph应用在mcpserver封装当中吗 rag知识库构建有没有应用到  二 rag知识库存储的信息主要是什么 当用户个人信息携带请求打过来 会实时更新rag吗 如果rag是之前预热存储了许多课程信息 </p>
+</li>
+<li><p>3.那么第一次rag知识库为空 java侧应用启动了 python侧启动 设计自动（无需用户或者管理员交互）自动将对应数据库的课表库以及其他预热数据传入rag知识库当中</p>
+</li>
+</ul>
+<h4 id="Gemini3Pro的回答"><a href="#Gemini3Pro的回答" class="headerlink" title="Gemini3Pro的回答"></a>Gemini3Pro的回答</h4><h4 id="项目架构笔记：个性化课程推荐助手-MCP-LLM-RAG"><a href="#项目架构笔记：个性化课程推荐助手-MCP-LLM-RAG" class="headerlink" title="项目架构笔记：个性化课程推荐助手 (MCP + LLM + RAG)"></a>项目架构笔记：个性化课程推荐助手 (MCP + LLM + RAG)</h4><h4 id="1-项目背景与核心理念"><a href="#1-项目背景与核心理念" class="headerlink" title="1. 项目背景与核心理念"></a>1. 项目背景与核心理念</h4><ul>
+<li><strong>目标：</strong> 构建一个智能助手，能够根据用户在商场（Java侧）的购买记录、学习时长、学习习惯等数据，结合课程内容库，提供个性化的课程推荐和学习建议。</li>
+<li><strong>角色分工：</strong><ul>
+<li><strong>Java (Spring Cloud)：</strong> <strong>业务中台</strong>。负责存储核心业务数据（用户、订单、日志）、提供原子API能力。</li>
+<li><strong>Python (MCP + AI)：</strong> <strong>智能大脑</strong>。负责语义理解、逻辑编排、RAG检索、以及通过MCP协议调用Java侧数据。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="2-业务实现流程与落地思路"><a href="#2-业务实现流程与落地思路" class="headerlink" title="2. 业务实现流程与落地思路"></a>2. 业务实现流程与落地思路</h4><h5 id="2-1-核心架构逻辑"><a href="#2-1-核心架构逻辑" class="headerlink" title="2.1 核心架构逻辑"></a>2.1 核心架构逻辑</h5><ul>
+<li>用户提问 -&gt; <strong>Python Agent (大脑)</strong> -&gt; <strong>拆解任务</strong> -&gt; <strong>并发&#x2F;顺序调用数据源</strong> -&gt; <strong>汇总推理</strong> -&gt; 返回建议。</li>
+</ul>
+<h5 id="2-2-详细交互步骤-Step-by-Step"><a href="#2-2-详细交互步骤-Step-by-Step" class="headerlink" title="2.2 详细交互步骤 (Step-by-Step)"></a>2.2 详细交互步骤 (Step-by-Step)</h5><ol>
+<li><p><strong>用户发起请求</strong></p>
+<ul>
+<li>前端携带 <code>userId</code> 和自然语言问题（例如：“我学Java多线程很吃力，接下来咋办？”）请求 Python 服务。</li>
+</ul>
+</li>
+<li><p><strong>Agent 规划 (LLM)</strong></p>
+<ul>
+<li>Python端的 LLM 接收请求，分析出需要获取两类信息：<ul>
+<li><strong>用户信息：</strong> 确认用户买了什么课、哪里学得久、哪里卡住了。</li>
+<li><strong>课程知识：</strong> 寻找能解决“多线程吃力”的课程资料。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>获取用户画像 (动态数据 - Tool Call)</strong></p>
+<ul>
+<li><strong>动作：</strong> Agent 调用 MCP 工具 <code>get_user_learning_profile(userId)</code>。</li>
+<li><strong>实现：</strong> Python MCP Client 发送 HTTP 请求 $\rightarrow$ Java Spring Cloud 接口。</li>
+<li><strong>返回结果：</strong> 结构化 JSON（如：<code>&#123;&quot;购买&quot;: &quot;Java高并发&quot;, &quot;多线程章节停留&quot;: &quot;5小时(异常)&quot;, &quot;习惯&quot;: &quot;晚间学习&quot;&#125;</code>）。</li>
+<li><em>注意：此类数据实时性强，不走RAG，走API直连。</em></li>
+</ul>
+</li>
+<li><p><strong>检索课程方案 (静态数据 - RAG)</strong></p>
+<ul>
+<li><strong>动作：</strong> Agent 根据痛点“Java多线程”，在 Python 内部查询向量数据库。</li>
+<li><strong>实现：</strong> RAG 检索课程库。</li>
+<li><strong>返回结果：</strong> 课程大纲片段（如：《Java基础进阶-线程篇》简介、目录）。</li>
+</ul>
+</li>
+<li><p><strong>生成建议 (LLM Synthesis)</strong></p>
+<ul>
+<li><strong>输入：</strong> 用户画像 JSON + RAG 检索到的课程资料。</li>
+<li><strong>Prompt 策略：</strong> “用户A在[画像数据]中显示遇到困难，请根据[课程资料]为他制定计划。”</li>
+<li><strong>输出：</strong> 最终建议文本。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="3-Python-侧详细技术栈"><a href="#3-Python-侧详细技术栈" class="headerlink" title="3. Python 侧详细技术栈"></a>3. Python 侧详细技术栈</h4><table>
+<thead>
+<tr>
+<th align="left">模块</th>
+<th align="left">推荐技术&#x2F;库</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Web 框架</strong></td>
+<td align="left"><strong>FastAPI</strong></td>
+<td align="left">高性能，原生支持异步，适合做 AI 服务网关。</td>
+</tr>
+<tr>
+<td align="left"><strong>MCP 协议</strong></td>
+<td align="left"><strong>mcp (Python SDK)</strong></td>
+<td align="left">Anthropic 官方 SDK，用于封装 Tools 和 Resources。</td>
+</tr>
+<tr>
+<td align="left"><strong>Agent 编排</strong></td>
+<td align="left"><strong>LangGraph</strong></td>
+<td align="left"><strong>强烈推荐</strong>。相比 LangChain 更适合处理有状态、多步循环的复杂逻辑（如：先查用户，不够再查课，再反思）。</td>
+</tr>
+<tr>
+<td align="left"><strong>LLM 接口</strong></td>
+<td align="left"><strong>LangChain &#x2F; OpenAI SDK</strong></td>
+<td align="left">对接 GPT-4, DeepSeek, Claude 等大模型。</td>
+</tr>
+<tr>
+<td align="left"><strong>向量数据库</strong></td>
+<td align="left"><strong>ChromaDB</strong> (轻量) <br> <strong>Milvus</strong> (生产级)</td>
+<td align="left">ChromaDB 适合快速开发和中小规模；Milvus 适合海量数据。</td>
+</tr>
+<tr>
+<td align="left"><strong>Embedding</strong></td>
+<td align="left"><strong>Sentence-Transformers</strong></td>
+<td align="left">推荐 <code>bge-m3</code> 或 <code>m3e-base</code> 等中文效果好的嵌入模型。</td>
+</tr>
+<tr>
+<td align="left"><strong>数据处理</strong></td>
+<td align="left"><strong>Pandas</strong></td>
+<td align="left">用于处理从 Java 端拉取的大批量数据（ETL）。</td>
+</tr>
+</tbody></table>
+<hr>
+<h4 id="4-核心疑问解答-Q-A"><a href="#4-核心疑问解答-Q-A" class="headerlink" title="4. 核心疑问解答 (Q&amp;A)"></a>4. 核心疑问解答 (Q&amp;A)</h4><h5 id="Q1-LangChain-LangGraph-和-RAG-在-MCP-Server-中如何定位？"><a href="#Q1-LangChain-LangGraph-和-RAG-在-MCP-Server-中如何定位？" class="headerlink" title="Q1: LangChain&#x2F;LangGraph 和 RAG 在 MCP Server 中如何定位？"></a>Q1: LangChain&#x2F;LangGraph 和 RAG 在 MCP Server 中如何定位？</h5><ul>
+<li><strong>定位：</strong> 它们是 MCP Server 内部的<strong>实现逻辑</strong>。</li>
+<li><strong>LangGraph：</strong> 是“脑子”。当 MCP Server 接收到请求时，是 LangGraph 在控制流程（是先去查库，还是先去调 API）。</li>
+<li><strong>RAG：</strong> 是 MCP Server 内部的一个“私有工具”。可以将其封装为一个内部函数，供 Agent 在思考时随时调用。</li>
+</ul>
+<h5 id="Q2-RAG-知识库存储什么？是否需要实时更新？"><a href="#Q2-RAG-知识库存储什么？是否需要实时更新？" class="headerlink" title="Q2: RAG 知识库存储什么？是否需要实时更新？"></a>Q2: RAG 知识库存储什么？是否需要实时更新？</h5><ul>
+<li><strong>存什么（慢数据）：</strong><ul>
+<li>课程详情（标题、简介、大纲、讲师信息）。</li>
+<li>通用学习路线图、学科知识点关联。</li>
+<li><em>切记：不要存用户的实时日志（如购买记录），这些数据变化太快，向量化成本高，应该用 API 实时获取。</em></li>
+</ul>
+</li>
+<li><strong>更新频率：</strong><ul>
+<li><strong>不需要</strong>用户请求时实时更新。</li>
+<li>仅当 Java 端上架新课程或修改课程大纲时，才触发更新（通常是 T+1 或管理员手动触发，或如下文的自动同步）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="5-自动化数据预热方案-Cold-Start"><a href="#5-自动化数据预热方案-Cold-Start" class="headerlink" title="5. 自动化数据预热方案 (Cold Start)"></a>5. 自动化数据预热方案 (Cold Start)</h4><p><strong>场景：</strong> Java 端已启动，Python 端第一次启动，RAG 库为空。如何自动同步数据？</p>
+<h5 id="5-1-设计思路"><a href="#5-1-设计思路" class="headerlink" title="5.1 设计思路"></a>5.1 设计思路</h5><p>利用 Python 应用的<strong>生命周期钩子 (Lifecycle Hooks)</strong>，在服务启动但在接收流量之前，主动向 Java 端拉取数据。</p>
+<h5 id="5-2-详细流程"><a href="#5-2-详细流程" class="headerlink" title="5.2 详细流程"></a>5.2 详细流程</h5><ol>
+<li><strong>Java 端准备：</strong> 提供全量课程导出接口（如 <code>GET /api/internal/courses/export</code>）。</li>
+<li><strong>Python 端启动自检：</strong><ul>
+<li>应用启动 (<code>startup</code> 事件)。</li>
+<li>检查向量数据库 (<code>VectorDB.count()</code>)。</li>
+</ul>
+</li>
+<li><strong>判断逻辑：</strong><ul>
+<li><strong>若 Count &#x3D;&#x3D; 0 (空库)：</strong> 进入全量同步模式。<ul>
+<li>Call Java 接口拉取所有课程 JSON。</li>
+<li>文本清洗与拼接 (Title + Desc + Syllabus)。</li>
+<li>Embedding 向量化。</li>
+<li>批量写入向量库 (Bulk Insert)。</li>
+</ul>
+</li>
+<li><strong>若 Count &gt; 0 (非空)：</strong> 跳过或执行增量检查（对比 ID）。</li>
+</ul>
+</li>
+<li><strong>服务就绪：</strong> 数据加载完毕后，FastAPI 开始监听端口，对外提供服务。</li>
+</ol>
+<h5 id="5-3-伪代码参考-FastAPI"><a href="#5-3-伪代码参考-FastAPI" class="headerlink" title="5.3 伪代码参考 (FastAPI)"></a>5.3 伪代码参考 (FastAPI)</h5><pre><code class="language-python">#### main.py 相关的伪代码思路
+
+	from fastapi import FastAPI
+	from contextlib import asynccontextmanager
+	import requests
+
+	# 模拟向量数据库的客户端
+	vector_db = ChromaDBClient() 
+
+	@asynccontextmanager
+	async def lifespan(app: FastAPI):
+    # --- [启动阶段] ---
+    print(&quot;&gt;&gt;&gt; Python AI服务启动，开始自检...&quot;)
+    
+    current_count = vector_db.count()
+    if current_count == 0:
+        print(f&quot;&gt;&gt;&gt; 检测到知识库为空，开始从 Java 端同步数据...&quot;)
+        
+        # 1. 调 Java 接口获取数据
+        try:
+            # 假设 Java 服务名为 java-mall-service
+            response = requests.get(&quot;http://java-mall-service/api/internal/export/courses&quot;)
+            courses_data = response.json()
+            
+            # 2. 处理并存入 RAG
+            documents = []
+            for course in courses_data:
+                # 拼接为适合检索的文本
+                text = f&quot;课程名：&#123;course[&#39;name&#39;]&#125;\\n简介：&#123;course[&#39;description&#39;]&#125;\\n目录：&#123;course[&#39;catalog&#39;]&#125;&quot;
+                documents.append(text)
+            
+            # 3. 写入数据库
+            vector_db.add_documents(documents)
+            print(f&quot;&gt;&gt;&gt; 预热完成！共导入 &#123;len(documents)&#125; 门课程数据。&quot;)
+            
+        except Exception as e:
+            print(f&quot;&gt;&gt;&gt; 警告：数据同步失败，原因：&#123;e&#125;&quot;)
+    else:
+        print(f&quot;&gt;&gt;&gt; 知识库状态正常，包含 &#123;current_count&#125; 条数据。&quot;)
+
+    yield # 服务正式运行
+    
+    # --- [关闭阶段] ---
+    print(&quot;&gt;&gt;&gt; 服务关闭&quot;)
+	app = FastAPI(lifespan=lifespan)
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/11/25/Gemini3%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C%EF%BC%9A%E4%B8%80%E4%BA%9B%E9%A1%B9%E7%9B%AE%E7%9A%84idea/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/10/19/%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%9301%EF%BC%9A%E7%BA%B7%E4%BA%AB%E9%94%80%E5%AE%A2%E4%B8%80%E9%9D%A2/">
         <h2 class="post-title">面试总结01：纷享销客一面</h2>
     </a>
@@ -1260,70 +1481,6 @@
         
     </div>
     <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B006-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%BC%98%E5%8C%96%E9%9B%86%E7%BE%A4%E4%B8%8B%E7%A7%92%E6%9D%80%E4%B8%8B%E5%8D%95%E9%97%AE%E9%A2%98/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B005%EF%BC%9A%E5%88%A9%E7%94%A8%E6%82%B2%E8%A7%82%E9%94%81%E8%A7%A3%E5%86%B3%E5%8D%95%E4%BD%93%E4%B8%8B%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%95%E9%97%AE%E9%A2%98/">
-        <h2 class="post-title">项目一笔记05：利用悲观锁解决单体下一人一单问题</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/9/21
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h4 id="一人一单问题的具体描述"><a href="#一人一单问题的具体描述" class="headerlink" title="一人一单问题的具体描述"></a>一人一单问题的具体描述</h4><ul>
-<li>出现这个问题的原因和前面库存为负数数的情况是一样的，线程1查询当前用户是否有订单，当前用户没有订单准备下单，此时线程2也查询当前用户是否有订单，由于线程1还没有完成下单操作，线程2同样发现当前用户未下单，也准备下单，这样明明一个用户只能下一单，结果下了两单，也就出现了超卖问题。</li>
-</ul>
-<h4 id="为何使用悲观锁而非乐观锁"><a href="#为何使用悲观锁而非乐观锁" class="headerlink" title="为何使用悲观锁而非乐观锁"></a>为何使用悲观锁而非乐观锁</h4><ul>
-<li>乐观锁需要判断数据是否修改，而当前是判断当前是否存在，所以无法像解决库存超卖一样使用CAS机制，但是可以使用版本号法，但是版本号法需要新增一个字段（导致一定的内存消耗），所以这里为了方便，就直接演示使用悲观锁解决超卖问题。</li>
-</ul>
-<h5 id="具体的实现细节："><a href="#具体的实现细节：" class="headerlink" title="具体的实现细节："></a>具体的实现细节：</h5><ul>
-<li><p>锁的范围尽量小。synchronized尽量锁代码块，而不是方法，锁的范围越大性能越低</p>
-</li>
-<li><p>锁的对象一定要是一个不变的值。我们不能直接锁 Long 类型的 userId，每请求一次都会创建一个新的 userId 对象，synchronized 要锁不变的值，所以我们要将 Long 类型的 userId 通过 toString()方法转成 String 类型的 userId，toString()方法底层（源码思路）是直接 new 一个新的String对象，显然还是在变，所以我们要使用 <strong>intern()</strong> 方法从常量池中寻找与当前 字符串值一致的字符串对象，这就能够保障一个用户 发送多次请求，每次请求的 userId 都是不变的，从而能够完成锁的效果（并行变串行）。</p>
-</li>
-<li><p>我们要锁住整个事务，而不是锁住事务内部的代码。如果我们锁住事务内部的代码会导致其它线程能够进入事务，当我们事务还未提交，锁一旦释放，仍然会存在超卖问题。</p>
-</li>
-<li><p>Spring的@Transactional注解要想事务生效，必须使用动态代理。Service中一个方法中调用另一个方法，另一个方法使用了事务，此时会导致@Transactional失效，所以我们需要创建一个代理对象，使用代理对象来调用方法。</p>
-</li>
-<li><p>让代理对象生效的步骤：</p>
-<ul>
-<li>引入AOP依赖，动态代理是AOP的常见实现之一</li>
-</ul>
-<hr>
-<pre><code>  &lt;dependency&gt;
-      &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
-      &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
-  &lt;/dependency&gt;
-</code></pre>
-</li>
-</ul>
-<hr>
-<ul>
-<li>暴露动态代理对象，默认是关闭的</li>
-</ul>
-<hr>
-<p> @EnableAspectJAutoProxy(exposeProxy &#x3D; true)</p>
-<hr>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B005%EF%BC%9A%E5%88%A9%E7%94%A8%E6%82%B2%E8%A7%82%E9%94%81%E8%A7%A3%E5%86%B3%E5%8D%95%E4%BD%93%E4%B8%8B%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%95%E9%97%AE%E9%A2%98/" class="go-post">阅读全文</a>
 </div>
 
 

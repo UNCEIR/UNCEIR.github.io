@@ -181,6 +181,70 @@
         
 
 <div class="post">
+    <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B005%EF%BC%9A%E5%88%A9%E7%94%A8%E6%82%B2%E8%A7%82%E9%94%81%E8%A7%A3%E5%86%B3%E5%8D%95%E4%BD%93%E4%B8%8B%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%95%E9%97%AE%E9%A2%98/">
+        <h2 class="post-title">项目一笔记05：利用悲观锁解决单体下一人一单问题</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/9/21
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h4 id="一人一单问题的具体描述"><a href="#一人一单问题的具体描述" class="headerlink" title="一人一单问题的具体描述"></a>一人一单问题的具体描述</h4><ul>
+<li>出现这个问题的原因和前面库存为负数数的情况是一样的，线程1查询当前用户是否有订单，当前用户没有订单准备下单，此时线程2也查询当前用户是否有订单，由于线程1还没有完成下单操作，线程2同样发现当前用户未下单，也准备下单，这样明明一个用户只能下一单，结果下了两单，也就出现了超卖问题。</li>
+</ul>
+<h4 id="为何使用悲观锁而非乐观锁"><a href="#为何使用悲观锁而非乐观锁" class="headerlink" title="为何使用悲观锁而非乐观锁"></a>为何使用悲观锁而非乐观锁</h4><ul>
+<li>乐观锁需要判断数据是否修改，而当前是判断当前是否存在，所以无法像解决库存超卖一样使用CAS机制，但是可以使用版本号法，但是版本号法需要新增一个字段（导致一定的内存消耗），所以这里为了方便，就直接演示使用悲观锁解决超卖问题。</li>
+</ul>
+<h5 id="具体的实现细节："><a href="#具体的实现细节：" class="headerlink" title="具体的实现细节："></a>具体的实现细节：</h5><ul>
+<li><p>锁的范围尽量小。synchronized尽量锁代码块，而不是方法，锁的范围越大性能越低</p>
+</li>
+<li><p>锁的对象一定要是一个不变的值。我们不能直接锁 Long 类型的 userId，每请求一次都会创建一个新的 userId 对象，synchronized 要锁不变的值，所以我们要将 Long 类型的 userId 通过 toString()方法转成 String 类型的 userId，toString()方法底层（源码思路）是直接 new 一个新的String对象，显然还是在变，所以我们要使用 <strong>intern()</strong> 方法从常量池中寻找与当前 字符串值一致的字符串对象，这就能够保障一个用户 发送多次请求，每次请求的 userId 都是不变的，从而能够完成锁的效果（并行变串行）。</p>
+</li>
+<li><p>我们要锁住整个事务，而不是锁住事务内部的代码。如果我们锁住事务内部的代码会导致其它线程能够进入事务，当我们事务还未提交，锁一旦释放，仍然会存在超卖问题。</p>
+</li>
+<li><p>Spring的@Transactional注解要想事务生效，必须使用动态代理。Service中一个方法中调用另一个方法，另一个方法使用了事务，此时会导致@Transactional失效，所以我们需要创建一个代理对象，使用代理对象来调用方法。</p>
+</li>
+<li><p>让代理对象生效的步骤：</p>
+<ul>
+<li>引入AOP依赖，动态代理是AOP的常见实现之一</li>
+</ul>
+<hr>
+<pre><code>  &lt;dependency&gt;
+      &lt;groupId&gt;org.aspectj&lt;/groupId&gt;
+      &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+</code></pre>
+</li>
+</ul>
+<hr>
+<ul>
+<li>暴露动态代理对象，默认是关闭的</li>
+</ul>
+<hr>
+<p> @EnableAspectJAutoProxy(exposeProxy &#x3D; true)</p>
+<hr>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B005%EF%BC%9A%E5%88%A9%E7%94%A8%E6%82%B2%E8%A7%82%E9%94%81%E8%A7%A3%E5%86%B3%E5%8D%95%E4%BD%93%E4%B8%8B%E4%B8%80%E4%BA%BA%E4%B8%80%E5%8D%95%E9%97%AE%E9%A2%98/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B004%EF%BC%9A%E8%B6%85%E5%8D%96%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/">
         <h2 class="post-title">项目一笔记04：利用乐观锁解决单体下多单超卖问题</h2>
     </a>
