@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>微服务教育平台项目关于视频进度记录方面的高并发处理 | UNCEIR的个人博客</title>
+    <meta name="author" content="David Huang" />
+    <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>UNCEIR的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;UNCEIR的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>微服务教育平台项目关于视频进度记录方面的高并发处理</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/11/29
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <ul>
+<li>对查库查表比较频繁的功能接口使用了redis中间件作为缓存，提高性能，防止数据库压力过大宕机以及查询过多速度变慢，影响用户体验。</li>
+</ul>
+<h4 id="两个功能进行优化"><a href="#两个功能进行优化" class="headerlink" title="两个功能进行优化"></a>两个功能进行优化</h4><ul>
+<li><p>1.提交学习视频记录，判断是否是第一次提交</p>
+<ul>
+<li>大概思路：先去缓存查询是否有该学习记录，如果有直接返回缓存里的学习记录，缓存没有则取数据库进行查询，如果数据库有则返回，并将其写入缓存。不是第一次则返回null，然后新增</li>
+</ul>
+</li>
+<li><p>2.再次提交，判断视频是否第一次学完,是的话更新数据库并清理缓存，不是第一次，将数据写入缓存（不要写入数据库这里，因为业务设定是每15秒来一次视频观看记录提交，高频操作），设定延时队列-阻塞20秒。</p>
+<ul>
+<li>当用户还在观看视频的时候，15秒就更新一次缓存，所以阻塞队列检测执行的时候与redis数据进行比较是否一致的时候，如果不一致说明还在继续看视频，当停止观看视频后缓存更新数据不变，阻塞队列提交任务发现数据一致时，再将具体数据写入数据库。</li>
+</ul>
+<p>  用户观看视频（每15秒上报进度）<br>  ↓</p>
+</li>
+</ul>
+<p>LearningRecordServiceImpl.addVideoRecord()<br>    ↓<br>┌─────────────────────────────────────┐<br>│  1. readCacheRecord()               │ ← Redis Hash 读取<br>│     - 缓存命中 → 直接返回           │<br>│     - 缓存未命中 → 查DB → 写缓存    │<br>└─────────────────────────────────────┘<br>    ↓<br>┌─────────────────────────────────────┐<br>│  2. addLearningRecordTask()         │<br>│     - writeRecordToRedis()          │ ← 更新Redis缓存<br>│     - queue.put(DelayTask)          │ ← 提交延时队列（20秒）<br>└─────────────────────────────────────┘<br>    ↓<br>┌─────────────────────────────────────┐<br>│  3. handleRecordTask() [异步线程]    │<br>│     - queue.take() [阻塞等待]       │ ← DelayQueue 延时队列<br>│     - 比较缓存与队列数据            │<br>│     - 一致 → 写入数据库              │<br>│     - 不一致 → 跳过（用户仍在观看）  │<br>└─────────────────────────────────────┘<br>    ↓<br>┌─────────────────────────────────────┐<br>│  4. cleanCacheRecord()              │ ← 视频完成时清理缓存<br>│     - 数据库已更新                   │<br>│     - 删除Redis缓存                  │<br>└─────────────────────────────────────┘</p>
+<h4 id="对延时队列工具类的封装–原理"><a href="#对延时队列工具类的封装–原理" class="headerlink" title="对延时队列工具类的封装–原理"></a>对延时队列工具类的封装–原理</h4><ul>
+<li><p>@PostConstruct + CompletableFuture.runAsync(this::handleRecordTask)来启动处理队列这个线程</p>
+<ul>
+<li>放在 @PostConstruct 里：保证此时 redisTemplate、recordMapper、lessonMapper 等依赖已经通过构造函数注入完毕，Bean 是一个“准备就绪”的单例。pring 容器启动完成时自动调用一次 init()，不会重复启动多个处理线程。</li>
+<li>CompletableFuture.runAsync(this::handleRecordTask) ，因为while(true)是个死循环， while (begin) + queue.take() 阻塞，如果直接在主线程或 Web 请求线程里调用，会把线程卡死。runAsync 会把 handleRecordTask() 丢到线程池里的后台线程去跑，不阻塞 Spring 容器启动线程，也不阻塞任何请求线程。</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 UNCEIR的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;David Huang
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
