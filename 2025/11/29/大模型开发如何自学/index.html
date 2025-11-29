@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>大模型开发如何自学 | UNCEIR的个人博客</title>
+    <meta name="author" content="David Huang" />
+    <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>UNCEIR的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;UNCEIR的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>大模型开发如何自学</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/11/29
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>入门大模型（LLM）开发，<strong>不要一上来就去啃算法数学公式</strong>（那是科学家做的事），作为开发者，你应该从<strong>应用工程（AI Engineering）</strong> 角度切入。</p>
+<p>现在的 LLM 开发主要分为三个阶段：<strong>Prompt 工程</strong> -&gt; <strong>RAG（外挂知识库）</strong> -&gt; <strong>微调（Fine-tuning）</strong>。</p>
+<p>以下是保姆级的快速入门路径和文档推荐：</p>
+<hr>
+<h3 id="第一阶段：API-调用与-Prompt-工程（先跑通）"><a href="#第一阶段：API-调用与-Prompt-工程（先跑通）" class="headerlink" title="第一阶段：API 调用与 Prompt 工程（先跑通）"></a>第一阶段：API 调用与 Prompt 工程（先跑通）</h3><p>这是最简单的入门方式。你不需要显卡，只需要会写 Python（或者 Java，但 Python 生态最强）。</p>
+<ul>
+<li><p><strong>核心任务</strong>：学会申请 Key，调用 API，理解 <code>System Prompt</code>（系统提示词）、<code>Temperature</code>（随机性）等参数。</p>
+</li>
+<li><p><strong>推荐路线</strong>：</p>
+<ol>
+<li><strong>选一个模型</strong>：<ul>
+<li><strong>国际标准</strong>：<a target="_blank" rel="noopener" href="https://platform.openai.com/docs/introduction">OpenAI</a> (ChatGPT)。文档是行业标杆，必读。</li>
+<li><strong>国内首选</strong>：<a target="_blank" rel="noopener" href="https://platform.deepseek.com/">DeepSeek (深度求索)</a> 或 <a target="_blank" rel="noopener" href="https://open.bigmodel.cn/dev/howuse/introduction">智谱 AI (ChatGLM)</a>。国内访问快，送免费额度，API 兼容 OpenAI 格式。</li>
+</ul>
+</li>
+<li><strong>看文档</strong>：<ul>
+<li><strong>OpenAI Cookbook</strong>（必看）：官方出的“食谱”，里面有大量代码示例（怎么写摘要、怎么做翻译）。</li>
+<li><em>Github地址</em>：<a target="_blank" rel="noopener" href="https://github.com/openai/openai-cookbook">openai-cookbook</a></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>你需要掌握的概念</strong>：</p>
+<ul>
+<li><strong>Prompt</strong>：你对 AI 说的话。</li>
+<li><strong>Token</strong>：计费单位（约等于字数）。</li>
+<li><strong>Context Window</strong>：上下文窗口（AI 能记住多少之前的对话）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="第二阶段：应用框架开发（LangChain-LlamaIndex）"><a href="#第二阶段：应用框架开发（LangChain-LlamaIndex）" class="headerlink" title="第二阶段：应用框架开发（LangChain&#x2F;LlamaIndex）"></a>第二阶段：应用框架开发（LangChain&#x2F;LlamaIndex）</h3><p>当你觉得直接调 API 处理复杂逻辑很麻烦（比如要处理长文本、要联网搜索），你就需要框架了。</p>
+<ul>
+<li><p><strong>核心工具</strong>：</p>
+<ol>
+<li><strong>LangChain</strong>：目前最火的 LLM 开发框架。它把“读文件”、“切分文本”、“存数据库”、“调大模型”串成了一条链。<ul>
+<li><em>缺点</em>：文档有点乱，概念多。</li>
+<li><em>文档</em>：<a target="_blank" rel="noopener" href="https://python.langchain.com/docs/get_started/introduction">LangChain Python Docs</a></li>
+</ul>
+</li>
+<li><strong>LlamaIndex</strong>：如果你主要想做“<strong>把我的私有数据喂给 AI</strong>”这件事，用它更简单高效。<ul>
+<li><em>文档</em>：<a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/">LlamaIndex Docs</a></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>必做 Demo</strong>：写一个“<strong>基于本地 PDF 文档的问答机器人</strong>”。这能让你学会目前最主流的 <strong>RAG (检索增强生成)</strong> 技术。</p>
+</li>
+</ul>
+<p>你看得很准！你列出的这套技术栈（<strong>LangGraph + DeepSeek&#x2F;GPT + Chroma&#x2F;Milvus + BGE-M3</strong>）是目前构建<strong>生产级、复杂 Agent 应用</strong>的**“黄金标准”**。</p>
+<p>这套组合已经脱离了简单的“玩具 Demo”阶段，能够真正解决工业界遇到的痛点（如：逻辑死循环、上下文丢失、只会单向执行不懂反思）。</p>
+<p>以下是对你这套技术栈的<strong>深度解析</strong>和<strong>落地建议</strong>，帮助你把它们串起来：</p>
+<hr>
+<h3 id="1-核心编排：LangGraph-Agent-的大脑"><a href="#1-核心编排：LangGraph-Agent-的大脑" class="headerlink" title="1. 核心编排：LangGraph (Agent 的大脑)"></a>1. 核心编排：LangGraph (Agent 的大脑)</h3><blockquote>
+<p><strong>你的评价非常到位：</strong> 相比 LangChain 传统的 Chain（单向链表），LangGraph 是图（Graph）。</p>
+</blockquote>
+<ul>
+<li><strong>为什么要换 LangGraph？</strong><ul>
+<li><strong>有状态（Stateful）</strong>：传统的 Chain 跑完就忘。LangGraph 有一个全局的 <code>State</code>（状态对象），所有节点都能读写这个状态。这就像给了 AI 一个“短期记忆本”，它知道自己刚才查了什么，现在缺什么。</li>
+<li><strong>循环与反思（Cyclic &amp; Reflection）</strong>：这是最强的点。<ul>
+<li><em>Chain</em>：输入 -&gt; 步骤A -&gt; 步骤B -&gt; 结束。（一条路走到黑）</li>
+<li><em>Graph</em>：输入 -&gt; 步骤A -&gt; 检查结果 -&gt; <strong>觉得不行</strong> -&gt; <strong>回到步骤A重做</strong> -&gt; 结束。</li>
+</ul>
+</li>
+<li><strong>应用场景</strong>：比如写代码助手。写代码 -&gt; 运行报错 -&gt; 读取错误 -&gt; <strong>跳回写代码步骤修正</strong> -&gt; 再运行 -&gt; 成功。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-模型层：LLM-接口-动力源"><a href="#2-模型层：LLM-接口-动力源" class="headerlink" title="2. 模型层：LLM 接口 (动力源)"></a>2. 模型层：LLM 接口 (动力源)</h3><blockquote>
+<p><strong>推荐</strong>：DeepSeek (性价比之王) &#x2F; GPT-4o (逻辑天花板)</p>
+</blockquote>
+<ul>
+<li><strong>对接建议</strong>：<ul>
+<li>虽然 LangChain 有封装好的 ChatOpenAI 类，但在 LangGraph 中，通常直接调用这些模型来做<strong>决策（Router）</strong>。</li>
+<li><strong>工具调用（Function Calling）</strong>：这是 Agent 的核心。DeepSeek V3&#x2F;R1 和 GPT-4 的 Function Calling 能力最强，能精准地输出 JSON 格式来告诉程序该去查数据库还是该去搜索。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-RAG-核心：Embedding-与-向量库-海马体"><a href="#3-RAG-核心：Embedding-与-向量库-海马体" class="headerlink" title="3. RAG 核心：Embedding 与 向量库 (海马体)"></a>3. RAG 核心：Embedding 与 向量库 (海马体)</h3><h4 id="Embedding-模型：BGE-M3-vs-M3E"><a href="#Embedding-模型：BGE-M3-vs-M3E" class="headerlink" title="Embedding 模型：BGE-M3 vs M3E"></a>Embedding 模型：BGE-M3 vs M3E</h4><p>你提到的 <code>bge-m3</code> 是目前的<strong>中文最强开源 Embedding</strong>（智源出品）。</p>
+<ul>
+<li><strong>BGE-M3 的优势</strong>：它支持 <strong>混合检索</strong>（Dense + Sparse）。<ul>
+<li><em>Dense (稠密)</em>：懂语义（比如搜“苹果”，它知道你想找“水果”或“手机”）。</li>
+<li><em>Sparse (稀疏)</em>：懂关键词匹配（类似倒排索引，精准匹配专有名词）。</li>
+<li><strong>落地建议</strong>：如果你的机器跑得动，<strong>无脑上 BGE-M3</strong>。如果资源受限（比如只有 CPU），用 <code>m3e-base</code> 或 <code>bge-small-zh</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="向量数据库：Chroma-vs-Milvus"><a href="#向量数据库：Chroma-vs-Milvus" class="headerlink" title="向量数据库：Chroma vs Milvus"></a>向量数据库：Chroma vs Milvus</h4><ul>
+<li><strong>ChromaDB</strong>：<ul>
+<li><em>优点</em>：<code>pip install chromadb</code> 就能用，无需 Docker，数据存在本地文件，极其适合开发测试和单机应用。</li>
+<li><em>缺点</em>：不支持分布式，数据量百万级以上性能下降。</li>
+</ul>
+</li>
+<li><strong>Milvus</strong>：<ul>
+<li><em>优点</em>：云原生，Kubernetes 友好，亿级数据毫秒响应，大厂标配。</li>
+<li><em>缺点</em>：部署重（依赖 MinIO, Etcd 等组件）。</li>
+</ul>
+</li>
+<li><strong>选型建议</strong>：<strong>开发阶段用 Chroma，上线前看数据量，超过 500万条再迁移到 Milvus。</strong></li>
+</ul>
+<hr>
+<h3 id="4-实战架构：如何把它们串起来？"><a href="#4-实战架构：如何把它们串起来？" class="headerlink" title="4. 实战架构：如何把它们串起来？"></a>4. 实战架构：如何把它们串起来？</h3><p>假设你要做一个**“智能课程推荐助手”**，流程如下：</p>
+<h4 id="第一步：定义状态-State"><a href="#第一步：定义状态-State" class="headerlink" title="第一步：定义状态 (State)"></a>第一步：定义状态 (State)</h4><p>在 LangGraph 中，先定义一个 Python 类（TypedDict）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> TypedDict, <span class="type">List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AgentState</span>(<span class="title class_ inherited__">TypedDict</span>):</span><br><span class="line">    query: <span class="built_in">str</span>          <span class="comment"># 用户原始问题</span></span><br><span class="line">    user_profile: <span class="built_in">dict</span>  <span class="comment"># 用户画像</span></span><br><span class="line">    documents: <span class="type">List</span>[<span class="built_in">str</span>]<span class="comment"># 查到的课程资料</span></span><br><span class="line">    answer: <span class="built_in">str</span>         <span class="comment"># 最终回复</span></span><br><span class="line">    retry_count: <span class="built_in">int</span>    <span class="comment"># 重试次数（防止死循环）</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="第二步：定义节点-Nodes"><a href="#第二步：定义节点-Nodes" class="headerlink" title="第二步：定义节点 (Nodes)"></a>第二步：定义节点 (Nodes)</h4><p>每个节点是一个函数，接收 State，修改 State，返回 State。</p>
+<ol>
+<li><strong>Node_Retrieve_User</strong>：去数据库查这个用户是谁（初学者还是专家？）。</li>
+<li><strong>Node_Search_Course</strong>：拿着用户画像 + 问题，去 <strong>ChromaDB</strong> (用 BGE-M3 向量化) 检索相关课程。</li>
+<li><strong>Node_Generate</strong>：调用 <strong>DeepSeek</strong>，根据资料生成回答。</li>
+<li><strong>Node_Reflect (反思)</strong>：让 LLM 自己检查回答是否解决了用户问题。如果没解决，修改搜索关键词。</li>
+</ol>
+<h4 id="第三步：构建图-Graph-边缘-Edges"><a href="#第三步：构建图-Graph-边缘-Edges" class="headerlink" title="第三步：构建图 (Graph) &amp; 边缘 (Edges)"></a>第三步：构建图 (Graph) &amp; 边缘 (Edges)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> langgraph.graph <span class="keyword">import</span> StateGraph, END</span><br><span class="line"></span><br><span class="line">workflow = StateGraph(AgentState)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加节点</span></span><br><span class="line">workflow.add_node(<span class="string">&quot;查用户&quot;</span>, retrieve_user_node)</span><br><span class="line">workflow.add_node(<span class="string">&quot;查课程&quot;</span>, search_course_node)</span><br><span class="line">workflow.add_node(<span class="string">&quot;生成&quot;</span>, generate_node)</span><br><span class="line">workflow.add_node(<span class="string">&quot;反思&quot;</span>, reflect_node)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义流程（边缘）</span></span><br><span class="line">workflow.set_entry_point(<span class="string">&quot;查用户&quot;</span>)</span><br><span class="line">workflow.add_edge(<span class="string">&quot;查用户&quot;</span>, <span class="string">&quot;查课程&quot;</span>)</span><br><span class="line">workflow.add_edge(<span class="string">&quot;查课程&quot;</span>, <span class="string">&quot;生成&quot;</span>)</span><br><span class="line">workflow.add_edge(<span class="string">&quot;生成&quot;</span>, <span class="string">&quot;反思&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重点：条件边（Conditional Edge）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_quality</span>(<span class="params">state</span>):</span><br><span class="line">    <span class="keyword">if</span> state[<span class="string">&#x27;answer&#x27;</span>] == <span class="string">&quot;不知道&quot;</span> <span class="keyword">and</span> state[<span class="string">&#x27;retry_count&#x27;</span>] &lt; <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;查课程&quot;</span> <span class="comment"># 没查到，换个词跳回去重查</span></span><br><span class="line">    <span class="keyword">return</span> END <span class="comment"># 查到了，或者重试次数用完了，结束</span></span><br><span class="line"></span><br><span class="line">workflow.add_conditional_edges(</span><br><span class="line">    <span class="string">&quot;反思&quot;</span>,</span><br><span class="line">    check_quality,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;查课程&quot;</span>: <span class="string">&quot;查课程&quot;</span>,</span><br><span class="line">        END: END</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">app = workflow.<span class="built_in">compile</span>()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5-总结你的学习路径"><a href="#5-总结你的学习路径" class="headerlink" title="5. 总结你的学习路径"></a>5. 总结你的学习路径</h3><p>既然你已经到了这个阶段，接下来的重点不再是 API 怎么调，而是<strong>图的设计</strong>：</p>
+<ol>
+<li><strong>文档</strong>：<ul>
+<li>去啃 <strong>LangGraph 官方文档</strong>（非常新，更新很快）。</li>
+<li>去 HuggingFace 搜 <strong>BAAI&#x2F;bge-m3</strong> 查看它的用法。</li>
+</ul>
+</li>
+<li><strong>实操</strong>：<ul>
+<li>用 Docker 部署一个 Milvus（虽然重，但你需要熟悉一下 docker-compose）。</li>
+<li>写一个简单的 <code>CRAG</code> (Corrective RAG) 架构：检索 -&gt; 评分 -&gt; (如果分低) -&gt; 联网搜索 -&gt; 生成。</li>
+</ul>
+</li>
+</ol>
+<p>这套架构学会了，你就是市面上稀缺的<strong>高级 AI 应用工程师</strong>。加油！</p>
+<hr>
+<h3 id="第三阶段：本地部署开源模型（Ollama）"><a href="#第三阶段：本地部署开源模型（Ollama）" class="headerlink" title="第三阶段：本地部署开源模型（Ollama）"></a>第三阶段：本地部署开源模型（Ollama）</h3><p>如果你不想花钱调 API，或者数据由于隐私不能上网，你需要在自己电脑上跑模型。</p>
+<ul>
+<li><p><strong>神器推荐：Ollama</strong></p>
+<ul>
+<li>这是目前最无脑、最简单的本地大模型运行工具。</li>
+<li><em>操作</em>：下载安装 -&gt; 终端输入 <code>ollama run llama3</code> -&gt; 完事。</li>
+<li><em>文档</em>：<a target="_blank" rel="noopener" href="https://github.com/ollama/ollama">Ollama Github</a></li>
+</ul>
+</li>
+<li><p><strong>模型推荐</strong>：</p>
+<ul>
+<li><code>Llama 3</code> (Meta出品，开源最强)</li>
+<li><code>Qwen</code> (通义千问，中文能力极强)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="第四阶段：系统学习资源（最好的教程）"><a href="#第四阶段：系统学习资源（最好的教程）" class="headerlink" title="第四阶段：系统学习资源（最好的教程）"></a>第四阶段：系统学习资源（最好的教程）</h3><p>不要去B站乱翻视频，直接看吴恩达（Andrew Ng）的 DeepLearning.AI 出的短课程，<strong>免费、权威、极简</strong>（每门课只有 1-2 小时）。</p>
+<ol>
+<li><strong>入门必看</strong>：<ul>
+<li><strong>ChatGPT Prompt Engineering for Developers</strong> (面向开发者的提示工程) —— 教你怎么写好 Prompt。</li>
+</ul>
+</li>
+<li><strong>进阶必看</strong>：<ul>
+<li><strong>LangChain for LLM Application Development</strong> —— LangChain 作者亲自教你怎么用。</li>
+<li><strong>Building Systems with the ChatGPT API</strong> —— 教怎么构建系统。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><em>观看地址</em>：DeepLearning.AI 官网（英文），或者 B站搜索“吴恩达 大模型”有汉化搬运。</li>
+</ul>
+<hr>
+<h3 id="总结：你的行动清单"><a href="#总结：你的行动清单" class="headerlink" title="总结：你的行动清单"></a>总结：你的行动清单</h3><ol>
+<li><strong>第一天</strong>：注册一个 DeepSeek 或 OpenAI 账号，用 Python 写几行代码调用 API，让它给你讲个笑话。（感受 Input&#x2F;Output）。</li>
+<li><strong>第二天</strong>：安装 <strong>Ollama</strong>，在本地跑一个 <code>qwen2:7b</code>，体验离线对话。</li>
+<li><strong>第三天</strong>：看吴恩达的《Prompt Engineering》课程。</li>
+<li><strong>第四天</strong>：学习 <strong>LangChain</strong>，尝试写一个脚本，让 AI 读取你的一个 <code>.txt</code> 笔记并总结内容。</li>
+</ol>
+<p><strong>避坑指南</strong>：</p>
+<ul>
+<li><strong>别去学怎么训练模型（Pre-training）</strong>，那需要几百万的显卡。</li>
+<li><strong>别去死磕数学原理</strong>，Transformer 的架构图看懂个大概就行，把它当成一个“黑盒函数”去调用。</li>
+<li><strong>文档优先看英文</strong>，AI 技术迭代太快，中文文档通常是滞后的。</li>
+</ul>
+<p>需要具体的 Python 代码示例（比如怎么调用 API）吗？我可以写给你。</p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 UNCEIR的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;David Huang
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

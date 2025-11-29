@@ -181,6 +181,212 @@
         
 
 <div class="post">
+    <a href="/2025/11/29/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E5%A6%82%E4%BD%95%E8%87%AA%E5%AD%A6/">
+        <h2 class="post-title">大模型开发如何自学</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/11/29
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <p>入门大模型（LLM）开发，<strong>不要一上来就去啃算法数学公式</strong>（那是科学家做的事），作为开发者，你应该从<strong>应用工程（AI Engineering）</strong> 角度切入。</p>
+<p>现在的 LLM 开发主要分为三个阶段：<strong>Prompt 工程</strong> -&gt; <strong>RAG（外挂知识库）</strong> -&gt; <strong>微调（Fine-tuning）</strong>。</p>
+<p>以下是保姆级的快速入门路径和文档推荐：</p>
+<hr>
+<h3 id="第一阶段：API-调用与-Prompt-工程（先跑通）"><a href="#第一阶段：API-调用与-Prompt-工程（先跑通）" class="headerlink" title="第一阶段：API 调用与 Prompt 工程（先跑通）"></a>第一阶段：API 调用与 Prompt 工程（先跑通）</h3><p>这是最简单的入门方式。你不需要显卡，只需要会写 Python（或者 Java，但 Python 生态最强）。</p>
+<ul>
+<li><p><strong>核心任务</strong>：学会申请 Key，调用 API，理解 <code>System Prompt</code>（系统提示词）、<code>Temperature</code>（随机性）等参数。</p>
+</li>
+<li><p><strong>推荐路线</strong>：</p>
+<ol>
+<li><strong>选一个模型</strong>：<ul>
+<li><strong>国际标准</strong>：<a target="_blank" rel="noopener" href="https://platform.openai.com/docs/introduction">OpenAI</a> (ChatGPT)。文档是行业标杆，必读。</li>
+<li><strong>国内首选</strong>：<a target="_blank" rel="noopener" href="https://platform.deepseek.com/">DeepSeek (深度求索)</a> 或 <a target="_blank" rel="noopener" href="https://open.bigmodel.cn/dev/howuse/introduction">智谱 AI (ChatGLM)</a>。国内访问快，送免费额度，API 兼容 OpenAI 格式。</li>
+</ul>
+</li>
+<li><strong>看文档</strong>：<ul>
+<li><strong>OpenAI Cookbook</strong>（必看）：官方出的“食谱”，里面有大量代码示例（怎么写摘要、怎么做翻译）。</li>
+<li><em>Github地址</em>：<a target="_blank" rel="noopener" href="https://github.com/openai/openai-cookbook">openai-cookbook</a></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>你需要掌握的概念</strong>：</p>
+<ul>
+<li><strong>Prompt</strong>：你对 AI 说的话。</li>
+<li><strong>Token</strong>：计费单位（约等于字数）。</li>
+<li><strong>Context Window</strong>：上下文窗口（AI 能记住多少之前的对话）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="第二阶段：应用框架开发（LangChain-LlamaIndex）"><a href="#第二阶段：应用框架开发（LangChain-LlamaIndex）" class="headerlink" title="第二阶段：应用框架开发（LangChain&#x2F;LlamaIndex）"></a>第二阶段：应用框架开发（LangChain&#x2F;LlamaIndex）</h3><p>当你觉得直接调 API 处理复杂逻辑很麻烦（比如要处理长文本、要联网搜索），你就需要框架了。</p>
+<ul>
+<li><p><strong>核心工具</strong>：</p>
+<ol>
+<li><strong>LangChain</strong>：目前最火的 LLM 开发框架。它把“读文件”、“切分文本”、“存数据库”、“调大模型”串成了一条链。<ul>
+<li><em>缺点</em>：文档有点乱，概念多。</li>
+<li><em>文档</em>：<a target="_blank" rel="noopener" href="https://python.langchain.com/docs/get_started/introduction">LangChain Python Docs</a></li>
+</ul>
+</li>
+<li><strong>LlamaIndex</strong>：如果你主要想做“<strong>把我的私有数据喂给 AI</strong>”这件事，用它更简单高效。<ul>
+<li><em>文档</em>：<a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/">LlamaIndex Docs</a></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>必做 Demo</strong>：写一个“<strong>基于本地 PDF 文档的问答机器人</strong>”。这能让你学会目前最主流的 <strong>RAG (检索增强生成)</strong> 技术。</p>
+</li>
+</ul>
+<p>你看得很准！你列出的这套技术栈（<strong>LangGraph + DeepSeek&#x2F;GPT + Chroma&#x2F;Milvus + BGE-M3</strong>）是目前构建<strong>生产级、复杂 Agent 应用</strong>的**“黄金标准”**。</p>
+<p>这套组合已经脱离了简单的“玩具 Demo”阶段，能够真正解决工业界遇到的痛点（如：逻辑死循环、上下文丢失、只会单向执行不懂反思）。</p>
+<p>以下是对你这套技术栈的<strong>深度解析</strong>和<strong>落地建议</strong>，帮助你把它们串起来：</p>
+<hr>
+<h3 id="1-核心编排：LangGraph-Agent-的大脑"><a href="#1-核心编排：LangGraph-Agent-的大脑" class="headerlink" title="1. 核心编排：LangGraph (Agent 的大脑)"></a>1. 核心编排：LangGraph (Agent 的大脑)</h3><blockquote>
+<p><strong>你的评价非常到位：</strong> 相比 LangChain 传统的 Chain（单向链表），LangGraph 是图（Graph）。</p>
+</blockquote>
+<ul>
+<li><strong>为什么要换 LangGraph？</strong><ul>
+<li><strong>有状态（Stateful）</strong>：传统的 Chain 跑完就忘。LangGraph 有一个全局的 <code>State</code>（状态对象），所有节点都能读写这个状态。这就像给了 AI 一个“短期记忆本”，它知道自己刚才查了什么，现在缺什么。</li>
+<li><strong>循环与反思（Cyclic &amp; Reflection）</strong>：这是最强的点。<ul>
+<li><em>Chain</em>：输入 -&gt; 步骤A -&gt; 步骤B -&gt; 结束。（一条路走到黑）</li>
+<li><em>Graph</em>：输入 -&gt; 步骤A -&gt; 检查结果 -&gt; <strong>觉得不行</strong> -&gt; <strong>回到步骤A重做</strong> -&gt; 结束。</li>
+</ul>
+</li>
+<li><strong>应用场景</strong>：比如写代码助手。写代码 -&gt; 运行报错 -&gt; 读取错误 -&gt; <strong>跳回写代码步骤修正</strong> -&gt; 再运行 -&gt; 成功。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-模型层：LLM-接口-动力源"><a href="#2-模型层：LLM-接口-动力源" class="headerlink" title="2. 模型层：LLM 接口 (动力源)"></a>2. 模型层：LLM 接口 (动力源)</h3><blockquote>
+<p><strong>推荐</strong>：DeepSeek (性价比之王) &#x2F; GPT-4o (逻辑天花板)</p>
+</blockquote>
+<ul>
+<li><strong>对接建议</strong>：<ul>
+<li>虽然 LangChain 有封装好的 ChatOpenAI 类，但在 LangGraph 中，通常直接调用这些模型来做<strong>决策（Router）</strong>。</li>
+<li><strong>工具调用（Function Calling）</strong>：这是 Agent 的核心。DeepSeek V3&#x2F;R1 和 GPT-4 的 Function Calling 能力最强，能精准地输出 JSON 格式来告诉程序该去查数据库还是该去搜索。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-RAG-核心：Embedding-与-向量库-海马体"><a href="#3-RAG-核心：Embedding-与-向量库-海马体" class="headerlink" title="3. RAG 核心：Embedding 与 向量库 (海马体)"></a>3. RAG 核心：Embedding 与 向量库 (海马体)</h3><h4 id="Embedding-模型：BGE-M3-vs-M3E"><a href="#Embedding-模型：BGE-M3-vs-M3E" class="headerlink" title="Embedding 模型：BGE-M3 vs M3E"></a>Embedding 模型：BGE-M3 vs M3E</h4><p>你提到的 <code>bge-m3</code> 是目前的<strong>中文最强开源 Embedding</strong>（智源出品）。</p>
+<ul>
+<li><strong>BGE-M3 的优势</strong>：它支持 <strong>混合检索</strong>（Dense + Sparse）。<ul>
+<li><em>Dense (稠密)</em>：懂语义（比如搜“苹果”，它知道你想找“水果”或“手机”）。</li>
+<li><em>Sparse (稀疏)</em>：懂关键词匹配（类似倒排索引，精准匹配专有名词）。</li>
+<li><strong>落地建议</strong>：如果你的机器跑得动，<strong>无脑上 BGE-M3</strong>。如果资源受限（比如只有 CPU），用 <code>m3e-base</code> 或 <code>bge-small-zh</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="向量数据库：Chroma-vs-Milvus"><a href="#向量数据库：Chroma-vs-Milvus" class="headerlink" title="向量数据库：Chroma vs Milvus"></a>向量数据库：Chroma vs Milvus</h4><ul>
+<li><strong>ChromaDB</strong>：<ul>
+<li><em>优点</em>：<code>pip install chromadb</code> 就能用，无需 Docker，数据存在本地文件，极其适合开发测试和单机应用。</li>
+<li><em>缺点</em>：不支持分布式，数据量百万级以上性能下降。</li>
+</ul>
+</li>
+<li><strong>Milvus</strong>：<ul>
+<li><em>优点</em>：云原生，Kubernetes 友好，亿级数据毫秒响应，大厂标配。</li>
+<li><em>缺点</em>：部署重（依赖 MinIO, Etcd 等组件）。</li>
+</ul>
+</li>
+<li><strong>选型建议</strong>：<strong>开发阶段用 Chroma，上线前看数据量，超过 500万条再迁移到 Milvus。</strong></li>
+</ul>
+<hr>
+<h3 id="4-实战架构：如何把它们串起来？"><a href="#4-实战架构：如何把它们串起来？" class="headerlink" title="4. 实战架构：如何把它们串起来？"></a>4. 实战架构：如何把它们串起来？</h3><p>假设你要做一个**“智能课程推荐助手”**，流程如下：</p>
+<h4 id="第一步：定义状态-State"><a href="#第一步：定义状态-State" class="headerlink" title="第一步：定义状态 (State)"></a>第一步：定义状态 (State)</h4><p>在 LangGraph 中，先定义一个 Python 类（TypedDict）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> TypedDict, <span class="type">List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AgentState</span>(<span class="title class_ inherited__">TypedDict</span>):</span><br><span class="line">    query: <span class="built_in">str</span>          <span class="comment"># 用户原始问题</span></span><br><span class="line">    user_profile: <span class="built_in">dict</span>  <span class="comment"># 用户画像</span></span><br><span class="line">    documents: <span class="type">List</span>[<span class="built_in">str</span>]<span class="comment"># 查到的课程资料</span></span><br><span class="line">    answer: <span class="built_in">str</span>         <span class="comment"># 最终回复</span></span><br><span class="line">    retry_count: <span class="built_in">int</span>    <span class="comment"># 重试次数（防止死循环）</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="第二步：定义节点-Nodes"><a href="#第二步：定义节点-Nodes" class="headerlink" title="第二步：定义节点 (Nodes)"></a>第二步：定义节点 (Nodes)</h4><p>每个节点是一个函数，接收 State，修改 State，返回 State。</p>
+<ol>
+<li><strong>Node_Retrieve_User</strong>：去数据库查这个用户是谁（初学者还是专家？）。</li>
+<li><strong>Node_Search_Course</strong>：拿着用户画像 + 问题，去 <strong>ChromaDB</strong> (用 BGE-M3 向量化) 检索相关课程。</li>
+<li><strong>Node_Generate</strong>：调用 <strong>DeepSeek</strong>，根据资料生成回答。</li>
+<li><strong>Node_Reflect (反思)</strong>：让 LLM 自己检查回答是否解决了用户问题。如果没解决，修改搜索关键词。</li>
+</ol>
+<h4 id="第三步：构建图-Graph-边缘-Edges"><a href="#第三步：构建图-Graph-边缘-Edges" class="headerlink" title="第三步：构建图 (Graph) &amp; 边缘 (Edges)"></a>第三步：构建图 (Graph) &amp; 边缘 (Edges)</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> langgraph.graph <span class="keyword">import</span> StateGraph, END</span><br><span class="line"></span><br><span class="line">workflow = StateGraph(AgentState)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加节点</span></span><br><span class="line">workflow.add_node(<span class="string">&quot;查用户&quot;</span>, retrieve_user_node)</span><br><span class="line">workflow.add_node(<span class="string">&quot;查课程&quot;</span>, search_course_node)</span><br><span class="line">workflow.add_node(<span class="string">&quot;生成&quot;</span>, generate_node)</span><br><span class="line">workflow.add_node(<span class="string">&quot;反思&quot;</span>, reflect_node)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义流程（边缘）</span></span><br><span class="line">workflow.set_entry_point(<span class="string">&quot;查用户&quot;</span>)</span><br><span class="line">workflow.add_edge(<span class="string">&quot;查用户&quot;</span>, <span class="string">&quot;查课程&quot;</span>)</span><br><span class="line">workflow.add_edge(<span class="string">&quot;查课程&quot;</span>, <span class="string">&quot;生成&quot;</span>)</span><br><span class="line">workflow.add_edge(<span class="string">&quot;生成&quot;</span>, <span class="string">&quot;反思&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重点：条件边（Conditional Edge）</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_quality</span>(<span class="params">state</span>):</span><br><span class="line">    <span class="keyword">if</span> state[<span class="string">&#x27;answer&#x27;</span>] == <span class="string">&quot;不知道&quot;</span> <span class="keyword">and</span> state[<span class="string">&#x27;retry_count&#x27;</span>] &lt; <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;查课程&quot;</span> <span class="comment"># 没查到，换个词跳回去重查</span></span><br><span class="line">    <span class="keyword">return</span> END <span class="comment"># 查到了，或者重试次数用完了，结束</span></span><br><span class="line"></span><br><span class="line">workflow.add_conditional_edges(</span><br><span class="line">    <span class="string">&quot;反思&quot;</span>,</span><br><span class="line">    check_quality,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;查课程&quot;</span>: <span class="string">&quot;查课程&quot;</span>,</span><br><span class="line">        END: END</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">app = workflow.<span class="built_in">compile</span>()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5-总结你的学习路径"><a href="#5-总结你的学习路径" class="headerlink" title="5. 总结你的学习路径"></a>5. 总结你的学习路径</h3><p>既然你已经到了这个阶段，接下来的重点不再是 API 怎么调，而是<strong>图的设计</strong>：</p>
+<ol>
+<li><strong>文档</strong>：<ul>
+<li>去啃 <strong>LangGraph 官方文档</strong>（非常新，更新很快）。</li>
+<li>去 HuggingFace 搜 <strong>BAAI&#x2F;bge-m3</strong> 查看它的用法。</li>
+</ul>
+</li>
+<li><strong>实操</strong>：<ul>
+<li>用 Docker 部署一个 Milvus（虽然重，但你需要熟悉一下 docker-compose）。</li>
+<li>写一个简单的 <code>CRAG</code> (Corrective RAG) 架构：检索 -&gt; 评分 -&gt; (如果分低) -&gt; 联网搜索 -&gt; 生成。</li>
+</ul>
+</li>
+</ol>
+<p>这套架构学会了，你就是市面上稀缺的<strong>高级 AI 应用工程师</strong>。加油！</p>
+<hr>
+<h3 id="第三阶段：本地部署开源模型（Ollama）"><a href="#第三阶段：本地部署开源模型（Ollama）" class="headerlink" title="第三阶段：本地部署开源模型（Ollama）"></a>第三阶段：本地部署开源模型（Ollama）</h3><p>如果你不想花钱调 API，或者数据由于隐私不能上网，你需要在自己电脑上跑模型。</p>
+<ul>
+<li><p><strong>神器推荐：Ollama</strong></p>
+<ul>
+<li>这是目前最无脑、最简单的本地大模型运行工具。</li>
+<li><em>操作</em>：下载安装 -&gt; 终端输入 <code>ollama run llama3</code> -&gt; 完事。</li>
+<li><em>文档</em>：<a target="_blank" rel="noopener" href="https://github.com/ollama/ollama">Ollama Github</a></li>
+</ul>
+</li>
+<li><p><strong>模型推荐</strong>：</p>
+<ul>
+<li><code>Llama 3</code> (Meta出品，开源最强)</li>
+<li><code>Qwen</code> (通义千问，中文能力极强)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="第四阶段：系统学习资源（最好的教程）"><a href="#第四阶段：系统学习资源（最好的教程）" class="headerlink" title="第四阶段：系统学习资源（最好的教程）"></a>第四阶段：系统学习资源（最好的教程）</h3><p>不要去B站乱翻视频，直接看吴恩达（Andrew Ng）的 DeepLearning.AI 出的短课程，<strong>免费、权威、极简</strong>（每门课只有 1-2 小时）。</p>
+<ol>
+<li><strong>入门必看</strong>：<ul>
+<li><strong>ChatGPT Prompt Engineering for Developers</strong> (面向开发者的提示工程) —— 教你怎么写好 Prompt。</li>
+</ul>
+</li>
+<li><strong>进阶必看</strong>：<ul>
+<li><strong>LangChain for LLM Application Development</strong> —— LangChain 作者亲自教你怎么用。</li>
+<li><strong>Building Systems with the ChatGPT API</strong> —— 教怎么构建系统。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><em>观看地址</em>：DeepLearning.AI 官网（英文），或者 B站搜索“吴恩达 大模型”有汉化搬运。</li>
+</ul>
+<hr>
+<h3 id="总结：你的行动清单"><a href="#总结：你的行动清单" class="headerlink" title="总结：你的行动清单"></a>总结：你的行动清单</h3><ol>
+<li><strong>第一天</strong>：注册一个 DeepSeek 或 OpenAI 账号，用 Python 写几行代码调用 API，让它给你讲个笑话。（感受 Input&#x2F;Output）。</li>
+<li><strong>第二天</strong>：安装 <strong>Ollama</strong>，在本地跑一个 <code>qwen2:7b</code>，体验离线对话。</li>
+<li><strong>第三天</strong>：看吴恩达的《Prompt Engineering》课程。</li>
+<li><strong>第四天</strong>：学习 <strong>LangChain</strong>，尝试写一个脚本，让 AI 读取你的一个 <code>.txt</code> 笔记并总结内容。</li>
+</ol>
+<p><strong>避坑指南</strong>：</p>
+<ul>
+<li><strong>别去学怎么训练模型（Pre-training）</strong>，那需要几百万的显卡。</li>
+<li><strong>别去死磕数学原理</strong>，Transformer 的架构图看懂个大概就行，把它当成一个“黑盒函数”去调用。</li>
+<li><strong>文档优先看英文</strong>，AI 技术迭代太快，中文文档通常是滞后的。</li>
+</ul>
+<p>需要具体的 Python 代码示例（比如怎么调用 API）吗？我可以写给你。</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/11/29/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E5%8F%91%E5%A6%82%E4%BD%95%E8%87%AA%E5%AD%A6/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/11/29/%E5%85%AB%E8%82%A1%E6%96%B9%E5%90%9102/">
         <h2 class="post-title">八股方向02</h2>
     </a>
@@ -1449,160 +1655,6 @@
     <a href="/2025/09/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B05%EF%BC%9Ajava%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A802/" class="go-post">阅读全文</a>
 </div>
 
-<div class="post">
-    <a href="/2025/09/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B04%EF%BC%9Ajava%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8/">
-        <h2 class="post-title">JUC并发编程04：java并发安全01</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/9/23
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h4 id="JUC包下常用的类"><a href="#JUC包下常用的类" class="headerlink" title="JUC包下常用的类"></a>JUC包下常用的类</h4><ul>
-<li><p>线程池相关：</p>
-<ul>
-<li>ThreadPoolExecutor：最核心的线程池类，用于创建和管理线程池。通过它可以灵活地配置线程池的参数，如核心线程数、最大线程数、任务队列等，以满足不同的并发处理需求。</li>
-<li>Executors：线程池工厂类，提供了一系列静态方法来创建不同类型的线程池，如newFixedThreadPool（创建固定线程数的线程池）、newCachedThreadPool（创建可缓存线程池），newSingleThreadExecutor（创建单线程线程池）等，方便开发者快速创建线程池。</li>
-</ul>
-</li>
-<li><p>并发集合类：</p>
-<ul>
-<li><p>ConcurrentHashMap：线程安全的哈希映射表，用于在多线程环境下高效地存储和访问键值对。它采用了分段锁等技术，允许多个线程同时访问不同的段，提高了并发性能，在高并发场景下比传统的Hashtable性能更好。</p>
-</li>
-<li><p>CopyOnWriteArrayList：线程安全的列表，在对列表进行修改操作时，会创建一个新的底层数组，将修改操作应用到新数组上，而读操作仍然可以在旧数组上进行，从而实现了读写分离，提高了并发读的性能，适用于读多写少的场景。</p>
-</li>
-</ul>
-</li>
-<li><p>同步工具类：</p>
-<ul>
-<li>CountDownLatch：允许一个或多个线程等待其他一组线程完成操作后再继续执行。它通过一个计数器来实现，计数器初始化为线程的数量，每个线程完成任务后调用countDown方法将计数器减一，当计数器为零时，等待的线程可以继续执行。常用于多个线程完成各自任务后，再进行汇总或下一步操作的场景。</li>
-<li>CyclicBarrier：让一组线程互相等待，直到所有线程都到达某个屏障点后，再一起继续执行。与CountDownLatch不同的是，CyclicBarrier可以重复使用，当所有线程都通过屏障后，计数器会重置，可以再次用于下一轮的等待。适用于多个线程需要协同工作，在某个阶段完成后再一起进入下一个阶段的场景。</li>
-<li>Semaphore：信号量，用于控制同时访问某个资源的线程数量。它维护了一个许可计数器，线程在访问资源前需要获取许可，如果有可用许可，则获取成功并将许可计数器减一，否则线程需要等待，直到有其他线程释放许可。常用于控制对有限资源的访问，如数据库连接池、线程池中的线程数量等。</li>
-</ul>
-</li>
-<li><p>原子类：</p>
-<ul>
-<li>AtomicInteger：原子整数类，提供了对整数类型的原子操作，如自增、自减、比较并交换等。通过硬件级别的原子指令来保证操作的原子性和线程安全性，避免了使用锁带来的性能开销，在多线程环境下对整数进行计数、状态标记等操作非常方便。</li>
-<li>AtomicReference：原子引用类，用于对对象引用进行原子操作。可以保证在多线程环境下，对对象的更新操作是原子性的，即要么全部成功，要么全部失败，不会出现数据不一致的情况。常用于实现无锁数据结构或需要对对象进行原子更新的场景。</li>
-</ul>
-</li>
-</ul>
-<h4 id="线程死锁"><a href="#线程死锁" class="headerlink" title="线程死锁"></a>线程死锁</h4><ul>
-<li><p>死锁只有<strong>同时满足</strong>以下四个条件才会发生：</p>
-<ul>
-<li><p>互斥条件：互斥条件是指<strong>多个线程不能同时使用同一个资源</strong>。</p>
-</li>
-<li><p>持有并等待条件：持有并等待条件是指，当线程 A 已经持有了资源 1，又想申请资源 2，而资源 2 已经被线程 C 持有了，所以线程 A 就会处于等待状态，但是线程 A 在等待资源 2 的同时并不会释放自己已经持有的资源 1。</p>
-</li>
-<li><p>不可剥夺条件：不可剥夺条件是指，当线程已经持有了资源 ，在自己使用完之前不能被其他线程获取，线程 B 如果也想使用此资源，则只能在线程 A 使用完并释放后才能获取。</p>
-</li>
-<li><p>环路等待条件：环路等待条件指的是，在死锁发生的时候，<strong>两个线程获取资源的顺序构成了环形链</strong>。</p>
-</li>
-</ul>
-</li>
-<li><p>例如，线程 A 持有资源 R1 并试图获取资源 R2，而线程 B 持有资源 R2 并试图获取资源 R1，此时两个线程相互等待对方释放资源，从而导致死锁。</p>
-</li>
-</ul>
-<h5 id="如何预防和避免死锁？"><a href="#如何预防和避免死锁？" class="headerlink" title="如何预防和避免死锁？"></a>如何预防和避免死锁？</h5><ul>
-<li><p>破坏死锁的产生的必要条件即可：</p>
-<ul>
-<li><p>1.破坏请求与保持条件：一次性申请所有的资源。</p>
-</li>
-<li><p>2.破坏不剥削条件：占用部分资源的线程进一步申请其他资源时，如果申请不到，可以主动释放它占有的资源。</p>
-</li>
-<li><p>3.破坏循环等待条件：靠按序申请资源来预防。按某一顺序申请资源，释放资源则反序释放。破坏循环等待条件。</p>
-</li>
-</ul>
-</li>
-<li><p>避免死锁就是在资源分配时，借助于算法（比如银行家算法）对资源分配进行评估，使其进入安全状态。</p>
-<ul>
-<li>安全状态 指的是系统能够按照某种线程推进顺序（P1、P2、P3……Pn）来为每个线程分配所需资源，直到满足每个线程对资源的最大需求，使每个线程都可顺利完成。称 &lt;P1、P2、P3…..Pn&gt; 序列为安全序列。</li>
-</ul>
-</li>
-</ul>
-<h4 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h4><h5 id="volatile关键字的作用"><a href="#volatile关键字的作用" class="headerlink" title="volatile关键字的作用"></a>volatile关键字的作用</h5><ul>
-<li><p><strong>保证变量对所有线程的可见性</strong>。当一个变量被声明为volatile时，它会保证对这个变量的写操作会立即刷新到主存中，而对这个变量的读操作会直接从主存中读取，确保了多线程环境下对该变量访问的可见性。这意味着一个线程修改了volatile变量的值，其他线程能够立刻看到这个修改，不会受到各自线程工作内存的影响。</p>
-</li>
-<li><p><strong>禁止指令重排序优化</strong>。volatile关键字在Java中主要通过内存屏障来禁止特定类型的指令重排序。</p>
-<ul>
-<li><p><strong>写-写（Write-Write）屏障</strong>：在对volatile变量执行写操作之前，会插入一个写屏障。这确保了在该变量写操作之前的所有普通写操作都已完成，防止了这些写操作被移到volatile写操作之后。</p>
-</li>
-<li><p><strong>读-写（Read-Write）屏障</strong>：在对volatile变量执行读操作之后，会插入一个读屏障。它确保了对volatile变量的读操作之后的所有普通读操作都不会被提前到volatile读之前执行，保证读取到的数据是最新的。</p>
-</li>
-<li><p><strong>写-读（Write-Read）屏障</strong>：这是最重要的一个屏障，它发生在volatile写之后和volatile读之前。这个屏障确保了volatile写操作之前的所有内存操作（包括写操作)都不会被重排序到volatile读之后，同时也确保了volatile读操作之后的所有内存操作（包括读操作）都不会被重排序到volatile写之前。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h5 id="什么是悲观锁"><a href="#什么是悲观锁" class="headerlink" title="什么是悲观锁"></a>什么是悲观锁</h5><ul>
-<li><p>悲观锁总是假设最坏的情况，认为共享资源每次被访问的时候就会出现问题(比如共享数据被修改)，所以每次在获取资源操作的时候都会上锁，这样其他线程想拿到这个资源就会阻塞直到锁被上一个持有者释放。也就是说，共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程。</p>
-</li>
-<li><p>像 Java 中synchronized和ReentrantLock等独占锁就是悲观锁思想的实现。</p>
-</li>
-<li><p>高并发的场景下，激烈的锁竞争会造成线程阻塞，大量阻塞线程会导致系统的上下文切换，增加系统的性能开销。并且，悲观锁还可能会存在死锁问题，影响代码的正常运行。</p>
-</li>
-</ul>
-<h5 id="什么是乐观锁"><a href="#什么是乐观锁" class="headerlink" title="什么是乐观锁"></a>什么是乐观锁</h5><ul>
-<li><p>乐观锁总是假设最好的情况，认为共享资源每次被访问的时候不会出现问题，线程可以不停地执行，无需加锁也无需等待，只是在提交修改的时候去验证对应的资源（也就是数据）是否被其它线程修改了（具体方法可以使用版本号机制或 CAS 算法）。</p>
-</li>
-<li><p>在 Java 中java.util.concurrent.atomic包下面的原子变量类（比如AtomicInteger、LongAdder）就是使用了乐观锁的一种实现方式 CAS 实现的。</p>
-</li>
-<li><p>高并发的场景下，乐观锁相比悲观锁来说，不存在锁竞争造成线程阻塞，也不会有死锁的问题，在性能上往往会更胜一筹。但是，如果冲突频繁发生（写占比非常多的情况），会频繁失败和重试，这样同样会非常影响性能，导致 CPU 飙升。</p>
-</li>
-</ul>
-<h5 id="CAS算法介绍"><a href="#CAS算法介绍" class="headerlink" title="CAS算法介绍"></a>CAS算法介绍</h5><ul>
-<li><p>CAS 的全称是 Compare And Swap（比较与交换），用于实现乐观锁，被广泛应用于各大框架中。CAS 的思想很简单，就是用一个预期值和要更新的变量值进行比较，两值相等才会进行更新。</p>
-</li>
-<li><p>CAS 是一个原子操作，底层依赖于一条 CPU 的原子指令。</p>
-<ul>
-<li>原子操作 即最小不可拆分的操作，也就是说操作一旦开始，就不能被打断，直到操作完成。</li>
-</ul>
-</li>
-<li><p>CAS 涉及到三个操作数：</p>
-<ul>
-<li>V：要更新的变量值(Var)</li>
-<li>E：预期值(Expected)</li>
-<li>N：拟写入的新值(New)</li>
-</ul>
-</li>
-<li><p>当且仅当 V 的值等于 E 时，CAS 通过原子方式用新值 N 来更新 V 的值。如果不等，说明已经有其它线程更新了 V，则当前线程放弃更新。</p>
-</li>
-</ul>
-<h5 id="CAS有什么缺点"><a href="#CAS有什么缺点" class="headerlink" title="CAS有什么缺点"></a>CAS有什么缺点</h5><ul>
-<li><p><strong>ABA问题</strong>：ABA的问题指的是在CAS更新的过程中，当读取到的值是A，然后准备赋值的时候仍是A，但实际上有可能A的值被改成了B，然后又被改回了A，这个CAS更新的漏洞就叫做ABA。只是ABA的问题大部分场景下都不影响并发的最终效果。Java中有AtomicStampedReference来解决这个问题，他加入了预期标志和更新后标志两个字段，更新时不光检查值，还要检查当前的标志是否等于预期标志，全部相等的话才会更新。</p>
-<ul>
-<li>Java如何解决ABA问题：Java 提供的工具类会在 CAS 操作中增加<strong>版本号（Stamp）或标记</strong>，每次修改都更新版本号，使得即使值相同也能识别变更历史。比如，可以用 AtomicStampedReference 来解决 ABA 问题，通过比对值和版本号识别ABA问题。</li>
-</ul>
-</li>
-<li><p><strong>循环时间长开销大</strong>：自旋CAS的方式如果长时间不成功，会给CPU带来很大的开销。</p>
-</li>
-<li><p><strong>只能保证一个共享变量的原子操作</strong>：只对一个共享变量操作可以保证原子性，但是多个则不行，多个可以通过AtomicReference来处理或者使用锁synchronized实现。</p>
-</li>
-</ul>
-<h5 id="为什么不能所有的锁都用CAS？"><a href="#为什么不能所有的锁都用CAS？" class="headerlink" title="为什么不能所有的锁都用CAS？"></a>为什么不能所有的锁都用CAS？</h5><ul>
-<li>CAS操作是基于循环重试的机制，如果CAS操作一直未能成功，线程会一直自旋重试，占用CPU资源。在高并发情况下，大量线程自旋会导致CPU资源浪费。</li>
-</ul>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B04%EF%BC%9Ajava%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8/" class="go-post">阅读全文</a>
-</div>
-
 
         <div class="page-current">
     
@@ -1612,6 +1664,10 @@
         2
     </a>
     
+    
+    <a class="page-num" href="/page/3">
+        3
+    </a>
     
     
     
