@@ -181,6 +181,234 @@
         
 
 <div class="post">
+    <a href="/2025/09/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B03%EF%BC%9A%E6%B7%B1%E5%85%A5Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+        <h2 class="post-title">JUC并发编程03：深入Java多线程</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/9/23
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h5 id="sleep和wait方法区别的详解"><a href="#sleep和wait方法区别的详解" class="headerlink" title="sleep和wait方法区别的详解"></a>sleep和wait方法区别的详解</h5><ul>
+<li><p><strong>所属分类的不同</strong>：sleep 是 Thread 类的静态方法，以在任何地方直接通过 Thread.sleep() 调用，无需依赖对象实例。wait 是 Object 类的实例方法，这意味着必须通过对象实例来调用。</p>
+</li>
+<li><p><strong>锁释放的情况</strong>：Thread.sleep() 在调用时，线程会暂停执行指定的时间，但不会释放持有的对象锁。也就是说，在 sleep 期间，其他线程无法获得该线程持有的锁。Object.wait()：调用该方法时，线程会释放持有的对象锁，进入等待状态，直到其他线程调用相同对象的 notify() 或 notifyAll() 方法唤醒它。</p>
+</li>
+<li><p><strong>使用条件</strong>：sleep 可在任意位置调用，无需事先获取锁。 wait 必须在同步块或同步方法内调用（即线程需持有该对象的锁），否则抛出 IllegalMonitorStateException。</p>
+</li>
+<li><p><strong>唤醒机制</strong>：sleep 休眠时间结束后，线程 自动恢复 到就绪状态，等待CPU调度。wait 需要其他线程调用相同对象的 notify() 或 notifyAll() 方法才能被唤醒。notify() 会随机唤醒一个在该对象上等待的线程，而 notifyAll() 会唤醒所有在该对象上等待的线程。</p>
+</li>
+</ul>
+<h5 id="sleep会释放cpu吗？"><a href="#sleep会释放cpu吗？" class="headerlink" title="sleep会释放cpu吗？"></a>sleep会释放cpu吗？</h5><ul>
+<li><p>是的，调用 Thread.sleep() 时，线程会释放 CPU，但不会释放持有的锁。</p>
+<ul>
+<li><strong>当线程调用 sleep() 后，会主动让出 CPU 时间片</strong>，进入 TIMED_WAITING 状态。此时操作系统会触发调度，将 CPU 分配给其他处于就绪状态的线程。这样其他线程（无论是需要同一锁的线程还是不相关线程）便有机会执行。</li>
+<li>sleep() 不会释放线程已持有的任何锁（如 synchronized 同步代码块或方法中获取的锁）。此，如果有其他线程试图获取同一把锁，它们仍会被阻塞，直到原线程退出同步代码块。</li>
+</ul>
+</li>
+</ul>
+<h5 id="blocked和waiting有啥区别"><a href="#blocked和waiting有啥区别" class="headerlink" title="blocked和waiting有啥区别"></a>blocked和waiting有啥区别</h5><ul>
+<li><p><strong>触发条件</strong>:线程进入BLOCKED状态通常是因为试图获取一个对象的锁（monitor lock），但该锁已经被另一个线程持有。这通常发生在尝试进入synchronized块或方法时，如果锁已被占用，则线程将被阻塞直到锁可用。线程进入WAITING状态是因为它正在等待另一个线程执行某些操作，例如调用Object.wait()方法、Thread.join()方法或LockSupport.park()方法。在这种状态下，线程将不会消耗CPU资源，并且不会参与锁的竞争。</p>
+</li>
+<li><p><strong>唤醒机制</strong>:当一个线程被阻塞等待锁时，一旦锁被释放，线程将有机会重新尝试获取锁。如果锁此时未被其他线程获取，那么线程可以从BLOCKED状态变为RUNNABLE状态。线程在WAITING状态中需要被显式唤醒。例如，如果线程调用了Object.wait()，，那么它必须等待另一个线程调用同一对象上的Object.notify()或Object.notifyAll()方法才能被唤醒。</p>
+</li>
+<li><p>所以，BLOCKED和WAITING两个状态最大的区别有两个:</p>
+<ul>
+<li><p>BLOCKED是锁竞争失败后被被动触发的状态，WAITING是人为的主动触发的状态。</p>
+</li>
+<li><p>BLOCKED的唤醒时自动触发的，而WAITING状态是必须要通过特定的方法来主动唤醒</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="notify-和-notifyAll-的区别"><a href="#notify-和-notifyAll-的区别" class="headerlink" title="notify 和 notifyAll 的区别"></a>notify 和 notifyAll 的区别</h5><ul>
+<li><p>相同点：同样是唤醒等待的线程，同样最多只有一个线程能获得锁，同样不能控制哪个线程获得锁。</p>
+</li>
+<li><p>不同的：</p>
+<ul>
+<li>方法notify：唤醒一个线程，其他线程依然处于wait的等待唤醒状态，如果被唤醒的线程结束时没调用notify，其他线程就永远没人去唤醒，只能等待超时，或者被中断。</li>
+<li>方法notifyAll：所有线程退出wait的状态，开始竞争锁，但只有一个线程能抢到，这个线程执行完后，其他线程又会有一个幸运儿脱颖而出得到锁。</li>
+</ul>
+</li>
+</ul>
+<h5 id="notify-选择哪个线程"><a href="#notify-选择哪个线程" class="headerlink" title="notify 选择哪个线程"></a>notify 选择哪个线程</h5><ul>
+<li><p>notify在源码的注释中说到notify选择唤醒的线程是任意的，但是依赖于具体实现的jvm。</p>
+</li>
+<li><p>JVM有很多实现，比较流行的就是hotspot，hotspot对notofy()的实现并不是我们以为的随机唤醒,，而是“先进先出”的顺序唤醒。</p>
+</li>
+</ul>
+<h5 id="不同的线程之间如何通信"><a href="#不同的线程之间如何通信" class="headerlink" title="不同的线程之间如何通信"></a>不同的线程之间如何通信</h5><ul>
+<li><p>共享变量是最基本的线程间通信方式。多个线程可以访问和修改同一个共享变量，从而实现信息的传递。为了保证线程安全，通常需要使用 synchronized 关键字或 volatile 关键字。</p>
+</li>
+<li><p>Object 类中的 wait()、notify() 和 notifyAll() 方法可以用于线程间的协作。wait() 方法使当前线程进入等待状态，notify() 方法唤醒在此对象监视器上等待的单个线程，notifyAll() 方法唤醒在此对象监视器上等待的所有线程。</p>
+</li>
+<li><p>java.util.concurrent.locks 包中的 Lock 和 Condition接口提供了比 synchronized 更灵活的线程间通信方式。Condition 接口的 await() 方法类似于 wait() 方法，signal() 方法类似于 notify() 方法，signalAll() 方法类似于 notifyAll() 方法。</p>
+</li>
+<li><p>java.util.concurrent 包中的 BlockingQueue 接口提供了线程安全的队列操作，当队列满时，插入元素的线程会被阻塞；当队列为空时，获取元素的线程会被阻塞。</p>
+</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/09/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B03%EF%BC%9A%E6%B7%B1%E5%85%A5Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/09/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B02%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+        <h2 class="post-title">JUC并发编程02：Java多线程基础知识</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/9/22
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <h4 id="线程的创建方式"><a href="#线程的创建方式" class="headerlink" title="线程的创建方式"></a>线程的创建方式</h4><ul>
+<li><p><strong>1.继承Thread类</strong></p>
+<ul>
+<li><p>自定义的类继承Thread类，重写里面的run()方法，具体的run()方法中定义具体线程启动后要执行的任务，创建该类的实例后，调用start()方法启动线程。</p>
+</li>
+<li><p>优点：编写简单，要获取当前线程无需Thread.currentThread()来实现，直接this.即可.</p>
+</li>
+<li><p>缺点：已经继承了Thread类，无法再继承其他类了。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>2.实现runnable接口</strong></p>
+<ul>
+<li><p>优点：只是实现了runnable这个接口 ，还可以继承其他类，这样就相当于多个线程可以共享该资源，适合多个线程处理同一份资源这种情况，从而可以将CPU和代码分开，形成良好的模型，较好地体现面向对象这一编程思维。</p>
+</li>
+<li><p>缺点：编码相对复杂，必须使用Thread.currentThread()来获取当前进程。</p>
+</li>
+<li><p>也需要重写run方法，同时将创建地Runnable实例作为参数传递给Thread的构造器中。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>3.实现Callable接口与FutureTask</strong></p>
+<ul>
+<li><p>实现Callable接口与FutureTask类似于runnable接口，但Callable的call()方法可以有返回值并可以抛出异常，将它包装成一个FutureTask,因为Thread类的构造器只接受Runnable类型的参数，而FutureTask实现了Runnable接口。</p>
+</li>
+<li><p>优点: 与runnable接口优点特性一样。</p>
+</li>
+<li><p>缺点：编码相对复杂，必须使用Thread.currentThread()来获取当前进程。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>4.使用线程池</strong>（Executor框架）</p>
+<ul>
+<li>从Java 5开始引入的java.util.concurrent.ExecutorService和相关类提供了线程池的支持，这是一种更高效的线程管理方式，避免了频繁创建和销毁线程的开销。可以通过Executors类的静态方法创建不同类型的线程池。</li>
+<li>缺点：程池增加了程序的复杂度，特别是当涉及线程池参数调整和故障排查时。错误的配置可能导致死锁、资源耗尽等问题，这些问题的诊断和修复可能较为复杂。</li>
+<li>优点： 线程池可以重用预先创建的线程，避免了线程创建和销毁的开销，显著提高了程序的性能。对于需要快速响应的并发请求，线程池可以迅速提供线程来处理任务，减少等待时间。 并且，线程池能够有效控制运行的线程数量，防止因创建过多线程导致的系统资源耗尽（如内存溢出）。通过合理配置线程池大小，可以最大化CPU利用率和系统吞吐量。</li>
+</ul>
+</li>
+</ul>
+<h4 id="线程池的介绍"><a href="#线程池的介绍" class="headerlink" title="线程池的介绍"></a>线程池的介绍</h4><ul>
+<li>线程池的好处：<ul>
+<li>1.降低资源的消耗</li>
+<li>2.提高响应的速度</li>
+<li>3.方便管理</li>
+</ul>
+</li>
+<li>三大方法；<ul>
+<li><p>Executors.newSingleThreadExecutor()： 创建单线程的线程池，相当于创建一个固定的线程池</p>
+</li>
+<li><p>Executors.newFixedThreadPool(int number)： 创建固定线程数为number的线程池</p>
+</li>
+<li><p>Executors.newCachedThreadPool()：可伸缩的，遇强则强，遇弱则弱 ，可根据循环提交次数来改变</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="java里面的线程和操作系统的线程一样吗"><a href="#java里面的线程和操作系统的线程一样吗" class="headerlink" title="java里面的线程和操作系统的线程一样吗"></a>java里面的线程和操作系统的线程一样吗</h5><ul>
+<li>Java 底层会调用 pthread_create 来创建线程，所以本质上 java 程序创建的线程，就是和操作系统线程是一样的，是 1 对 1 的线程模型。</li>
+</ul>
+<h5 id="多线程安全性的体现"><a href="#多线程安全性的体现" class="headerlink" title="多线程安全性的体现"></a>多线程安全性的体现</h5><ul>
+<li><p><strong>原子性</strong>：提供互斥访问，同一时刻只能有一个线程对数据进行操作，在Java中使用了atomic包和synchronized关键字来确保原子性；</p>
+</li>
+<li><p><strong>可见性</strong>：一个线程对主内存的修改可以及时地被其他线程看到，在Java中使用了synchronized和volatile这两个关键字确保可见性；</p>
+</li>
+<li><p><strong>有序性</strong>：一个线程观察其他线程中的指令执行顺序，由于指令重排序，该观察结果一般杂乱无序，在Java中使用了happens-before原则来确保有序性。</p>
+</li>
+</ul>
+<h5 id="保证数据一致性的方案"><a href="#保证数据一致性的方案" class="headerlink" title="保证数据一致性的方案"></a>保证数据一致性的方案</h5><ul>
+<li><p><strong>事务管理</strong>：使用数据库事务来确保一组数据库操作要么全部成功提交，要么全部失败回滚。通过ACID（原子性、一致性、隔离性、持久性）属性，数据库事务可以保证数据的一致性。</p>
+</li>
+<li><p><strong>锁机制</strong>：使用锁来实现对共享资源的互斥访问。在 Java 中，可以使用 synchronized 关键字、ReentrantLock 或其他锁机制来控制并发访问，从而避免并发操作导致数据不一致。</p>
+</li>
+<li><p><strong>版本控制</strong>：通过乐观锁的方式，在更新数据时记录数据的版本信息，从而避免同时对同一数据进行修改，进而保证数据的一致性。</p>
+</li>
+</ul>
+<h5 id="停止线程的方法"><a href="#停止线程的方法" class="headerlink" title="停止线程的方法"></a>停止线程的方法</h5><ul>
+<li><p><strong>异常法</strong>停止：线程调用interrupt()方法后，在线程的run方法中判断当前对象的interrupted()状态，如果是中断状态则抛出异常，达到中断线程的效果。</p>
+</li>
+<li><p><strong>在sleep()中</strong>停止：先将线程sleep，然后调用interrupt标记中断状态，interrupt会将阻塞状态的线程中断。会抛出中断异常，达到停止线程的效果。</p>
+</li>
+<li><p><strong>stop()暴力</strong>停止：线程调用stop()方法会被暴力停止，方法已弃用，该方法会有不好的后果：强制让线程停止有可能使一些清理性的工作得不到完成。</p>
+</li>
+<li><p><strong>使用return</strong>停止线程：调用interrupt标记为中断状态后，在run方法中判断当前线程状态，如果为中断状态则return，能达到停止线程的效果。</p>
+</li>
+</ul>
+<h5 id="调用-interrupt-是如何让线程抛出异常的"><a href="#调用-interrupt-是如何让线程抛出异常的" class="headerlink" title="调用 interrupt 是如何让线程抛出异常的?"></a>调用 interrupt 是如何让线程抛出异常的?</h5><ul>
+<li>每个线程都一个与之关联的布尔属性来表示其中断状态，中断状态的初始值为false，当一个线程被其它线程调用Thread.interrupt()方法中断时，会根据实际情况做出响应。<ul>
+<li>如果该线程正在执行低级别的可中断方法（如Thread.sleep()、Thread.join()或Object.wait()），则会解除阻塞并抛出InterruptedException异常。</li>
+<li>否则Thread.interrupt()仅设置线程的中断状态，在该被中断的线程中稍后可通过轮询中断状态来决定是否要停止当前正在执行的任务。</li>
+</ul>
+</li>
+</ul>
+<h5 id="什么是线程上下文切换？"><a href="#什么是线程上下文切换？" class="headerlink" title="什么是线程上下文切换？"></a>什么是线程上下文切换？</h5><ul>
+<li><p>线程在执行过程中会有自己的运行条件和状态（也称上下文），比如上文所说到过的程序计数器，栈信息等。当出现如下情况的时候，线程会从占用 CPU 状态中退出。</p>
+<ul>
+<li><p>主动让出 CPU，比如调用了 sleep(), wait() 等。</p>
+</li>
+<li><p>时间片用完，因为操作系统要防止一个线程或者进程长时间占用 CPU 导致其他线程或者进程饿死。</p>
+</li>
+<li><p>调用了阻塞类型的系统中断，比如请求 IO，线程被阻塞。</p>
+</li>
+<li><p>被终止或结束运行</p>
+</li>
+</ul>
+</li>
+<li><p>这其中前三种都会发生线程切换，线程切换意味着需要保存当前线程的上下文，留待线程下次占用 CPU 的时候恢复现场。并加载下一个将要占用 CPU 的线程上下文。这就是所谓的 上下文切换。</p>
+</li>
+<li><p>上下文切换是现代操作系统的基本功能，因其每次需要保存信息恢复信息，这将会占用 CPU，内存等系统资源进行处理，也就意味着效率会有一定损耗，如果频繁切换就会造成整体效率低下。</p>
+</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/09/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B02%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/09/21/%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%AC%94%E8%AE%B006-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E4%BC%98%E5%8C%96%E9%9B%86%E7%BE%A4%E4%B8%8B%E7%A7%92%E6%9D%80%E4%B8%8B%E5%8D%95%E9%97%AE%E9%A2%98/">
         <h2 class="post-title">项目一笔记06：分布式锁优化集群下秒杀下单问题</h2>
     </a>

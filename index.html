@@ -181,6 +181,429 @@
         
 
 <div class="post">
+    <a href="/2025/11/29/%E5%85%AB%E8%82%A1%E6%96%B9%E5%90%9102/">
+        <h2 class="post-title">八股方向02</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/11/29
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <hr>
+<h1 id="🚀-Java-后端高级面试备战指南：从“知道”到“精通”"><a href="#🚀-Java-后端高级面试备战指南：从“知道”到“精通”" class="headerlink" title="🚀 Java 后端高级面试备战指南：从“知道”到“精通”"></a>🚀 Java 后端高级面试备战指南：从“知道”到“精通”</h1><p>这份清单针对中高级开发岗位，重点在于<strong>源码理解</strong>、<strong>底层原理</strong>以及<strong>高并发场景下的实战解决方案</strong>。请务必按照“深挖&#x2F;避坑”部分的提示进行针对性复习。</p>
+<h2 id="🏗️-一、-Java-基础：地基要稳"><a href="#🏗️-一、-Java-基础：地基要稳" class="headerlink" title="🏗️ 一、 Java 基础：地基要稳"></a>🏗️ 一、 Java 基础：地基要稳</h2><blockquote>
+<p><strong>核心重点</strong>：HashMap 源码、线程池参数与运行流程。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑"><a href="#🔍-深挖与避坑" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>HashMap</strong>：<ul>
+<li><strong>结构演变</strong>：熟背 JDK 1.7（数组+链表）与 1.8（数组+链表+红黑树）的区别。</li>
+<li><strong>扩容机制</strong>：重点理解 1.8 的优化（利用高位 0&#x2F;1 判断，无需重新计算 Hash）。</li>
+<li><strong>线程不安全</strong>：1.7 的死循环问题，1.8 的数据覆盖问题。</li>
+</ul>
+</li>
+<li><strong>线程池 (ThreadPool)</strong>：<ul>
+<li><strong>参数配置</strong>：7 大参数必背。</li>
+<li><strong>场景化设置</strong>：<ul>
+<li><strong>CPU 密集型</strong>：<code>CPU核数 + 1</code>。</li>
+<li><strong>IO 密集型</strong>：<code>CPU核数 * 2</code> 或 <code>CPU / (1 - 阻塞系数)</code>。</li>
+</ul>
+</li>
+<li><strong>拒绝策略</strong>：默认 <code>AbortPolicy</code>，生产环境如何自定义？</li>
+<li><strong>队列区别</strong>：<code>ArrayBlockingQueue</code> (有界) vs <code>LinkedBlockingQueue</code> (默认无界，易 OOM) 的区别是必考点。</li>
+</ul>
+</li>
+</ul>
+<h2 id="⚡-二、-JUC-并发编程-：高薪分水岭"><a href="#⚡-二、-JUC-并发编程-：高薪分水岭" class="headerlink" title="⚡ 二、 JUC (并发编程)：高薪分水岭"></a>⚡ 二、 JUC (并发编程)：高薪分水岭</h2><blockquote>
+<p><strong>核心重点</strong>：ReentrantLock 源码、AQS 核心原理。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-1"><a href="#🔍-深挖与避坑-1" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>AQS (AbstractQueuedSynchronizer)</strong>：<ul>
+<li>JUC 的基石。必须理解 <strong>state 变量</strong>（锁状态）和 <strong>CLH 队列</strong>（双向链表，存储等待线程）的工作流程。</li>
+</ul>
+</li>
+<li><strong>Synchronized vs Lock</strong>：<ul>
+<li>不仅是 API 区别，要懂底层：<code>synchronized</code> 基于对象头 Mark Word 和 Monitor；Lock 是 Java 层面实现。</li>
+</ul>
+</li>
+<li><strong>原子类与 CAS</strong>：<ul>
+<li><strong>ABA 问题</strong>：值变了又变回来。解决方案：<strong>版本号</strong>或<strong>时间戳</strong>（<code>AtomicStampedReference</code>）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="☕-三、-JVM：进阶必懂"><a href="#☕-三、-JVM：进阶必懂" class="headerlink" title="☕ 三、 JVM：进阶必懂"></a>☕ 三、 JVM：进阶必懂</h2><blockquote>
+<p><strong>核心重点</strong>：类加载（双亲委派）、内存模型、GC。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-2"><a href="#🔍-深挖与避坑-2" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>GC (垃圾回收)</strong>：<em>(必补项)</em><ul>
+<li><strong>算法</strong>：复制算法（新生代）、标记-整理（老年代）。</li>
+<li><strong>收集器</strong>：CMS 和 G1 的区别（重点掌握 G1 的 Region 概念）。</li>
+</ul>
+</li>
+<li><strong>OOM 排查实战</strong>：<ul>
+<li>是否使用过 <code>jstat</code>, <code>jmap</code>, <code>MAT</code> 工具？</li>
+<li>分析 Dump 文件的流程（定位大对象、泄漏点）是面试极大的加分项。</li>
+</ul>
+</li>
+</ul>
+<h2 id="🌱-四、-Spring-Boot：框架原理"><a href="#🌱-四、-Spring-Boot：框架原理" class="headerlink" title="🌱 四、 Spring Boot：框架原理"></a>🌱 四、 Spring Boot：框架原理</h2><blockquote>
+<p><strong>核心重点</strong>：AOP&#x2F;IOC 原理、三级缓存、自动配置。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-3"><a href="#🔍-深挖与避坑-3" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>三级缓存</strong>：<ul>
+<li>核心目的：解决<strong>循环依赖</strong>。</li>
+<li>难点：为什么需要第三级？（为了在对象实例化后、初始化前，提前暴露 <strong>AOP 代理对象</strong>）。</li>
+</ul>
+</li>
+<li><strong>Bean 的生命周期</strong>：<ul>
+<li>流程：<code>实例化</code> -&gt; <code>属性赋值</code> -&gt; <code>初始化</code> -&gt; <code>销毁</code>。</li>
+<li>关键点：<code>BeanPostProcessor</code> 在 AOP 中的作用。</li>
+</ul>
+</li>
+<li><strong>事务失效场景</strong>：<ul>
+<li>类内部自调用（<code>this.method()</code> 不走代理）。</li>
+<li>方法非 <code>public</code>。</li>
+<li>异常被 <code>try-catch</code> 吞掉，未抛出。</li>
+</ul>
+</li>
+</ul>
+<h2 id="💾-五、-数据库-MySQL-：重中之重"><a href="#💾-五、-数据库-MySQL-：重中之重" class="headerlink" title="💾 五、 数据库 (MySQL)：重中之重"></a>💾 五、 数据库 (MySQL)：重中之重</h2><blockquote>
+<p><strong>核心重点</strong>：索引原理、事务 (MVCC)、三大日志、SQL 调优。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-4"><a href="#🔍-深挖与避坑-4" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>索引</strong>：<ul>
+<li><strong>数据结构</strong>：为什么选 B+ 树（层高低、范围查询好）而不是 B 树？</li>
+<li><strong>回表</strong>：聚簇索引 vs 非聚簇索引的区别。</li>
+<li><strong>失效</strong>：最左前缀原则、索引列计算等场景。</li>
+</ul>
+</li>
+<li><strong>MVCC (多版本并发控制)</strong>：<ul>
+<li>不要死背定义。核心是 <strong>Read View (读视图)</strong> + <strong>Undo Log 版本链</strong> 如何配合实现“可重复读”隔离级别。</li>
+</ul>
+</li>
+<li><strong>三大日志</strong>：<ul>
+<li><strong>Binlog</strong>：主从复制，归档。</li>
+<li><strong>Redo Log</strong>：物理日志，保证持久性 (Crash-safe)。</li>
+<li><strong>Undo Log</strong>：逻辑日志，保证原子性 (回滚)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="🚀-六、-Redis：性能利器"><a href="#🚀-六、-Redis：性能利器" class="headerlink" title="🚀 六、 Redis：性能利器"></a>🚀 六、 Redis：性能利器</h2><blockquote>
+<p><strong>核心重点</strong>：数据结构、缓存异常、一致性、分布式锁。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-5"><a href="#🔍-深挖与避坑-5" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>缓存一致性</strong>：<em>(高频难点)</em><ul>
+<li>方案对比：延时双删 vs 先删缓存再更新库。</li>
+<li><strong>大厂方案</strong>：订阅 Binlog (Canal) -&gt; 消息队列 -&gt; 异步删除缓存（最终一致性）。</li>
+</ul>
+</li>
+<li><strong>分布式锁</strong>：<ul>
+<li><code>setnx</code> 缺陷：业务没跑完锁过期怎么办？</li>
+<li><strong>解决方案</strong>：Redisson 的 <strong>WatchDog (看门狗)</strong> 机制自动续期。</li>
+</ul>
+</li>
+<li><strong>底层结构</strong>：<ul>
+<li><strong>跳表 (SkipList)</strong>：ZSet 为什么用跳表不用红黑树？（实现简单、并发好、范围查询效率高）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="📨-七、-消息队列-MQ-：解耦削峰"><a href="#📨-七、-消息队列-MQ-：解耦削峰" class="headerlink" title="📨 七、 消息队列 (MQ)：解耦削峰"></a>📨 七、 消息队列 (MQ)：解耦削峰</h2><blockquote>
+<p><strong>核心重点</strong>：Kafka&#x2F;RocketMQ 选型、消息丢失&#x2F;重复&#x2F;积压。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-6"><a href="#🔍-深挖与避坑-6" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>消息不丢失</strong>：<ul>
+<li>涉及三端确认：生产者 ACK、Broker 同步刷盘&#x2F;多副本、消费者手动 ACK。</li>
+</ul>
+</li>
+<li><strong>消息积压处理</strong>：<ul>
+<li>线上事故应对：临时新建 Topic，将积压消息转发，开启多倍消费者进行消费。</li>
+</ul>
+</li>
+</ul>
+<h2 id="🛠️-八、-项目经验：面试的“胜负手”"><a href="#🛠️-八、-项目经验：面试的“胜负手”" class="headerlink" title="🛠️ 八、 项目经验：面试的“胜负手”"></a>🛠️ 八、 项目经验：面试的“胜负手”</h2><blockquote>
+<p><strong>策略</strong>：面试官不关心普通的 CRUD，关心的是<strong>难点</strong>和<strong>思考</strong>。</p>
+</blockquote>
+<h3 id="🌟-STAR-原则准备法-准备-2-个技术难点"><a href="#🌟-STAR-原则准备法-准备-2-个技术难点" class="headerlink" title="🌟 STAR 原则准备法 (准备 2 个技术难点)"></a>🌟 STAR 原则准备法 (准备 2 个技术难点)</h3><ol>
+<li><strong>S (Situation 情境)</strong>：高并发秒杀&#x2F;大流量&#x2F;复杂业务。</li>
+<li><strong>T (Task 任务)</strong>：防止超卖、保证服务稳定性。</li>
+<li><strong>A (Action 行动)</strong>：使用了 Redis 预减库存 + Lua 脚本保证原子性，配合 RabbitMQ 异步下单削峰。</li>
+<li><strong>R (Result 结果)</strong>：最终支撑了 X QPS，响应时间降低了 Y%，且数据零丢失。</li>
+</ol>
+<h2 id="🌐-九、-计算机网络：基础素养"><a href="#🌐-九、-计算机网络：基础素养" class="headerlink" title="🌐 九、 计算机网络：基础素养"></a>🌐 九、 计算机网络：基础素养</h2><blockquote>
+<p><strong>核心重点</strong>：TCP&#x2F;UDP、HTTP&#x2F;HTTPS、URL 请求流程。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-7"><a href="#🔍-深挖与避坑-7" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>HTTPS</strong>：SSL&#x2F;TLS 握手过程（公钥传输 -&gt; 协商 -&gt; 对称加密通信）。</li>
+<li><strong>TCP 粘包&#x2F;拆包</strong>：在 Netty 中如何解决？（固定长度、分隔符、长度字段字段法）。</li>
+</ul>
+<hr>
+<h2 id="🎁-补充：加分项-Bonus"><a href="#🎁-补充：加分项-Bonus" class="headerlink" title="🎁 补充：加分项 (Bonus)"></a>🎁 补充：加分项 (Bonus)</h2><h3 id="1-算法-LeetCode"><a href="#1-算法-LeetCode" class="headerlink" title="1. 算法 (LeetCode)"></a>1. 算法 (LeetCode)</h3><ul>
+<li>虽然未列入必须，但大厂必考。</li>
+<li><strong>底线</strong>：Top 100 题。重点刷：链表（反转）、二叉树（遍历&#x2F;深度）、动态规划、手写快排、二分查找。</li>
+</ul>
+<h3 id="2-Linux-Docker"><a href="#2-Linux-Docker" class="headerlink" title="2. Linux &#x2F; Docker"></a>2. Linux &#x2F; Docker</h3><ul>
+<li><strong>常用命令</strong>：<code>top</code> (看负载), <code>awk</code>&#x2F;<code>grep</code> (查日志), <code>tail -f</code>。</li>
+<li><strong>容器化</strong>：Docker 基本操作，K8s 概念了解。</li>
+</ul>
+<hr>
+<h3 id="💡-最后建议"><a href="#💡-最后建议" class="headerlink" title="💡 最后建议"></a>💡 最后建议</h3><p><strong>不要只“看”，要“讲”</strong>。<br>每一个知识点，尝试对着镜子用自己的话完整的讲一遍逻辑。只有能流利地讲清楚原理和方案，才算真正拿下了这个知识点。<strong>祝你面试顺利，Offer 拿到手软！</strong></p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/11/29/%E5%85%AB%E8%82%A1%E6%96%B9%E5%90%9102/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
+    <a href="/2025/11/29/%E5%85%AB%E8%82%A1%E6%96%B9%E5%90%9101/">
+        <h2 class="post-title">八股方向01</h2>
+    </a>
+    <div class="category-and-date">
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/11/29
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <hr>
+<h1 id="☕-Java-后端经典面试题库-32题详解"><a href="#☕-Java-后端经典面试题库-32题详解" class="headerlink" title="☕ Java 后端经典面试题库 (32题详解)"></a>☕ Java 后端经典面试题库 (32题详解)</h1><p>这份题库涵盖了 Java 基础、集合框架、并发编程、JVM、数据库、中间件、Spring 框架以及个人成长等核心领域，适合面试前的查漏补缺和系统复习。</p>
+<h2 id="📌-一、-Java-基础与面向对象"><a href="#📌-一、-Java-基础与面向对象" class="headerlink" title="📌 一、 Java 基础与面向对象"></a>📌 一、 Java 基础与面向对象</h2><h3 id="1-对-Java-面向对象怎么理解的？"><a href="#1-对-Java-面向对象怎么理解的？" class="headerlink" title="1. 对 Java 面向对象怎么理解的？"></a>1. 对 Java 面向对象怎么理解的？</h3><ul>
+<li><strong>核心思想</strong>：将现实世界的事物抽象为“对象”，重点在于通过对象之间的<strong>交互</strong>来解决问题。</li>
+<li><strong>对比面向过程</strong>：<ul>
+<li>面向过程（如 C 语言）侧重于“步骤”和函数调用。</li>
+<li>面向对象侧重于“谁来做”以及对象间的职责分配。</li>
+</ul>
+</li>
+<li><strong>优势</strong>：代码复用性高、易维护、易扩展、低耦合。</li>
+</ul>
+<h3 id="2-Java-面向对象的特性有哪些？"><a href="#2-Java-面向对象的特性有哪些？" class="headerlink" title="2. Java 面向对象的特性有哪些？"></a>2. Java 面向对象的特性有哪些？</h3><ol>
+<li><strong>封装 (Encapsulation)</strong>：隐藏对象的属性和实现细节，仅对外公开接口，提高安全性。</li>
+<li><strong>继承 (Inheritance)</strong>：子类继承父类的特征和行为，实现代码复用。</li>
+<li><strong>多态 (Polymorphism)</strong>：同一个接口，使用不同的实例而执行不同操作（实现条件：继承、重写、父类引用指向子类对象）。</li>
+<li><em>(补充)</em> <strong>抽象 (Abstraction)</strong>：提取事物的共性，忽略细节。</li>
+</ol>
+<h3 id="3-String-类可以被继承吗？"><a href="#3-String-类可以被继承吗？" class="headerlink" title="3. String 类可以被继承吗？"></a>3. String 类可以被继承吗？</h3><ul>
+<li><strong>回答</strong>：不能。</li>
+<li><strong>原因</strong>：String 类被 <code>final</code> 关键字修饰。</li>
+<li><strong>设计目的</strong>：<ol>
+<li><strong>安全</strong>：防止核心类被恶意篡改（如数据库连接串、类加载机制）。</li>
+<li><strong>效率</strong>：配合字符串常量池（String Pool），只有不可变才能实现池化。</li>
+<li><strong>线程安全</strong>：不可变对象天生是线程安全的。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="📂-二、-集合框架-Collections"><a href="#📂-二、-集合框架-Collections" class="headerlink" title="📂 二、 集合框架 (Collections)"></a>📂 二、 集合框架 (Collections)</h2><h3 id="4-ArrayList-和-LinkedList-的区别"><a href="#4-ArrayList-和-LinkedList-的区别" class="headerlink" title="4. ArrayList 和 LinkedList 的区别"></a>4. ArrayList 和 LinkedList 的区别</h3><ul>
+<li><strong>底层结构</strong>：<code>ArrayList</code> 是动态数组；<code>LinkedList</code> 是双向链表。</li>
+<li><strong>随机访问</strong>：<code>ArrayList</code> 支持 $O(1)$ 的随机访问（通过下标）；<code>LinkedList</code> 需要 $O(n)$ 遍历。</li>
+<li><strong>增删效率</strong>：<ul>
+<li><code>ArrayList</code> 尾部增删快，但在中间增删需要数组扩容和内存拷贝，较慢。</li>
+<li><code>LinkedList</code> 增删节点快（$O(1)$），但定位节点位置较慢。</li>
+</ul>
+</li>
+<li><strong>内存空间</strong>：<code>ArrayList</code> 存在扩容时的预留空间浪费；<code>LinkedList</code> 每个节点需存储前后指针，单节点开销较大。</li>
+</ul>
+<h3 id="5-HashMap-的扩容原理"><a href="#5-HashMap-的扩容原理" class="headerlink" title="5. HashMap 的扩容原理"></a>5. HashMap 的扩容原理</h3><ul>
+<li><strong>触发条件</strong>：当 <code>size &gt; capacity * loadFactor</code>（默认负载因子 0.75）时触发。</li>
+<li><strong>过程</strong>：<ol>
+<li>创建一个新的数组，容量是原来的 <strong>2倍</strong>。</li>
+<li><strong>Rehash</strong>：将旧数组中的元素重新映射到新数组中。</li>
+</ol>
+</li>
+<li><strong>JDK 1.8 优化</strong>：不需要重新计算 Hash，只需要判断原 Hash 值新增的那个 bit 是 0 还是 1，从而决定是在“原位置”还是“原位置 + 旧容量”。</li>
+</ul>
+<h3 id="6-7-HashMap-的-key-可以为空吗？若为空会怎么样？"><a href="#6-7-HashMap-的-key-可以为空吗？若为空会怎么样？" class="headerlink" title="6 &amp; 7. HashMap 的 key 可以为空吗？若为空会怎么样？"></a>6 &amp; 7. HashMap 的 key 可以为空吗？若为空会怎么样？</h3><ul>
+<li><strong>回答</strong>：可以为空。</li>
+<li><strong>处理机制</strong>：HashMap 会将 key 为 <code>null</code> 的元素存放在数组索引为 <strong>0</strong> 的位置（内部强制 hash 值为 0）。</li>
+<li><strong>注意</strong>：只能有一个 key 为 <code>null</code>，但可以有多个 value 为 <code>null</code>。</li>
+</ul>
+<h3 id="8-Set-有了解吗，怎么保证数据不重复的？-重点"><a href="#8-Set-有了解吗，怎么保证数据不重复的？-重点" class="headerlink" title="8. Set 有了解吗，怎么保证数据不重复的？(重点)"></a>8. Set 有了解吗，怎么保证数据不重复的？(重点)</h3><ul>
+<li><strong>底层实现</strong>：<code>HashSet</code> 底层其实就是一个 <code>HashMap</code>。数据存储在 HashMap 的 Key 上，Value 是一个固定的 <code>Object</code> 对象（PRESENT）。</li>
+<li><strong>去重机制</strong>：<ol>
+<li>计算元素的 <code>hashCode()</code>，定位到对应的桶（Bucket）。</li>
+<li>如果桶无元素，直接存入。</li>
+<li>如果桶有元素（Hash 冲突），调用 <code>equals()</code> 方法比较。</li>
+<li>若 <code>equals()</code> 返回 true，视为重复，不添加；返回 false，则以链表&#x2F;红黑树形式追加。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="🚀-三、-并发编程-Concurrency"><a href="#🚀-三、-并发编程-Concurrency" class="headerlink" title="🚀 三、 并发编程 (Concurrency)"></a>🚀 三、 并发编程 (Concurrency)</h2><h3 id="9-进程和线程的区别"><a href="#9-进程和线程的区别" class="headerlink" title="9. 进程和线程的区别"></a>9. 进程和线程的区别</h3><ul>
+<li><strong>定义</strong>：进程是<strong>资源分配</strong>的最小单位；线程是<strong>CPU调度</strong>的最小单位。</li>
+<li><strong>关系</strong>：一个进程包含多个线程，线程共享进程的堆内存和方法区（元空间）。</li>
+<li><strong>开销</strong>：进程切换开销大（独立内存空间），线程切换开销小。</li>
+</ul>
+<h3 id="10-操作系统的调度算法"><a href="#10-操作系统的调度算法" class="headerlink" title="10. 操作系统的调度算法"></a>10. 操作系统的调度算法</h3><ol>
+<li><strong>先来先服务 (FCFS)</strong>。</li>
+<li><strong>短作业优先 (SJF)</strong>。</li>
+<li><strong>时间片轮转 (RR)</strong>（最常见，保证响应时间）。</li>
+<li><strong>优先级调度</strong>。</li>
+<li><strong>多级反馈队列调度</strong>。</li>
+</ol>
+<h3 id="11-Java-创建线程的方式"><a href="#11-Java-创建线程的方式" class="headerlink" title="11. Java 创建线程的方式"></a>11. Java 创建线程的方式</h3><ol>
+<li>继承 <code>Thread</code> 类。</li>
+<li>实现 <code>Runnable</code> 接口。</li>
+<li>实现 <code>Callable</code> 接口（有返回值）。</li>
+<li>使用线程池 (<code>ExecutorService</code>)。</li>
+</ol>
+<h3 id="12-Callable-和-Runnable-的区别"><a href="#12-Callable-和-Runnable-的区别" class="headerlink" title="12. Callable 和 Runnable 的区别"></a>12. Callable 和 Runnable 的区别</h3><ul>
+<li><strong>返回值</strong>：<code>Runnable</code> 的 <code>run()</code> 返回 void；<code>Callable</code> 的 <code>call()</code> 有返回值（泛型）。</li>
+<li><strong>异常</strong>：<code>Runnable</code> 不能抛出 Checked Exception；<code>Callable</code> 可以。</li>
+<li><strong>执行</strong>：<code>Callable</code> 通常配合 <code>FutureTask</code> 或线程池使用，通过 <code>Future.get()</code> 获取结果。</li>
+</ul>
+<h3 id="13-线程池的核心参数"><a href="#13-线程池的核心参数" class="headerlink" title="13. 线程池的核心参数"></a>13. 线程池的核心参数</h3><ol>
+<li><code>corePoolSize</code>：核心线程数（常驻）。</li>
+<li><code>maximumPoolSize</code>：最大线程数。</li>
+<li><code>keepAliveTime</code>：非核心线程空闲存活时间。</li>
+<li><code>unit</code>：时间单位。</li>
+<li><code>workQueue</code>：任务阻塞队列。</li>
+<li><code>threadFactory</code>：线程工厂（用于命名线程等）。</li>
+<li><code>handler</code>：拒绝策略（如 AbortPolicy, CallerRunsPolicy 等）。</li>
+</ol>
+<h3 id="14-线程池的-corePoolSize-大小的设置策略"><a href="#14-线程池的-corePoolSize-大小的设置策略" class="headerlink" title="14. 线程池的 corePoolSize 大小的设置策略"></a>14. 线程池的 corePoolSize 大小的设置策略</h3><ul>
+<li><strong>CPU 密集型</strong>：CPU 核数 + 1（减少线程切换开销）。</li>
+<li><strong>IO 密集型</strong>：CPU 核数 * 2 或 <code>CPU 核数 / (1 - 阻塞系数)</code>（因为 IO 操作不占用 CPU，可以多开线程）。</li>
+</ul>
+<hr>
+<h2 id="☕-四、-JVM-Java-虚拟机"><a href="#☕-四、-JVM-Java-虚拟机" class="headerlink" title="☕ 四、 JVM (Java 虚拟机)"></a>☕ 四、 JVM (Java 虚拟机)</h2><h3 id="15-JVM-怎么判断对象是否是垃圾对象？"><a href="#15-JVM-怎么判断对象是否是垃圾对象？" class="headerlink" title="15. JVM 怎么判断对象是否是垃圾对象？"></a>15. JVM 怎么判断对象是否是垃圾对象？</h3><ul>
+<li><strong>引用计数法</strong>（HotSpot 未采用）：有引用+1，失效-1。缺点：无法解决<strong>循环引用</strong>问题。</li>
+<li><strong>可达性分析法</strong>（主流）：从 <strong>GC Roots</strong>（如栈帧中的局部变量、静态变量、常量引用等）出发，搜索引用的对象链。搜索不到的对象即为垃圾。</li>
+</ul>
+<h3 id="16-垃圾收集算法有哪些？"><a href="#16-垃圾收集算法有哪些？" class="headerlink" title="16. 垃圾收集算法有哪些？"></a>16. 垃圾收集算法有哪些？</h3><ol>
+<li><strong>标记-清除 (Mark-Sweep)</strong>：容易产生内存碎片。</li>
+<li><strong>标记-复制 (Copying)</strong>：新生代常用，效率高但浪费一半空间。</li>
+<li><strong>标记-整理 (Mark-Compact)</strong>：老年代常用，解决碎片问题。</li>
+<li><strong>分代收集</strong>：根据对象存活周期不同，新生代用复制算法，老年代用标记-整理算法。</li>
+</ol>
+<h3 id="17-对-Java-内存模型-JMM-有了解吗？"><a href="#17-对-Java-内存模型-JMM-有了解吗？" class="headerlink" title="17. 对 Java 内存模型 (JMM) 有了解吗？"></a>17. 对 Java 内存模型 (JMM) 有了解吗？</h3><ul>
+<li><strong>目的</strong>：屏蔽硬件差异，解决并发中的<strong>原子性、可见性、有序性</strong>问题。</li>
+<li><strong>结构</strong>：主内存（共享数据） vs 工作内存（线程私有缓存）。</li>
+<li><strong>核心关键字</strong>：<ul>
+<li><code>volatile</code>：保证可见性、禁止指令重排（有序性）。</li>
+<li><code>synchronized</code>：保证原子性、可见性、有序性。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="💾-五、-数据库与中间件-MySQL-Redis"><a href="#💾-五、-数据库与中间件-MySQL-Redis" class="headerlink" title="💾 五、 数据库与中间件 (MySQL &amp; Redis)"></a>💾 五、 数据库与中间件 (MySQL &amp; Redis)</h2><h3 id="18-对-MySQL-中索引的理解、索引的分类"><a href="#18-对-MySQL-中索引的理解、索引的分类" class="headerlink" title="18. 对 MySQL 中索引的理解、索引的分类"></a>18. 对 MySQL 中索引的理解、索引的分类</h3><ul>
+<li><strong>理解</strong>：索引是帮助快速查找数据的排好序的数据结构（通常是 <strong>B+树</strong>）。</li>
+<li><strong>分类</strong>：<ul>
+<li><strong>物理存储</strong>：聚簇索引（数据和索引在一起，如主键）、非聚簇索引（二级索引，叶子节点存主键）。</li>
+<li><strong>逻辑约束</strong>：主键索引、唯一索引、普通索引、全文索引。</li>
+<li><strong>字段个数</strong>：单列索引、联合索引（需遵循<strong>最左前缀原则</strong>）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="19-Redis-数据结构有哪几种，应用场景？"><a href="#19-Redis-数据结构有哪几种，应用场景？" class="headerlink" title="19. Redis 数据结构有哪几种，应用场景？"></a>19. Redis 数据结构有哪几种，应用场景？</h3><ol>
+<li><strong>String</strong>：缓存、计数器、分布式锁、Session 共享。</li>
+<li><strong>List</strong>：消息队列、最新动态（时间轴）。</li>
+<li><strong>Hash</strong>：存储对象（如用户信息、购物车）。</li>
+<li><strong>Set</strong>：去重、抽奖、共同好友（交集操作）。</li>
+<li><strong>ZSet (Sorted Set)</strong>：排行榜、带权重的队列。</li>
+</ol>
+<hr>
+<h2 id="🔒-六、-高级并发与锁"><a href="#🔒-六、-高级并发与锁" class="headerlink" title="🔒 六、 高级并发与锁"></a>🔒 六、 高级并发与锁</h2><h3 id="20-阻塞队列和非阻塞队列的区别"><a href="#20-阻塞队列和非阻塞队列的区别" class="headerlink" title="20. 阻塞队列和非阻塞队列的区别"></a>20. 阻塞队列和非阻塞队列的区别</h3><ul>
+<li><strong>阻塞队列</strong>（如 <code>ArrayBlockingQueue</code>）：基于锁和等待&#x2F;通知机制。当队列满时写阻塞，空时读阻塞。常用于生产者-消费者模型。</li>
+<li><strong>非阻塞队列</strong>（如 <code>ConcurrentLinkedQueue</code>）：基于 <strong>CAS</strong> 机制（无锁），操作立即返回或重试，高并发下性能更好，但 CPU 开销可能较大。</li>
+</ul>
+<h3 id="21-CAS-的原理及其应用场景"><a href="#21-CAS-的原理及其应用场景" class="headerlink" title="21. CAS 的原理及其应用场景"></a>21. CAS 的原理及其应用场景</h3><ul>
+<li><strong>原理</strong>：<strong>Compare And Swap</strong>（比较并交换）。包含三个操作数：内存地址 V、预期原值 A、新值 B。只有当 V&#x3D;&#x3D;A 时，才将 V 更新为 B。</li>
+<li><strong>场景</strong>：<code>AtomicInteger</code> 等原子类、自旋锁、并发容器。</li>
+</ul>
+<h3 id="22-ABA-问题及其解决方法"><a href="#22-ABA-问题及其解决方法" class="headerlink" title="22. ABA 问题及其解决方法"></a>22. ABA 问题及其解决方法</h3><ul>
+<li><strong>问题</strong>：值从 A 变为 B 又变回 A，CAS 检查时以为没变，实际中间经历了变化。</li>
+<li><strong>解决</strong>：增加<strong>版本号</strong>（<code>AtomicStampedReference</code>），比较时同时比较值和版本号。</li>
+</ul>
+<h3 id="23-进程级别的锁解决的是什么问题？"><a href="#23-进程级别的锁解决的是什么问题？" class="headerlink" title="23. 进程级别的锁解决的是什么问题？"></a>23. 进程级别的锁解决的是什么问题？</h3><ul>
+<li><strong>指代</strong>：<code>synchronized</code> 或 <code>ReentrantLock</code>。</li>
+<li><strong>解决</strong>：<strong>单个 JVM 进程内</strong>，多线程访问共享资源的数据一致性问题。</li>
+</ul>
+<h3 id="24-分布式锁解决的什么问题？"><a href="#24-分布式锁解决的什么问题？" class="headerlink" title="24. 分布式锁解决的什么问题？"></a>24. 分布式锁解决的什么问题？</h3><ul>
+<li><strong>解决</strong>：<strong>跨进程&#x2F;跨服务器</strong>（集群环境）下，多个服务同时访问共享资源（如数据库、Redis）的一致性问题。</li>
+<li><strong>实现</strong>：Redis (<code>setnx</code> + lua), Zookeeper (临时顺序节点), Redisson。</li>
+</ul>
+<h3 id="25-MySQL-中-InnoDB-引擎中行级锁的类型"><a href="#25-MySQL-中-InnoDB-引擎中行级锁的类型" class="headerlink" title="25. MySQL 中 InnoDB 引擎中行级锁的类型"></a>25. MySQL 中 InnoDB 引擎中行级锁的类型</h3><ol>
+<li><strong>Record Lock</strong>：锁记录本身。</li>
+<li><strong>Gap Lock</strong>：间隙锁，锁范围，防止幻读。</li>
+<li><strong>Next-Key Lock</strong>：Record + Gap，默认隔离级别（RR）下使用。</li>
+</ol>
+<h3 id="26-MySQL-中锁和事务是否有相关性？"><a href="#26-MySQL-中锁和事务是否有相关性？" class="headerlink" title="26. MySQL 中锁和事务是否有相关性？"></a>26. MySQL 中锁和事务是否有相关性？</h3><ul>
+<li><strong>强相关</strong>。</li>
+<li>事务的<strong>隔离性 (Isolation)</strong> 主要就是通过<strong>锁机制</strong>（配合 MVCC）来实现的。事务提交或回滚时才会释放锁。</li>
+</ul>
+<h3 id="27-死锁是什么？"><a href="#27-死锁是什么？" class="headerlink" title="27. 死锁是什么？"></a>27. 死锁是什么？</h3><ul>
+<li><strong>定义</strong>：两个或多个线程互相持有对方需要的资源，并等待对方释放，导致无限期等待。</li>
+<li><strong>四个必要条件</strong>：互斥、占有且等待、不可抢占、循环等待。</li>
+</ul>
+<hr>
+<h2 id="🌿-七、-Spring-框架与-AOP"><a href="#🌿-七、-Spring-框架与-AOP" class="headerlink" title="🌿 七、 Spring 框架与 AOP"></a>🌿 七、 Spring 框架与 AOP</h2><h3 id="28-Spring-中-AOP-代理分为几大类和区别？"><a href="#28-Spring-中-AOP-代理分为几大类和区别？" class="headerlink" title="28. Spring 中 AOP 代理分为几大类和区别？"></a>28. Spring 中 AOP 代理分为几大类和区别？</h3><ol>
+<li><strong>JDK 动态代理</strong>：基于接口实现，只能代理实现了接口的类。</li>
+<li><strong>CGLIB 动态代理</strong>：基于继承实现，通过 ASM 字节码技术生成子类，不能代理 <code>final</code> 类。</li>
+</ol>
+<ul>
+<li><em>注：Spring Boot 2.x 后默认倾向于使用 CGLIB。</em></li>
+</ul>
+<h3 id="29-自己有没有使用过代理来完成业务开发？"><a href="#29-自己有没有使用过代理来完成业务开发？" class="headerlink" title="29. 自己有没有使用过代理来完成业务开发？"></a>29. 自己有没有使用过代理来完成业务开发？</h3><ul>
+<li><strong>回答思路</strong>：除了使用框架特性，自己可能写过：<ul>
+<li><strong>拦截器 (Interceptor)</strong> 或 <strong>过滤器 (Filter)</strong>。</li>
+<li><strong>自定义注解 + AOP 切面</strong>：用于实现统一日志记录、接口权限校验、全局异常处理、方法耗时统计等。</li>
+</ul>
+</li>
+</ul>
+<h3 id="30-Spring-框架里用到-AOP-的地方"><a href="#30-Spring-框架里用到-AOP-的地方" class="headerlink" title="30. Spring 框架里用到 AOP 的地方"></a>30. Spring 框架里用到 AOP 的地方</h3><ul>
+<li><strong>声明式事务</strong> (<code>@Transactional</code>)。</li>
+<li><strong>Spring Security</strong> (权限控制)。</li>
+<li><strong>统一缓存</strong> (<code>@Cacheable</code>)。</li>
+<li><strong>统一日志</strong>。</li>
+</ul>
+<hr>
+<h2 id="📈-八、-开放性问题-Personal-Growth"><a href="#📈-八、-开放性问题-Personal-Growth" class="headerlink" title="📈 八、 开放性问题 (Personal Growth)"></a>📈 八、 开放性问题 (Personal Growth)</h2><h3 id="31-平时自身成长通过哪些途径进行学习？"><a href="#31-平时自身成长通过哪些途径进行学习？" class="headerlink" title="31. 平时自身成长通过哪些途径进行学习？"></a>31. 平时自身成长通过哪些途径进行学习？</h3><ul>
+<li><strong>官方文档</strong>（最权威）。</li>
+<li><strong>技术社区</strong>：掘金、CSDN、StackOverflow、V2EX。</li>
+<li><strong>源码阅读</strong>：GitHub 上阅读优秀开源项目（如 Spring, MyBatis, Netty）。</li>
+<li><strong>书籍</strong>：《深入理解Java虚拟机》、《Java并发编程实战》、《高性能MySQL》等。</li>
+<li><strong>视频课程</strong>：B站、Coursera、极客时间。</li>
+</ul>
+<h3 id="32-有没有参加过一些开源的社区？"><a href="#32-有没有参加过一些开源的社区？" class="headerlink" title="32. 有没有参加过一些开源的社区？"></a>32. 有没有参加过一些开源的社区？</h3><ul>
+<li><strong>诚实作答</strong>。</li>
+<li><strong>如果有</strong>：提到具体的 PR (Pull Request) 或 Issue 经历。</li>
+<li><strong>如果没有</strong>：可以这样说：“虽然还没有提交过代码，但我经常在 GitHub 上阅读开源项目源码，并关注 Issues 区的讨论，学习开发者解决 bug 和设计架构的思路。”</li>
+</ul>
+<hr>
+<h3 id="💡-复习建议"><a href="#💡-复习建议" class="headerlink" title="💡 复习建议"></a>💡 复习建议</h3><p>面试时不要死记硬背，建议结合<strong>自己的项目经验</strong>，用自己的话把技术原理讲出来。遇到不会的问题（如具体算法细节），可以尝试关联到相关的知识点，或者诚实回答并表示出学习意愿。祝面试顺利！</p>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        
+        
+    </div>
+    <a href="/2025/11/29/%E5%85%AB%E8%82%A1%E6%96%B9%E5%90%9101/" class="go-post">阅读全文</a>
+</div>
+
+<div class="post">
     <a href="/2025/11/29/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%95%99%E8%82%B2%E5%B9%B3%E5%8F%B0%E9%A1%B9%E7%9B%AE%E5%85%B3%E4%BA%8E%E8%A7%86%E9%A2%91%E8%BF%9B%E5%BA%A6%E8%AE%B0%E5%BD%95%E6%96%B9%E9%9D%A2%E7%9A%84%E9%AB%98%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/">
         <h2 class="post-title">微服务教育平台项目关于视频进度记录方面的高并发处理</h2>
     </a>
@@ -1178,234 +1601,6 @@
         
     </div>
     <a href="/2025/09/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B04%EF%BC%9Ajava%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/09/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B03%EF%BC%9A%E6%B7%B1%E5%85%A5Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-        <h2 class="post-title">JUC并发编程03：深入Java多线程</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/9/23
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h5 id="sleep和wait方法区别的详解"><a href="#sleep和wait方法区别的详解" class="headerlink" title="sleep和wait方法区别的详解"></a>sleep和wait方法区别的详解</h5><ul>
-<li><p><strong>所属分类的不同</strong>：sleep 是 Thread 类的静态方法，以在任何地方直接通过 Thread.sleep() 调用，无需依赖对象实例。wait 是 Object 类的实例方法，这意味着必须通过对象实例来调用。</p>
-</li>
-<li><p><strong>锁释放的情况</strong>：Thread.sleep() 在调用时，线程会暂停执行指定的时间，但不会释放持有的对象锁。也就是说，在 sleep 期间，其他线程无法获得该线程持有的锁。Object.wait()：调用该方法时，线程会释放持有的对象锁，进入等待状态，直到其他线程调用相同对象的 notify() 或 notifyAll() 方法唤醒它。</p>
-</li>
-<li><p><strong>使用条件</strong>：sleep 可在任意位置调用，无需事先获取锁。 wait 必须在同步块或同步方法内调用（即线程需持有该对象的锁），否则抛出 IllegalMonitorStateException。</p>
-</li>
-<li><p><strong>唤醒机制</strong>：sleep 休眠时间结束后，线程 自动恢复 到就绪状态，等待CPU调度。wait 需要其他线程调用相同对象的 notify() 或 notifyAll() 方法才能被唤醒。notify() 会随机唤醒一个在该对象上等待的线程，而 notifyAll() 会唤醒所有在该对象上等待的线程。</p>
-</li>
-</ul>
-<h5 id="sleep会释放cpu吗？"><a href="#sleep会释放cpu吗？" class="headerlink" title="sleep会释放cpu吗？"></a>sleep会释放cpu吗？</h5><ul>
-<li><p>是的，调用 Thread.sleep() 时，线程会释放 CPU，但不会释放持有的锁。</p>
-<ul>
-<li><strong>当线程调用 sleep() 后，会主动让出 CPU 时间片</strong>，进入 TIMED_WAITING 状态。此时操作系统会触发调度，将 CPU 分配给其他处于就绪状态的线程。这样其他线程（无论是需要同一锁的线程还是不相关线程）便有机会执行。</li>
-<li>sleep() 不会释放线程已持有的任何锁（如 synchronized 同步代码块或方法中获取的锁）。此，如果有其他线程试图获取同一把锁，它们仍会被阻塞，直到原线程退出同步代码块。</li>
-</ul>
-</li>
-</ul>
-<h5 id="blocked和waiting有啥区别"><a href="#blocked和waiting有啥区别" class="headerlink" title="blocked和waiting有啥区别"></a>blocked和waiting有啥区别</h5><ul>
-<li><p><strong>触发条件</strong>:线程进入BLOCKED状态通常是因为试图获取一个对象的锁（monitor lock），但该锁已经被另一个线程持有。这通常发生在尝试进入synchronized块或方法时，如果锁已被占用，则线程将被阻塞直到锁可用。线程进入WAITING状态是因为它正在等待另一个线程执行某些操作，例如调用Object.wait()方法、Thread.join()方法或LockSupport.park()方法。在这种状态下，线程将不会消耗CPU资源，并且不会参与锁的竞争。</p>
-</li>
-<li><p><strong>唤醒机制</strong>:当一个线程被阻塞等待锁时，一旦锁被释放，线程将有机会重新尝试获取锁。如果锁此时未被其他线程获取，那么线程可以从BLOCKED状态变为RUNNABLE状态。线程在WAITING状态中需要被显式唤醒。例如，如果线程调用了Object.wait()，，那么它必须等待另一个线程调用同一对象上的Object.notify()或Object.notifyAll()方法才能被唤醒。</p>
-</li>
-<li><p>所以，BLOCKED和WAITING两个状态最大的区别有两个:</p>
-<ul>
-<li><p>BLOCKED是锁竞争失败后被被动触发的状态，WAITING是人为的主动触发的状态。</p>
-</li>
-<li><p>BLOCKED的唤醒时自动触发的，而WAITING状态是必须要通过特定的方法来主动唤醒</p>
-</li>
-</ul>
-</li>
-</ul>
-<h5 id="notify-和-notifyAll-的区别"><a href="#notify-和-notifyAll-的区别" class="headerlink" title="notify 和 notifyAll 的区别"></a>notify 和 notifyAll 的区别</h5><ul>
-<li><p>相同点：同样是唤醒等待的线程，同样最多只有一个线程能获得锁，同样不能控制哪个线程获得锁。</p>
-</li>
-<li><p>不同的：</p>
-<ul>
-<li>方法notify：唤醒一个线程，其他线程依然处于wait的等待唤醒状态，如果被唤醒的线程结束时没调用notify，其他线程就永远没人去唤醒，只能等待超时，或者被中断。</li>
-<li>方法notifyAll：所有线程退出wait的状态，开始竞争锁，但只有一个线程能抢到，这个线程执行完后，其他线程又会有一个幸运儿脱颖而出得到锁。</li>
-</ul>
-</li>
-</ul>
-<h5 id="notify-选择哪个线程"><a href="#notify-选择哪个线程" class="headerlink" title="notify 选择哪个线程"></a>notify 选择哪个线程</h5><ul>
-<li><p>notify在源码的注释中说到notify选择唤醒的线程是任意的，但是依赖于具体实现的jvm。</p>
-</li>
-<li><p>JVM有很多实现，比较流行的就是hotspot，hotspot对notofy()的实现并不是我们以为的随机唤醒,，而是“先进先出”的顺序唤醒。</p>
-</li>
-</ul>
-<h5 id="不同的线程之间如何通信"><a href="#不同的线程之间如何通信" class="headerlink" title="不同的线程之间如何通信"></a>不同的线程之间如何通信</h5><ul>
-<li><p>共享变量是最基本的线程间通信方式。多个线程可以访问和修改同一个共享变量，从而实现信息的传递。为了保证线程安全，通常需要使用 synchronized 关键字或 volatile 关键字。</p>
-</li>
-<li><p>Object 类中的 wait()、notify() 和 notifyAll() 方法可以用于线程间的协作。wait() 方法使当前线程进入等待状态，notify() 方法唤醒在此对象监视器上等待的单个线程，notifyAll() 方法唤醒在此对象监视器上等待的所有线程。</p>
-</li>
-<li><p>java.util.concurrent.locks 包中的 Lock 和 Condition接口提供了比 synchronized 更灵活的线程间通信方式。Condition 接口的 await() 方法类似于 wait() 方法，signal() 方法类似于 notify() 方法，signalAll() 方法类似于 notifyAll() 方法。</p>
-</li>
-<li><p>java.util.concurrent 包中的 BlockingQueue 接口提供了线程安全的队列操作，当队列满时，插入元素的线程会被阻塞；当队列为空时，获取元素的线程会被阻塞。</p>
-</li>
-</ul>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/23/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B03%EF%BC%9A%E6%B7%B1%E5%85%A5Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2025/09/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B02%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-        <h2 class="post-title">JUC并发编程02：Java多线程基础知识</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2025/9/22
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <h4 id="线程的创建方式"><a href="#线程的创建方式" class="headerlink" title="线程的创建方式"></a>线程的创建方式</h4><ul>
-<li><p><strong>1.继承Thread类</strong></p>
-<ul>
-<li><p>自定义的类继承Thread类，重写里面的run()方法，具体的run()方法中定义具体线程启动后要执行的任务，创建该类的实例后，调用start()方法启动线程。</p>
-</li>
-<li><p>优点：编写简单，要获取当前线程无需Thread.currentThread()来实现，直接this.即可.</p>
-</li>
-<li><p>缺点：已经继承了Thread类，无法再继承其他类了。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>2.实现runnable接口</strong></p>
-<ul>
-<li><p>优点：只是实现了runnable这个接口 ，还可以继承其他类，这样就相当于多个线程可以共享该资源，适合多个线程处理同一份资源这种情况，从而可以将CPU和代码分开，形成良好的模型，较好地体现面向对象这一编程思维。</p>
-</li>
-<li><p>缺点：编码相对复杂，必须使用Thread.currentThread()来获取当前进程。</p>
-</li>
-<li><p>也需要重写run方法，同时将创建地Runnable实例作为参数传递给Thread的构造器中。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>3.实现Callable接口与FutureTask</strong></p>
-<ul>
-<li><p>实现Callable接口与FutureTask类似于runnable接口，但Callable的call()方法可以有返回值并可以抛出异常，将它包装成一个FutureTask,因为Thread类的构造器只接受Runnable类型的参数，而FutureTask实现了Runnable接口。</p>
-</li>
-<li><p>优点: 与runnable接口优点特性一样。</p>
-</li>
-<li><p>缺点：编码相对复杂，必须使用Thread.currentThread()来获取当前进程。</p>
-</li>
-</ul>
-</li>
-<li><p><strong>4.使用线程池</strong>（Executor框架）</p>
-<ul>
-<li>从Java 5开始引入的java.util.concurrent.ExecutorService和相关类提供了线程池的支持，这是一种更高效的线程管理方式，避免了频繁创建和销毁线程的开销。可以通过Executors类的静态方法创建不同类型的线程池。</li>
-<li>缺点：程池增加了程序的复杂度，特别是当涉及线程池参数调整和故障排查时。错误的配置可能导致死锁、资源耗尽等问题，这些问题的诊断和修复可能较为复杂。</li>
-<li>优点： 线程池可以重用预先创建的线程，避免了线程创建和销毁的开销，显著提高了程序的性能。对于需要快速响应的并发请求，线程池可以迅速提供线程来处理任务，减少等待时间。 并且，线程池能够有效控制运行的线程数量，防止因创建过多线程导致的系统资源耗尽（如内存溢出）。通过合理配置线程池大小，可以最大化CPU利用率和系统吞吐量。</li>
-</ul>
-</li>
-</ul>
-<h4 id="线程池的介绍"><a href="#线程池的介绍" class="headerlink" title="线程池的介绍"></a>线程池的介绍</h4><ul>
-<li>线程池的好处：<ul>
-<li>1.降低资源的消耗</li>
-<li>2.提高响应的速度</li>
-<li>3.方便管理</li>
-</ul>
-</li>
-<li>三大方法；<ul>
-<li><p>Executors.newSingleThreadExecutor()： 创建单线程的线程池，相当于创建一个固定的线程池</p>
-</li>
-<li><p>Executors.newFixedThreadPool(int number)： 创建固定线程数为number的线程池</p>
-</li>
-<li><p>Executors.newCachedThreadPool()：可伸缩的，遇强则强，遇弱则弱 ，可根据循环提交次数来改变</p>
-</li>
-</ul>
-</li>
-</ul>
-<h5 id="java里面的线程和操作系统的线程一样吗"><a href="#java里面的线程和操作系统的线程一样吗" class="headerlink" title="java里面的线程和操作系统的线程一样吗"></a>java里面的线程和操作系统的线程一样吗</h5><ul>
-<li>Java 底层会调用 pthread_create 来创建线程，所以本质上 java 程序创建的线程，就是和操作系统线程是一样的，是 1 对 1 的线程模型。</li>
-</ul>
-<h5 id="多线程安全性的体现"><a href="#多线程安全性的体现" class="headerlink" title="多线程安全性的体现"></a>多线程安全性的体现</h5><ul>
-<li><p><strong>原子性</strong>：提供互斥访问，同一时刻只能有一个线程对数据进行操作，在Java中使用了atomic包和synchronized关键字来确保原子性；</p>
-</li>
-<li><p><strong>可见性</strong>：一个线程对主内存的修改可以及时地被其他线程看到，在Java中使用了synchronized和volatile这两个关键字确保可见性；</p>
-</li>
-<li><p><strong>有序性</strong>：一个线程观察其他线程中的指令执行顺序，由于指令重排序，该观察结果一般杂乱无序，在Java中使用了happens-before原则来确保有序性。</p>
-</li>
-</ul>
-<h5 id="保证数据一致性的方案"><a href="#保证数据一致性的方案" class="headerlink" title="保证数据一致性的方案"></a>保证数据一致性的方案</h5><ul>
-<li><p><strong>事务管理</strong>：使用数据库事务来确保一组数据库操作要么全部成功提交，要么全部失败回滚。通过ACID（原子性、一致性、隔离性、持久性）属性，数据库事务可以保证数据的一致性。</p>
-</li>
-<li><p><strong>锁机制</strong>：使用锁来实现对共享资源的互斥访问。在 Java 中，可以使用 synchronized 关键字、ReentrantLock 或其他锁机制来控制并发访问，从而避免并发操作导致数据不一致。</p>
-</li>
-<li><p><strong>版本控制</strong>：通过乐观锁的方式，在更新数据时记录数据的版本信息，从而避免同时对同一数据进行修改，进而保证数据的一致性。</p>
-</li>
-</ul>
-<h5 id="停止线程的方法"><a href="#停止线程的方法" class="headerlink" title="停止线程的方法"></a>停止线程的方法</h5><ul>
-<li><p><strong>异常法</strong>停止：线程调用interrupt()方法后，在线程的run方法中判断当前对象的interrupted()状态，如果是中断状态则抛出异常，达到中断线程的效果。</p>
-</li>
-<li><p><strong>在sleep()中</strong>停止：先将线程sleep，然后调用interrupt标记中断状态，interrupt会将阻塞状态的线程中断。会抛出中断异常，达到停止线程的效果。</p>
-</li>
-<li><p><strong>stop()暴力</strong>停止：线程调用stop()方法会被暴力停止，方法已弃用，该方法会有不好的后果：强制让线程停止有可能使一些清理性的工作得不到完成。</p>
-</li>
-<li><p><strong>使用return</strong>停止线程：调用interrupt标记为中断状态后，在run方法中判断当前线程状态，如果为中断状态则return，能达到停止线程的效果。</p>
-</li>
-</ul>
-<h5 id="调用-interrupt-是如何让线程抛出异常的"><a href="#调用-interrupt-是如何让线程抛出异常的" class="headerlink" title="调用 interrupt 是如何让线程抛出异常的?"></a>调用 interrupt 是如何让线程抛出异常的?</h5><ul>
-<li>每个线程都一个与之关联的布尔属性来表示其中断状态，中断状态的初始值为false，当一个线程被其它线程调用Thread.interrupt()方法中断时，会根据实际情况做出响应。<ul>
-<li>如果该线程正在执行低级别的可中断方法（如Thread.sleep()、Thread.join()或Object.wait()），则会解除阻塞并抛出InterruptedException异常。</li>
-<li>否则Thread.interrupt()仅设置线程的中断状态，在该被中断的线程中稍后可通过轮询中断状态来决定是否要停止当前正在执行的任务。</li>
-</ul>
-</li>
-</ul>
-<h5 id="什么是线程上下文切换？"><a href="#什么是线程上下文切换？" class="headerlink" title="什么是线程上下文切换？"></a>什么是线程上下文切换？</h5><ul>
-<li><p>线程在执行过程中会有自己的运行条件和状态（也称上下文），比如上文所说到过的程序计数器，栈信息等。当出现如下情况的时候，线程会从占用 CPU 状态中退出。</p>
-<ul>
-<li><p>主动让出 CPU，比如调用了 sleep(), wait() 等。</p>
-</li>
-<li><p>时间片用完，因为操作系统要防止一个线程或者进程长时间占用 CPU 导致其他线程或者进程饿死。</p>
-</li>
-<li><p>调用了阻塞类型的系统中断，比如请求 IO，线程被阻塞。</p>
-</li>
-<li><p>被终止或结束运行</p>
-</li>
-</ul>
-</li>
-<li><p>这其中前三种都会发生线程切换，线程切换意味着需要保存当前线程的上下文，留待线程下次占用 CPU 的时候恢复现场。并加载下一个将要占用 CPU 的线程上下文。这就是所谓的 上下文切换。</p>
-</li>
-<li><p>上下文切换是现代操作系统的基本功能，因其每次需要保存信息恢复信息，这将会占用 CPU，内存等系统资源进行处理，也就意味着效率会有一定损耗，如果频繁切换就会造成整体效率低下。</p>
-</li>
-</ul>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        
-        
-    </div>
-    <a href="/2025/09/22/JUC%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B02%EF%BC%9A%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="go-post">阅读全文</a>
 </div>
 
 

@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>八股方向02 | UNCEIR的个人博客</title>
+    <meta name="author" content="David Huang" />
+    <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>UNCEIR的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;UNCEIR的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>八股方向02</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/11/29
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <hr>
+<h1 id="🚀-Java-后端高级面试备战指南：从“知道”到“精通”"><a href="#🚀-Java-后端高级面试备战指南：从“知道”到“精通”" class="headerlink" title="🚀 Java 后端高级面试备战指南：从“知道”到“精通”"></a>🚀 Java 后端高级面试备战指南：从“知道”到“精通”</h1><p>这份清单针对中高级开发岗位，重点在于<strong>源码理解</strong>、<strong>底层原理</strong>以及<strong>高并发场景下的实战解决方案</strong>。请务必按照“深挖&#x2F;避坑”部分的提示进行针对性复习。</p>
+<h2 id="🏗️-一、-Java-基础：地基要稳"><a href="#🏗️-一、-Java-基础：地基要稳" class="headerlink" title="🏗️ 一、 Java 基础：地基要稳"></a>🏗️ 一、 Java 基础：地基要稳</h2><blockquote>
+<p><strong>核心重点</strong>：HashMap 源码、线程池参数与运行流程。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑"><a href="#🔍-深挖与避坑" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>HashMap</strong>：<ul>
+<li><strong>结构演变</strong>：熟背 JDK 1.7（数组+链表）与 1.8（数组+链表+红黑树）的区别。</li>
+<li><strong>扩容机制</strong>：重点理解 1.8 的优化（利用高位 0&#x2F;1 判断，无需重新计算 Hash）。</li>
+<li><strong>线程不安全</strong>：1.7 的死循环问题，1.8 的数据覆盖问题。</li>
+</ul>
+</li>
+<li><strong>线程池 (ThreadPool)</strong>：<ul>
+<li><strong>参数配置</strong>：7 大参数必背。</li>
+<li><strong>场景化设置</strong>：<ul>
+<li><strong>CPU 密集型</strong>：<code>CPU核数 + 1</code>。</li>
+<li><strong>IO 密集型</strong>：<code>CPU核数 * 2</code> 或 <code>CPU / (1 - 阻塞系数)</code>。</li>
+</ul>
+</li>
+<li><strong>拒绝策略</strong>：默认 <code>AbortPolicy</code>，生产环境如何自定义？</li>
+<li><strong>队列区别</strong>：<code>ArrayBlockingQueue</code> (有界) vs <code>LinkedBlockingQueue</code> (默认无界，易 OOM) 的区别是必考点。</li>
+</ul>
+</li>
+</ul>
+<h2 id="⚡-二、-JUC-并发编程-：高薪分水岭"><a href="#⚡-二、-JUC-并发编程-：高薪分水岭" class="headerlink" title="⚡ 二、 JUC (并发编程)：高薪分水岭"></a>⚡ 二、 JUC (并发编程)：高薪分水岭</h2><blockquote>
+<p><strong>核心重点</strong>：ReentrantLock 源码、AQS 核心原理。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-1"><a href="#🔍-深挖与避坑-1" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>AQS (AbstractQueuedSynchronizer)</strong>：<ul>
+<li>JUC 的基石。必须理解 <strong>state 变量</strong>（锁状态）和 <strong>CLH 队列</strong>（双向链表，存储等待线程）的工作流程。</li>
+</ul>
+</li>
+<li><strong>Synchronized vs Lock</strong>：<ul>
+<li>不仅是 API 区别，要懂底层：<code>synchronized</code> 基于对象头 Mark Word 和 Monitor；Lock 是 Java 层面实现。</li>
+</ul>
+</li>
+<li><strong>原子类与 CAS</strong>：<ul>
+<li><strong>ABA 问题</strong>：值变了又变回来。解决方案：<strong>版本号</strong>或<strong>时间戳</strong>（<code>AtomicStampedReference</code>）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="☕-三、-JVM：进阶必懂"><a href="#☕-三、-JVM：进阶必懂" class="headerlink" title="☕ 三、 JVM：进阶必懂"></a>☕ 三、 JVM：进阶必懂</h2><blockquote>
+<p><strong>核心重点</strong>：类加载（双亲委派）、内存模型、GC。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-2"><a href="#🔍-深挖与避坑-2" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>GC (垃圾回收)</strong>：<em>(必补项)</em><ul>
+<li><strong>算法</strong>：复制算法（新生代）、标记-整理（老年代）。</li>
+<li><strong>收集器</strong>：CMS 和 G1 的区别（重点掌握 G1 的 Region 概念）。</li>
+</ul>
+</li>
+<li><strong>OOM 排查实战</strong>：<ul>
+<li>是否使用过 <code>jstat</code>, <code>jmap</code>, <code>MAT</code> 工具？</li>
+<li>分析 Dump 文件的流程（定位大对象、泄漏点）是面试极大的加分项。</li>
+</ul>
+</li>
+</ul>
+<h2 id="🌱-四、-Spring-Boot：框架原理"><a href="#🌱-四、-Spring-Boot：框架原理" class="headerlink" title="🌱 四、 Spring Boot：框架原理"></a>🌱 四、 Spring Boot：框架原理</h2><blockquote>
+<p><strong>核心重点</strong>：AOP&#x2F;IOC 原理、三级缓存、自动配置。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-3"><a href="#🔍-深挖与避坑-3" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>三级缓存</strong>：<ul>
+<li>核心目的：解决<strong>循环依赖</strong>。</li>
+<li>难点：为什么需要第三级？（为了在对象实例化后、初始化前，提前暴露 <strong>AOP 代理对象</strong>）。</li>
+</ul>
+</li>
+<li><strong>Bean 的生命周期</strong>：<ul>
+<li>流程：<code>实例化</code> -&gt; <code>属性赋值</code> -&gt; <code>初始化</code> -&gt; <code>销毁</code>。</li>
+<li>关键点：<code>BeanPostProcessor</code> 在 AOP 中的作用。</li>
+</ul>
+</li>
+<li><strong>事务失效场景</strong>：<ul>
+<li>类内部自调用（<code>this.method()</code> 不走代理）。</li>
+<li>方法非 <code>public</code>。</li>
+<li>异常被 <code>try-catch</code> 吞掉，未抛出。</li>
+</ul>
+</li>
+</ul>
+<h2 id="💾-五、-数据库-MySQL-：重中之重"><a href="#💾-五、-数据库-MySQL-：重中之重" class="headerlink" title="💾 五、 数据库 (MySQL)：重中之重"></a>💾 五、 数据库 (MySQL)：重中之重</h2><blockquote>
+<p><strong>核心重点</strong>：索引原理、事务 (MVCC)、三大日志、SQL 调优。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-4"><a href="#🔍-深挖与避坑-4" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>索引</strong>：<ul>
+<li><strong>数据结构</strong>：为什么选 B+ 树（层高低、范围查询好）而不是 B 树？</li>
+<li><strong>回表</strong>：聚簇索引 vs 非聚簇索引的区别。</li>
+<li><strong>失效</strong>：最左前缀原则、索引列计算等场景。</li>
+</ul>
+</li>
+<li><strong>MVCC (多版本并发控制)</strong>：<ul>
+<li>不要死背定义。核心是 <strong>Read View (读视图)</strong> + <strong>Undo Log 版本链</strong> 如何配合实现“可重复读”隔离级别。</li>
+</ul>
+</li>
+<li><strong>三大日志</strong>：<ul>
+<li><strong>Binlog</strong>：主从复制，归档。</li>
+<li><strong>Redo Log</strong>：物理日志，保证持久性 (Crash-safe)。</li>
+<li><strong>Undo Log</strong>：逻辑日志，保证原子性 (回滚)。</li>
+</ul>
+</li>
+</ul>
+<h2 id="🚀-六、-Redis：性能利器"><a href="#🚀-六、-Redis：性能利器" class="headerlink" title="🚀 六、 Redis：性能利器"></a>🚀 六、 Redis：性能利器</h2><blockquote>
+<p><strong>核心重点</strong>：数据结构、缓存异常、一致性、分布式锁。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-5"><a href="#🔍-深挖与避坑-5" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>缓存一致性</strong>：<em>(高频难点)</em><ul>
+<li>方案对比：延时双删 vs 先删缓存再更新库。</li>
+<li><strong>大厂方案</strong>：订阅 Binlog (Canal) -&gt; 消息队列 -&gt; 异步删除缓存（最终一致性）。</li>
+</ul>
+</li>
+<li><strong>分布式锁</strong>：<ul>
+<li><code>setnx</code> 缺陷：业务没跑完锁过期怎么办？</li>
+<li><strong>解决方案</strong>：Redisson 的 <strong>WatchDog (看门狗)</strong> 机制自动续期。</li>
+</ul>
+</li>
+<li><strong>底层结构</strong>：<ul>
+<li><strong>跳表 (SkipList)</strong>：ZSet 为什么用跳表不用红黑树？（实现简单、并发好、范围查询效率高）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="📨-七、-消息队列-MQ-：解耦削峰"><a href="#📨-七、-消息队列-MQ-：解耦削峰" class="headerlink" title="📨 七、 消息队列 (MQ)：解耦削峰"></a>📨 七、 消息队列 (MQ)：解耦削峰</h2><blockquote>
+<p><strong>核心重点</strong>：Kafka&#x2F;RocketMQ 选型、消息丢失&#x2F;重复&#x2F;积压。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-6"><a href="#🔍-深挖与避坑-6" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>消息不丢失</strong>：<ul>
+<li>涉及三端确认：生产者 ACK、Broker 同步刷盘&#x2F;多副本、消费者手动 ACK。</li>
+</ul>
+</li>
+<li><strong>消息积压处理</strong>：<ul>
+<li>线上事故应对：临时新建 Topic，将积压消息转发，开启多倍消费者进行消费。</li>
+</ul>
+</li>
+</ul>
+<h2 id="🛠️-八、-项目经验：面试的“胜负手”"><a href="#🛠️-八、-项目经验：面试的“胜负手”" class="headerlink" title="🛠️ 八、 项目经验：面试的“胜负手”"></a>🛠️ 八、 项目经验：面试的“胜负手”</h2><blockquote>
+<p><strong>策略</strong>：面试官不关心普通的 CRUD，关心的是<strong>难点</strong>和<strong>思考</strong>。</p>
+</blockquote>
+<h3 id="🌟-STAR-原则准备法-准备-2-个技术难点"><a href="#🌟-STAR-原则准备法-准备-2-个技术难点" class="headerlink" title="🌟 STAR 原则准备法 (准备 2 个技术难点)"></a>🌟 STAR 原则准备法 (准备 2 个技术难点)</h3><ol>
+<li><strong>S (Situation 情境)</strong>：高并发秒杀&#x2F;大流量&#x2F;复杂业务。</li>
+<li><strong>T (Task 任务)</strong>：防止超卖、保证服务稳定性。</li>
+<li><strong>A (Action 行动)</strong>：使用了 Redis 预减库存 + Lua 脚本保证原子性，配合 RabbitMQ 异步下单削峰。</li>
+<li><strong>R (Result 结果)</strong>：最终支撑了 X QPS，响应时间降低了 Y%，且数据零丢失。</li>
+</ol>
+<h2 id="🌐-九、-计算机网络：基础素养"><a href="#🌐-九、-计算机网络：基础素养" class="headerlink" title="🌐 九、 计算机网络：基础素养"></a>🌐 九、 计算机网络：基础素养</h2><blockquote>
+<p><strong>核心重点</strong>：TCP&#x2F;UDP、HTTP&#x2F;HTTPS、URL 请求流程。</p>
+</blockquote>
+<h3 id="🔍-深挖与避坑-7"><a href="#🔍-深挖与避坑-7" class="headerlink" title="🔍 深挖与避坑"></a>🔍 深挖与避坑</h3><ul>
+<li><strong>HTTPS</strong>：SSL&#x2F;TLS 握手过程（公钥传输 -&gt; 协商 -&gt; 对称加密通信）。</li>
+<li><strong>TCP 粘包&#x2F;拆包</strong>：在 Netty 中如何解决？（固定长度、分隔符、长度字段字段法）。</li>
+</ul>
+<hr>
+<h2 id="🎁-补充：加分项-Bonus"><a href="#🎁-补充：加分项-Bonus" class="headerlink" title="🎁 补充：加分项 (Bonus)"></a>🎁 补充：加分项 (Bonus)</h2><h3 id="1-算法-LeetCode"><a href="#1-算法-LeetCode" class="headerlink" title="1. 算法 (LeetCode)"></a>1. 算法 (LeetCode)</h3><ul>
+<li>虽然未列入必须，但大厂必考。</li>
+<li><strong>底线</strong>：Top 100 题。重点刷：链表（反转）、二叉树（遍历&#x2F;深度）、动态规划、手写快排、二分查找。</li>
+</ul>
+<h3 id="2-Linux-Docker"><a href="#2-Linux-Docker" class="headerlink" title="2. Linux &#x2F; Docker"></a>2. Linux &#x2F; Docker</h3><ul>
+<li><strong>常用命令</strong>：<code>top</code> (看负载), <code>awk</code>&#x2F;<code>grep</code> (查日志), <code>tail -f</code>。</li>
+<li><strong>容器化</strong>：Docker 基本操作，K8s 概念了解。</li>
+</ul>
+<hr>
+<h3 id="💡-最后建议"><a href="#💡-最后建议" class="headerlink" title="💡 最后建议"></a>💡 最后建议</h3><p><strong>不要只“看”，要“讲”</strong>。<br>每一个知识点，尝试对着镜子用自己的话完整的讲一遍逻辑。只有能流利地讲清楚原理和方案，才算真正拿下了这个知识点。<strong>祝你面试顺利，Offer 拿到手软！</strong></p>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 UNCEIR的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;David Huang
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
