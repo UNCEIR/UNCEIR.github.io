@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>八股训练04 | UNCEIR的个人博客</title>
+    <meta name="author" content="David Huang" />
+    <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>UNCEIR的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;UNCEIR的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>八股训练04</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/12/1
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <hr>
+<h3 id="1-2-开场与熟悉领域"><a href="#1-2-开场与熟悉领域" class="headerlink" title="1. &amp; 2. 开场与熟悉领域"></a>1. &amp; 2. 开场与熟悉领域</h3><ul>
+<li><strong>回答策略</strong>：不要只罗列名词。建议按层级分类回答，体现条理。</li>
+<li><strong>话术示例</strong>：“我比较熟悉 <strong>Java SE 基础</strong>（包括集合源码、多线程并发、IO模型）、<strong>JVM 原理</strong>（内存模型、GC算法）。在框架方面，熟悉 <strong>Spring 全家桶</strong>（包括 Spring Boot、Spring Cloud）以及常用的中间件如 <strong>Redis</strong> 和 <strong>MySQL</strong>。”</li>
+</ul>
+<hr>
+<h3 id="3-说一下对-Spring-框架结构的了解"><a href="#3-说一下对-Spring-框架结构的了解" class="headerlink" title="3. 说一下对 Spring 框架结构的了解"></a>3. 说一下对 Spring 框架结构的了解</h3><ul>
+<li><strong>解析</strong>：虽然核心是 IoC 和 AOP，但问“结构”时，最好能宏观描述一下模块。</li>
+<li><strong>回答</strong>：<br>Spring 是一个轻量级的容器框架，它的结构可以分为几个核心模块：<ol>
+<li><strong>Core Container（核心容器）</strong>：包含 Beans、Core、Context 和 SpEL，是 Spring 的基石，实现了 <strong>IoC</strong>。</li>
+<li><strong>AOP（面向切面编程）</strong>：提供切面功能。</li>
+<li><strong>Data Access（数据访问）</strong>：包括 JDBC、Transactions（事务）等。</li>
+<li><strong>Web</strong>：包括 MVC、WebFlux 等。</li>
+<li><strong>Test</strong>：提供测试支持。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="4-说一下-AOP-的原理怎么实现的？"><a href="#4-说一下-AOP-的原理怎么实现的？" class="headerlink" title="4. 说一下 AOP 的原理怎么实现的？"></a>4. 说一下 AOP 的原理怎么实现的？</h3><ul>
+<li><strong>关键词</strong>：动态代理。</li>
+<li><strong>回答</strong>：<br>AOP 的底层原理是 <strong>动态代理</strong>。Spring 会在运行期间，动态地生成代理对象，将切面逻辑（如日志、事务）织入到目标方法中。<br>主要有两种实现方式：<ol>
+<li><strong>JDK 动态代理</strong>：如果目标类实现了<strong>接口</strong>，Spring 默认使用 JDK 代理（基于反射，生成接口的实现类）。</li>
+<li><strong>CGLIB 动态代理</strong>：如果目标类<strong>没有实现接口</strong>，Spring 会使用 CGLIB（基于字节码生成技术，生成目标类的子类）。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="5-动态代理怎么把配置植入到运行中间的？"><a href="#5-动态代理怎么把配置植入到运行中间的？" class="headerlink" title="5. 动态代理怎么把配置植入到运行中间的？"></a>5. 动态代理怎么把配置植入到运行中间的？</h3><ul>
+<li><strong>解析</strong>：这是在问动态代理的具体执行流程。</li>
+<li><strong>回答</strong>：<br>以 JDK 动态代理为例，核心是 <strong><code>InvocationHandler</code></strong> 接口。<ol>
+<li>当我们调用代理对象的方法时，请求会被转发给 <code>InvocationHandler</code> 的 <strong><code>invoke()</code></strong> 方法。</li>
+<li>在 <code>invoke()</code> 方法内部，我们可以先执行配置好的<strong>前置逻辑</strong>（比如开启事务）。</li>
+<li>然后通过反射 <code>method.invoke()</code> 调用目标对象的原始方法。</li>
+<li>最后执行<strong>后置逻辑</strong>（比如提交事务）。<br>这样就实现了在不修改源码的情况下，把配置逻辑“植入”到了方法执行过程中。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="6-什么是集合？把所有的集合全部说一遍"><a href="#6-什么是集合？把所有的集合全部说一遍" class="headerlink" title="6. 什么是集合？把所有的集合全部说一遍"></a>6. 什么是集合？把所有的集合全部说一遍</h3><ul>
+<li><strong>回答</strong>：<br>Java 集合主要分为两大派系：<strong>Collection</strong>（单列）和 <strong>Map</strong>（双列&#x2F;键值对）。<ol>
+<li><strong>Collection 接口</strong>下分三类：<ul>
+<li><strong>List</strong>（有序、可重复）：<code>ArrayList</code>（数组）、<code>LinkedList</code>（链表）、<code>Vector</code>（线程安全但过时）。</li>
+<li><strong>Set</strong>（无序、不可重复）：<code>HashSet</code>（基于HashMap）、<code>TreeSet</code>（可排序）、<code>LinkedHashSet</code>（有序）。</li>
+<li><strong>Queue</strong>（队列）：<code>PriorityQueue</code>、<code>ArrayDeque</code>。</li>
+</ul>
+</li>
+<li><strong>Map 接口</strong>：<ul>
+<li><code>HashMap</code>（最常用）、<code>LinkedHashMap</code>（有序）、<code>TreeMap</code>（可排序）、<code>ConcurrentHashMap</code>（线程安全）、<code>Hashtable</code>（过时）。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="7-ArrayList-是动态数组，你说一下动态指的什么意思呢？"><a href="#7-ArrayList-是动态数组，你说一下动态指的什么意思呢？" class="headerlink" title="7. ArrayList 是动态数组，你说一下动态指的什么意思呢？"></a>7. ArrayList 是动态数组，你说一下动态指的什么意思呢？</h3><ul>
+<li><strong>解析</strong>：考察扩容机制。</li>
+<li><strong>回答</strong>：<br>“动态”指的是它<strong>能够自动扩容</strong>。<br>Java 的原生数组（Array）长度是固定的，一旦创建无法修改。而 <code>ArrayList</code> 在添加元素时，如果发现容量不足：<ol>
+<li>会计算新的容量，通常是<strong>原容量的 1.5 倍</strong>（<code>oldCapacity + (oldCapacity &gt;&gt; 1)</code>）。</li>
+<li>然后创建一个新的更大的数组。</li>
+<li>使用 <code>Arrays.copyOf</code> 将旧数组的数据复制过去。<br>这个过程对使用者是透明的，看起来就像数组长度可以动态变化一样。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="8-I-O-是干嘛的？（让自己说）"><a href="#8-I-O-是干嘛的？（让自己说）" class="headerlink" title="8. I&#x2F;O 是干嘛的？（让自己说）"></a>8. I&#x2F;O 是干嘛的？（让自己说）</h3><ul>
+<li><strong>回答</strong>：<br>I&#x2F;O 即 Input&#x2F;Output（输入&#x2F;输出）。它是计算机系统与外部世界（如磁盘文件、网络、键盘显示器）进行<strong>数据交换</strong>的过程。<br>在 Java 中，I&#x2F;O 主要负责把数据读入内存（Input）或者从内存写出到外部设备（Output）。</li>
+</ul>
+<hr>
+<h3 id="9-IO-中-byte-字节流-和-char-字符流-有什么区别？"><a href="#9-IO-中-byte-字节流-和-char-字符流-有什么区别？" class="headerlink" title="9. IO 中 byte (字节流) 和 char (字符流) 有什么区别？"></a>9. IO 中 byte (字节流) 和 char (字符流) 有什么区别？</h3><ul>
+<li><strong>回答</strong>：<ol>
+<li><strong>处理单元不同</strong>：字节流（Stream结尾）按 <strong>8位二进制字节</strong> 处理；字符流（Reader&#x2F;Writer结尾）按 <strong>16位 Unicode 字符</strong> 处理。</li>
+<li><strong>应用场景不同</strong>：<ul>
+<li><strong>字节流</strong>：万能的。适合处理图片、视频、音频、PDF等二进制文件。</li>
+<li><strong>字符流</strong>：专门处理纯文本数据（如 txt, xml, json）。</li>
+</ul>
+</li>
+<li><strong>编码处理</strong>：字符流内部处理了字符集编码转换（如 UTF-8 转 Unicode），避免乱码；字节流需要手动处理。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="10-NIO，BIO-指的是什么？"><a href="#10-NIO，BIO-指的是什么？" class="headerlink" title="10. NIO，BIO 指的是什么？"></a>10. NIO，BIO 指的是什么？</h3><ul>
+<li><strong>回答</strong>：<ul>
+<li><strong>BIO (Blocking I&#x2F;O)</strong>：<strong>同步阻塞</strong>。传统的 IO 模型。一个连接对应一个线程。如果客户端发起请求但没发送数据，服务端的线程就会一直<strong>阻塞</strong>在那里傻等，资源浪费大，并发能力弱。</li>
+<li><strong>NIO (Non-blocking I&#x2F;O)</strong>：<strong>同步非阻塞</strong>。引入了 <strong>Selector（选择器）、Channel（通道）、Buffer（缓冲区）</strong>。一个线程（Selector）可以轮询管理成千上万个连接（Channel）。只有当连接真正有数据读写时，线程才去处理，实现了<strong>多路复用</strong>，高并发性能好。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="11-什么是反射？"><a href="#11-什么是反射？" class="headerlink" title="11. 什么是反射？"></a>11. 什么是反射？</h3><ul>
+<li><strong>回答</strong>：<br>反射是 Java 的一种机制，允许程序在<strong>运行时</strong>（Runtime）动态地获取类的信息（如属性、方法、构造器）并操作对象。<br>简单说就是：<strong>在程序运行期间，对于任意一个类，都能知道它有哪些方法和属性；对于任意一个对象，都能调用它的任意方法。</strong></li>
+</ul>
+<hr>
+<h3 id="12-哪里用到了反射？"><a href="#12-哪里用到了反射？" class="headerlink" title="12. 哪里用到了反射？"></a>12. 哪里用到了反射？</h3><ul>
+<li><strong>回答</strong>：<br>反射是框架的灵魂，平时写业务代码用得少，但框架里到处都是：<ol>
+<li><strong>Spring IOC</strong>：解析 XML 或注解，利用反射实例化 Bean。</li>
+<li><strong>JDBC</strong>：<code>Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;)</code> 加载驱动。</li>
+<li><strong>AOP &#x2F; 动态代理</strong>：底层也是反射。</li>
+<li><strong>MyBatis</strong>：将数据库查询结果映射到 Java 实体类对象。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="13-注解的含义是啥？"><a href="#13-注解的含义是啥？" class="headerlink" title="13. 注解的含义是啥？"></a>13. 注解的含义是啥？</h3><ul>
+<li><strong>回答</strong>：<br>注解（Annotation）本质上是一种<strong>元数据（Metadata）</strong>，也就是“给代码打的标签”。<br>注解本身<strong>不会</strong>影响代码的逻辑执行。它需要配合<strong>注解处理器</strong>（通过反射机制）来读取这些标签，并根据标签触发相应的逻辑。<br>例如 <code>@Override</code> 是给编译器看的，<code>@Autowired</code> 是给 Spring 容器看的。</li>
+</ul>
+<hr>
+<h3 id="14-说一下什么是泛型，什么时候会用到泛型？"><a href="#14-说一下什么是泛型，什么时候会用到泛型？" class="headerlink" title="14. 说一下什么是泛型，什么时候会用到泛型？"></a>14. 说一下什么是泛型，什么时候会用到泛型？</h3><ul>
+<li><strong>回答</strong>：<ul>
+<li><strong>什么是泛型</strong>：泛型就是“参数化类型”，把类型当作参数传递。</li>
+<li><strong>作用</strong>：<ol>
+<li><strong>类型安全</strong>：在编译阶段就能检查类型错误，避免运行时的 <code>ClassCastException</code>。</li>
+<li><strong>代码复用</strong>：一套代码可以处理多种数据类型。</li>
+</ol>
+</li>
+<li><strong>什么时候用</strong>：<ol>
+<li><strong>集合类</strong>：如 <code>List&lt;String&gt;</code>，限制列表只能放字符串。</li>
+<li><strong>通用工具类&#x2F;结果封装</strong>：如后端的统一返回对象 <code>Result&lt;T&gt;</code>，T 可以是 User，也可以是 Order。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="15-equal-和-区别"><a href="#15-equal-和-区别" class="headerlink" title="15. equal 和 &#x3D;&#x3D; 区别"></a>15. equal 和 &#x3D;&#x3D; 区别</h3><ul>
+<li><strong>回答</strong>：<ul>
+<li><strong><code>==</code></strong>：<ul>
+<li>基本数据类型：比较的是<strong>值</strong>。</li>
+<li>引用数据类型：比较的是<strong>内存地址</strong>（是不是同一个对象）。</li>
+</ul>
+</li>
+<li><strong><code>equals</code></strong>：<ul>
+<li>默认情况（Object类）：等价于 <code>==</code>，比较内存地址。</li>
+<li><strong>重写后</strong>（如 String, Integer）：通常用来比较对象的<strong>内容</strong>是否相等。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="16-我们在重写一个类为什么要重写他的-equal-方法和-tostring-方法？不写有什么影响？"><a href="#16-我们在重写一个类为什么要重写他的-equal-方法和-tostring-方法？不写有什么影响？" class="headerlink" title="16. 我们在重写一个类为什么要重写他的 equal 方法和 tostring 方法？不写有什么影响？"></a>16. 我们在重写一个类为什么要重写他的 equal 方法和 tostring 方法？不写有什么影响？</h3><ul>
+<li><strong>回答</strong>：<ul>
+<li><strong>关于 <code>equals</code></strong>：<ul>
+<li>如果不重写，默认比较内存地址。业务上通常认为“ID相同”或“属性相同”就是同一个对象，所以必须重写。</li>
+<li><strong>重要补充</strong>：重写 <code>equals</code> <strong>必须</strong>重写 <code>hashCode</code>。否则该对象在 HashMap&#x2F;HashSet 中会失效（存进去取不出来）。</li>
+</ul>
+</li>
+<li><strong>关于 <code>toString</code></strong>：<ul>
+<li>如果不重写，打印对象时显示的是 <code>类名@哈希码</code>（如 <code>User@1b6d3586</code>），看不懂。</li>
+<li>重写后可以打印出具体的属性值，方便<strong>日志排查</strong>和<strong>调试</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="17-什么是事务，展开说一下？"><a href="#17-什么是事务，展开说一下？" class="headerlink" title="17. 什么是事务，展开说一下？"></a>17. 什么是事务，展开说一下？</h3><ul>
+<li><strong>回答</strong>：<br>事务（Transaction）是数据库操作的<strong>最小逻辑单元</strong>，一组操作要么全部成功，要么全部失败，不能停留在中间状态。<br>事务必须满足 <strong>ACID</strong> 四大特性：<ol>
+<li><strong>Atomicity（原子性）</strong>：同生共死，要么都做，要么都不做。</li>
+<li><strong>Consistency（一致性）</strong>：事务前后，数据总量或状态必须守恒（如转账，A扣钱B必须加钱）。</li>
+<li><strong>Isolation（隔离性）</strong>：并发事务之间互不干扰（涉及隔离级别：读未提交、读已提交、可重复读、串行化）。</li>
+<li><strong>Durability（持久性）</strong>：一旦提交，数据就永久保存到磁盘，断电也不丢失。</li>
+</ol>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 UNCEIR的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;David Huang
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

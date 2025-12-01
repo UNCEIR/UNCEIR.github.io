@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>八股训练05 | UNCEIR的个人博客</title>
+    <meta name="author" content="David Huang" />
+    <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>UNCEIR的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;UNCEIR的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>八股训练05</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/12/1
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h3 id="第一部分：Java-基础与并发"><a href="#第一部分：Java-基础与并发" class="headerlink" title="第一部分：Java 基础与并发"></a>第一部分：Java 基础与并发</h3><h4 id="1-Java进程之间是怎么沟通的？同一个进程里面，两个线程要怎么交流？"><a href="#1-Java进程之间是怎么沟通的？同一个进程里面，两个线程要怎么交流？" class="headerlink" title="1. Java进程之间是怎么沟通的？同一个进程里面，两个线程要怎么交流？"></a>1. Java进程之间是怎么沟通的？同一个进程里面，两个线程要怎么交流？</h4><ul>
+<li><strong>进程间通信 (IPC)</strong>：<ul>
+<li>Java 进程本质上是操作系统上的进程，通信依赖操作系统机制。</li>
+<li><strong>Socket（最常用）</strong>：基于 TCP&#x2F;IP 网络通信（微服务调用、HTTP 请求都是这种）。</li>
+<li><strong>RMI (Remote Method Invocation)</strong>：Java 原生的远程方法调用。</li>
+<li><strong>信号量&#x2F;管道</strong>：操作系统层面的，Java 可以通过 JNI 或文件系统间接使用。</li>
+<li><strong>共享内存 (MappedByteBuffer)</strong>：通过内存映射文件实现。</li>
+</ul>
+</li>
+<li><strong>线程间通信</strong>：<ul>
+<li><strong>共享内存</strong>：线程共享堆内存（Heap），通过读写同一个对象（变量）来交换数据。需配合锁机制。</li>
+<li><strong>wait&#x2F;notify</strong>：基于 <code>Object</code> 类的等待&#x2F;唤醒机制。</li>
+<li><strong>volatile</strong>：保证变量的可见性，一个线程改了，其他线程立马看到。</li>
+<li><strong>JUC 工具类</strong>：<code>CountDownLatch</code>、<code>CyclicBarrier</code>、<strong><code>BlockingQueue</code></strong>（最常用，生产者-消费者模型）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-Java数据结构知道吗，讲一讲数组的原理"><a href="#2-Java数据结构知道吗，讲一讲数组的原理" class="headerlink" title="2. Java数据结构知道吗，讲一讲数组的原理"></a>2. Java数据结构知道吗，讲一讲数组的原理</h4><ul>
+<li><strong>数组 (Array)</strong>：<ul>
+<li><strong>内存连续</strong>：在内存中开辟一段<strong>连续</strong>的空间。</li>
+<li><strong>随机访问 (Random Access)</strong>：知道数组的首地址，根据索引下标可以直接计算出内存地址（<code>首地址 + 索引 * 数据类型大小</code>），所以查询时间复杂度是 <strong>O(1)</strong>。</li>
+<li><strong>长度固定</strong>：一旦创建，长度不可变。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-ArrayList-和-LinkedList-有什么区别？（重点补救）"><a href="#3-ArrayList-和-LinkedList-有什么区别？（重点补救）" class="headerlink" title="3. ArrayList 和 LinkedList 有什么区别？（重点补救）"></a>3. ArrayList 和 LinkedList 有什么区别？（重点补救）</h4><ul>
+<li><strong>底层结构</strong>：<code>ArrayList</code> 基于<strong>动态数组</strong>；<code>LinkedList</code> 基于<strong>双向链表</strong>。</li>
+<li><strong>查询性能</strong>：<code>ArrayList</code> 支持随机访问（O(1)）；<code>LinkedList</code> 需要遍历节点（O(n)），查询慢。</li>
+<li><strong>增删性能</strong>：<ul>
+<li><code>ArrayList</code>：尾部增删快，但如果在中间增删，需要<strong>数据搬运</strong>（System.arraycopy），效率低。</li>
+<li><code>LinkedList</code>：只要拿到了节点，增删只需要修改前后指针，效率高（O(1)），但寻找节点本身需要时间。</li>
+</ul>
+</li>
+<li><strong>内存占用</strong>：<code>LinkedList</code> 每个节点要存 prev&#x2F;next 指针，比 <code>ArrayList</code> 更占内存。</li>
+</ul>
+<h4 id="4-ConcurrentHashMap-知道吗？"><a href="#4-ConcurrentHashMap-知道吗？" class="headerlink" title="4. ConcurrentHashMap 知道吗？"></a>4. ConcurrentHashMap 知道吗？</h4><ul>
+<li><strong>JDK 1.7</strong>：<strong>分段锁 (Segment)</strong>。把大数组切分成很多段（Segment），每段配一把锁（ReentrantLock）。多线程访问不同段时互不干扰。</li>
+<li><strong>JDK 1.8</strong>：<strong>Node 数组 + 链表&#x2F;红黑树</strong>。摒弃 Segment，直接用 <code>Node[]</code>。<ul>
+<li><strong>锁粒度更细</strong>：使用 <strong>CAS + synchronized</strong>。只锁定当前链表&#x2F;红黑树的<strong>头节点</strong>。</li>
+<li><strong>红黑树</strong>：当链表长度超过 8 时转为红黑树，提高查询效率（O(logn)）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="第二部分：框架原理"><a href="#第二部分：框架原理" class="headerlink" title="第二部分：框架原理"></a>第二部分：框架原理</h3><h4 id="5-Spring-是怎么实现的？"><a href="#5-Spring-是怎么实现的？" class="headerlink" title="5. Spring 是怎么实现的？"></a>5. Spring 是怎么实现的？</h4><ul>
+<li>核心是 <strong>IoC 容器</strong> 和 <strong>AOP</strong>。</li>
+<li><strong>启动流程</strong>：解析配置（XML&#x2F;注解） -&gt; 封装成 <code>BeanDefinition</code> -&gt; 通过<strong>反射</strong>实例化对象 -&gt; <strong>依赖注入</strong>（属性赋值） -&gt; 初始化（Aware回调&#x2F;init-method） -&gt; 放入单例池（Map）。</li>
+<li><strong>Bean 的获取</strong>：也就是 <code>getBean()</code>，本质是从 <code>ConcurrentHashMap</code> 中拿对象。</li>
+</ul>
+<h4 id="6-微服务会吗？"><a href="#6-微服务会吗？" class="headerlink" title="6. 微服务会吗？"></a>6. 微服务会吗？</h4><ul>
+<li><strong>核心组件</strong>：注册中心（Nacos&#x2F;Eureka）、配置中心、网关（Gateway）、远程调用（OpenFeign&#x2F;Dubbo）、熔断降级（Sentinel&#x2F;Hystrix）。</li>
+<li><strong>CAP 定理</strong>：一致性、可用性、分区容错性的权衡。</li>
+</ul>
+<h4 id="7-MyBatis-是怎么实现的？"><a href="#7-MyBatis-是怎么实现的？" class="headerlink" title="7. MyBatis 是怎么实现的？"></a>7. MyBatis 是怎么实现的？</h4><ul>
+<li><strong>核心</strong>：<strong>动态代理</strong>。</li>
+<li>你写的 Mapper 接口没有实现类，MyBatis 使用 JDK 动态代理生成了一个代理对象（<code>MapperProxy</code>）。</li>
+<li>当你调用接口方法时，代理对象拦截请求，找到对应的 XML&#x2F;注解中的 SQL，解析参数，执行 SQL，最后把结果集（ResultSet）映射成 Java 对象。</li>
+</ul>
+<h4 id="8-IOC-和-AOP（参考上一条回答中的“Java基础与框架”第5题）。"><a href="#8-IOC-和-AOP（参考上一条回答中的“Java基础与框架”第5题）。" class="headerlink" title="8. IOC 和 AOP（参考上一条回答中的“Java基础与框架”第5题）。"></a>8. IOC 和 AOP（参考上一条回答中的“Java基础与框架”第5题）。</h4><h4 id="9-反射知道吗？"><a href="#9-反射知道吗？" class="headerlink" title="9. 反射知道吗？"></a>9. 反射知道吗？</h4><ul>
+<li><strong>概念</strong>：运行时动态获取类的信息（属性、方法）并操作对象。</li>
+<li><strong>应用</strong>：Spring 实例化 Bean、MyBatis 结果映射、JDBC 加载驱动。</li>
+</ul>
+<hr>
+<h3 id="第三部分：数据库与-Redis"><a href="#第三部分：数据库与-Redis" class="headerlink" title="第三部分：数据库与 Redis"></a>第三部分：数据库与 Redis</h3><h4 id="10-MySQL-事务、索引、锁"><a href="#10-MySQL-事务、索引、锁" class="headerlink" title="10. MySQL 事务、索引、锁"></a>10. MySQL 事务、索引、锁</h4><ul>
+<li><strong>事务</strong>：ACID（原子、一致、隔离、持久）。</li>
+<li><strong>索引</strong>：B+树（数据在叶子节点，支持范围查询，层高低减少IO）。</li>
+<li><strong>锁</strong>：行锁（Record Lock）、间隙锁（Gap Lock）、表锁。MVCC（多版本并发控制）解决读写冲突。</li>
+</ul>
+<h4 id="11-为什么要用-Redis？"><a href="#11-为什么要用-Redis？" class="headerlink" title="11. 为什么要用 Redis？"></a>11. 为什么要用 Redis？</h4><ul>
+<li><strong>高性能</strong>：基于内存，读写速度极快（10w+ QPS）。</li>
+<li><strong>减轻 DB 压力</strong>：作为缓存层。</li>
+<li><strong>丰富的数据结构</strong>：支持 String, List, Set, ZSet, Hash，适合做排行榜、计数器、消息队列等。</li>
+</ul>
+<hr>
+<h3 id="第四部分：项目拷打（核心难点）"><a href="#第四部分：项目拷打（核心难点）" class="headerlink" title="第四部分：项目拷打（核心难点）"></a>第四部分：项目拷打（核心难点）</h3><h4 id="12-乐观锁怎么用它处理多线程问题的？你是怎么实现的？"><a href="#12-乐观锁怎么用它处理多线程问题的？你是怎么实现的？" class="headerlink" title="12. 乐观锁怎么用它处理多线程问题的？你是怎么实现的？"></a>12. 乐观锁怎么用它处理多线程问题的？你是怎么实现的？</h4><ul>
+<li><strong>原理</strong>：假设不会发生冲突，只在更新时检查一下数据有没有被别人改过。</li>
+<li><strong>实现方式</strong>：<ol>
+<li><strong>版本号机制（Version）</strong>：数据库表加一个 <code>version</code> 字段。</li>
+<li><strong>SQL 逻辑</strong>：<ul>
+<li>先查询：<code>SELECT id, salary, version FROM user WHERE id=1</code> (假设查出 version&#x3D;1)。</li>
+<li>更新时带上 version 条件：<code>UPDATE user SET salary=200, version=version+1 WHERE id=1 AND version=1</code>。</li>
+<li>如果影响行数为 0，说明被别人改过了，更新失败（可以重试或抛错）。</li>
+</ul>
+</li>
+<li><strong>MyBatisPlus</strong>：提供了 <code>@Version</code> 注解自动实现这个逻辑。</li>
+</ol>
+</li>
+</ul>
+<h4 id="13-看过-Redis-底层源码吗？C-能看懂吗？（陷阱题）"><a href="#13-看过-Redis-底层源码吗？C-能看懂吗？（陷阱题）" class="headerlink" title="13. 看过 Redis 底层源码吗？C++ 能看懂吗？（陷阱题）"></a>13. 看过 Redis 底层源码吗？C++ 能看懂吗？（陷阱题）</h4><ul>
+<li><strong>应对策略</strong>：如果没看过源码，千万别硬撑说看过，会被问死。</li>
+<li><strong>话术</strong>：“虽然我没有通读过 C++ 的源码，但我深入学习过 Redis <strong>底层数据结构的设计思想</strong>。”<ul>
+<li><strong>ZSet</strong>：底层是 <strong>跳表 (SkipList)</strong> 和 <strong>压缩列表 (ZipList)</strong>。</li>
+<li><strong>SkipList</strong>：在链表基础上增加多级索引，实现 O(logn) 的查询，比红黑树实现简单，并发下更易维护。</li>
+<li><strong>String</strong>：SDS（简单动态字符串），支持动态扩容，二进制安全。</li>
+</ul>
+</li>
+</ul>
+<h4 id="14-为什么用消息队列，不用阻塞队列-BlockingQueue-？"><a href="#14-为什么用消息队列，不用阻塞队列-BlockingQueue-？" class="headerlink" title="14. 为什么用消息队列，不用阻塞队列 (BlockingQueue)？"></a>14. 为什么用消息队列，不用阻塞队列 (BlockingQueue)？</h4><ul>
+<li><strong>阻塞队列的局限</strong>：<ol>
+<li><strong>内存限制</strong>：它是 JVM 内存里的，容量有限，一旦堆满了会 OOM。</li>
+<li><strong>数据丢失</strong>：服务重启或宕机，内存里的数据就没了。</li>
+<li><strong>无法分布式</strong>：阻塞队列只能在当前 JVM 里的线程间通信，无法实现 A 服务发消息，B 服务收消息。</li>
+</ol>
+</li>
+<li><strong>消息队列 (MQ) 的优势</strong>：<strong>解耦</strong>（服务拆分）、<strong>削峰填谷</strong>（流量缓冲）、<strong>异步处理</strong>、<strong>持久化</strong>。</li>
+</ul>
+<h4 id="15-消费者和消费者之间是怎么联系的？"><a href="#15-消费者和消费者之间是怎么联系的？" class="headerlink" title="15. 消费者和消费者之间是怎么联系的？"></a>15. 消费者和消费者之间是怎么联系的？</h4><ul>
+<li><strong>通常不直接联系</strong>。它们通过 MQ 交互。</li>
+<li><strong>竞争关系</strong>：如果是同一个消费者组（Consumer Group），它们竞争拉取消息（负载均衡），一条消息通常只被一个消费者消费。</li>
+<li><strong>广播模式</strong>：如果是不同的消费者组，可以同时消费同一条消息（发布订阅）。</li>
+</ul>
+<h4 id="16-WebSocket-与-Http-的区别？"><a href="#16-WebSocket-与-Http-的区别？" class="headerlink" title="16. WebSocket 与 Http 的区别？"></a>16. WebSocket 与 Http 的区别？</h4><ul>
+<li><strong>HTTP</strong>：短连接，无状态。<strong>单向通信</strong>（只能客户端发起请求，服务端响应）。</li>
+<li><strong>WebSocket</strong>：长连接。<strong>全双工通信</strong>（建立连接后，服务端可以主动给客户端推消息）。</li>
+<li><strong>场景</strong>：外卖订单状态变更提醒、聊天室，必须用 WebSocket 才能实现实时推送。</li>
+</ul>
+<h4 id="17-你这个项目是不是就是在做-CRUD？（压力测试）"><a href="#17-你这个项目是不是就是在做-CRUD？（压力测试）" class="headerlink" title="17. 你这个项目是不是就是在做 CRUD？（压力测试）"></a>17. 你这个项目是不是就是在做 CRUD？（压力测试）</h4><ul>
+<li><strong>应对心态</strong>：不要慌，不要承认“只是 CRUD”。</li>
+<li><strong>话术</strong>：“CRUD 确实是基础，但这个项目的难点在于<strong>具体场景下的技术选型和优化</strong>。”<ul>
+<li>举例：</li>
+<li>“虽然是点餐，但为了保证高并发下的库存扣减不超卖，我使用了 Redis + Lua 脚本。”</li>
+<li>“为了解决数据库和缓存的一致性问题，我采用了 Cache Aside 模式并配合延时双删&#x2F;Canal。”</li>
+<li>“为了提升搜索效率，我引入了 ElasticSearch。”</li>
+<li><strong>总结</strong>：把重点引向你解决的<strong>并发、一致性、性能优化</strong>问题上。</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 UNCEIR的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;David Huang
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
