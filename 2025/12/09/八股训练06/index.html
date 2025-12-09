@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>八股训练06 | UNCEIR的个人博客</title>
+    <meta name="author" content="David Huang" />
+    <meta name="description" content="广东工业大学信息管理与信息系统专业的一名大三学生，未来想从事后端开发，请多指教。" />
+    <meta name="keywords" content="" />
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <link rel="icon" href="/images/avatar.jpg" />
+    <link rel="preconnect" href="https://s4.zstatic.net" />
+<script src="https://s4.zstatic.net/ajax/libs/vue/3.3.7/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.cn" />
+<link rel="preconnect" href="https://fonts.gstatic.cn" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.cn/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://polyfill.alicdn.com/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://s4.zstatic.net/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://s4.zstatic.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>加载过慢请开启缓存 浏览器默认开启</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>UNCEIR的个人博客</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;UNCEIR的个人博客</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            <div class="article">
+    <div>
+        <h1>八股训练06</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2025/12/9
+        </span>
+        
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <p>这是一个非常全面且经典的Java后端面试题库，涵盖了<strong>Java基础、并发编程、JVM、MySQL数据库、Redis、中间件（Kafka）、操作系统&#x2F;容器以及微服务架构</strong>。</p>
+<p>以下是针对这37道题目的精简、核心的回答思路，适合面试时快速输出重点。</p>
+<hr>
+<h3 id="一、-Java基础与容器"><a href="#一、-Java基础与容器" class="headerlink" title="一、 Java基础与容器"></a>一、 Java基础与容器</h3><p><strong>1、StringBuilder和StringBuffer有什么区别？</strong></p>
+<ul>
+<li><strong>线程安全：</strong> <code>StringBuffer</code> 是线程安全的（方法加了 <code>synchronized</code>），<code>StringBuilder</code> 是非线程安全的。</li>
+<li><strong>性能：</strong> <code>StringBuilder</code> 性能更高，因为没有锁的开销。</li>
+<li><strong>场景：</strong> 单线程字符串拼接用 <code>StringBuilder</code>，多线程并发拼接用 <code>StringBuffer</code>。</li>
+</ul>
+<p><strong>2、关于线程安全，Java中还有哪些常用类是线程安全的？（如CopyOnWriteArrayList了解吗）</strong></p>
+<ul>
+<li><strong>常用类：</strong> <code>Vector</code>（老旧）、<code>Hashtable</code>（老旧）、<code>ConcurrentHashMap</code>（并发常用）。</li>
+<li><strong>CopyOnWriteArrayList：</strong><ul>
+<li><strong>原理：</strong> 写时复制。往容器添加元素时，不直接操作原数组，而是复制一个新的数组，在旧数组上读，在新数组上写，写完将引用指向新数组。</li>
+<li><strong>场景：</strong> 读多写少（如白名单、黑名单配置），因为写操作开销大且数据一致性较弱（最终一致性）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>3、finally中的代码无论什么情况下一定会执行吗？</strong></p>
+<ul>
+<li><strong>大部分情况：</strong> 是。</li>
+<li><strong>不执行的情况：</strong><ul>
+<li><code>try</code> 块执行前线程就结束了。</li>
+<li><code>try</code> 或 <code>catch</code> 中调用了 <code>System.exit(0)</code> 退出JVM。</li>
+<li>守护线程在非守护线程全部结束时可能来不及执行 <code>finally</code>。</li>
+<li>物理断电或JVM崩溃。</li>
+</ul>
+</li>
+</ul>
+<p><strong>4、HashMap的底层数据结构说一下？</strong></p>
+<ul>
+<li><strong>JDK 1.7：</strong> 数组 + 链表（头插法，易造成死循环）。</li>
+<li><strong>JDK 1.8：</strong> 数组 + 链表 + 红黑树（尾插法）。</li>
+<li><strong>红黑树转换条件：</strong> 当链表长度 &gt; 8 且数组长度 &gt;&#x3D; 64 时，链表转为红黑树；当节点数 &lt; 6 时，退化为链表。</li>
+</ul>
+<p><strong>5、用过TreeMap吗？它和HashMap的区别是什么？</strong></p>
+<ul>
+<li><strong>有序性：</strong> <code>TreeMap</code> 是有序的（基于Key排序），<code>HashMap</code> 是无序的。</li>
+<li><strong>底层：</strong> <code>TreeMap</code> 基于红黑树实现；<code>HashMap</code> 基于Hash表。</li>
+<li><strong>复杂度：</strong> <code>TreeMap</code> 的增删改查是对数级 <code>O(log n)</code>；<code>HashMap</code> 理论上是常数级 <code>O(1)</code>。</li>
+</ul>
+<hr>
+<h3 id="二、-并发编程"><a href="#二、-并发编程" class="headerlink" title="二、 并发编程"></a>二、 并发编程</h3><p><strong>6、volatile关键字的用途？</strong></p>
+<ul>
+<li><strong>保证可见性：</strong> 当一个线程修改变量时，其他线程能立即看到最新值（通过MESI协议&#x2F;嗅探机制）。</li>
+<li><strong>禁止指令重排序：</strong> 加上内存屏障，保证有序性（如单例模式的双重检查锁）。</li>
+<li><strong>注意：</strong> 它<strong>不保证原子性</strong>（如 <code>i++</code> 操作）。</li>
+</ul>
+<p><strong>7、创建线程池常用的几个参数？</strong></p>
+<ul>
+<li><code>corePoolSize</code>：核心线程数。</li>
+<li><code>maximumPoolSize</code>：最大线程数。</li>
+<li><code>keepAliveTime</code>：非核心线程空闲存活时间。</li>
+<li><code>unit</code>：时间单位。</li>
+<li><code>workQueue</code>：阻塞队列（如 <code>ArrayBlockingQueue</code>, <code>LinkedBlockingQueue</code>）。</li>
+<li><code>threadFactory</code>：线程工厂（用于命名线程等）。</li>
+<li><code>handler</code>：拒绝策略（Abort, CallerRuns, Discard, DiscardOldest）。</li>
+</ul>
+<p><strong>8、用过CountDownLatch吗？具体在什么场景会用到？</strong></p>
+<ul>
+<li><strong>作用：</strong> 倒计时锁存器，允许一个或多个线程等待其他线程完成操作。</li>
+<li><strong>场景：</strong> 并行处理任务。例如解析一个大Excel，拆分为5个线程并行解析，主线程调用 <code>await()</code> 等待这5个线程都 <code>countDown()</code> 后，再进行汇总入库。</li>
+</ul>
+<p><strong>9、你在工作中遇见过死锁的问题吗？如果遇到的话怎么解决？</strong></p>
+<ul>
+<li><strong>场景：</strong> 两个线程互相持有对方需要的锁资源（A拿锁1等锁2，B拿锁2等锁1）。</li>
+<li><strong>排查：</strong> 使用 <code>jps</code> 找进程ID，用 <code>jstack</code> 查看线程堆栈，或者用VisualVM检测。</li>
+<li><strong>解决&#x2F;避免：</strong><ul>
+<li>固定加锁顺序。</li>
+<li>使用 <code>Lock.tryLock()</code> 设置超时时间，拿不到锁就放弃。</li>
+<li>减少锁粒度。</li>
+</ul>
+</li>
+</ul>
+<p><strong>10、说一下什么是乐观锁？什么是悲观锁？</strong></p>
+<ul>
+<li><strong>悲观锁：</strong> 假设会发生冲突，操作前先加锁。如 <code>synchronized</code>, <code>ReentrantLock</code>, 数据库的 <code>select ... for update</code>。</li>
+<li><strong>乐观锁：</strong> 假设不会发生冲突，只在更新时检查数据是否被修改。如 CAS（Compare and Swap）机制，数据库中的 <code>version</code> 版本号字段。</li>
+</ul>
+<p><strong>11、说一下ThreadLocal的原理？</strong></p>
+<ul>
+<li><strong>原理：</strong> 每个 <code>Thread</code> 对象内部维护了一个 <code>ThreadLocalMap</code>。<code>ThreadLocal</code> 对象本身作为 Key，线程私有的变量作为 Value。</li>
+<li><strong>内存泄露：</strong> Key 是弱引用，Value 是强引用。如果 <code>ThreadLocal</code> 没被回收，Key 变为 null，但 Value 还在，导致内存泄漏。</li>
+<li><strong>解决：</strong> 使用完后务必调用 <code>remove()</code> 方法。</li>
+</ul>
+<hr>
+<h3 id="三、-网络与Netty"><a href="#三、-网络与Netty" class="headerlink" title="三、 网络与Netty"></a>三、 网络与Netty</h3><p><strong>12、说一下TCP的粘包问题？怎么解决？</strong></p>
+<ul>
+<li><strong>原因：</strong> TCP是面向流的协议，没有界限；发送方Nagle算法合并小包；接收方缓冲区堆积。</li>
+<li><strong>解决：</strong><ul>
+<li><strong>定长：</strong> 发送固定长度的数据包。</li>
+<li><strong>分隔符：</strong> 如按换行符 <code>\n</code> 切分。</li>
+<li><strong>Header+Body：</strong> 消息头定义长度，读取时先读头获取长度，再读Body（Netty常用方式）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>13、你用过Netty框架吗？</strong></p>
+<ul>
+<li><strong>核心：</strong> 基于NIO的异步事件驱动网络框架。</li>
+<li><strong>组件：</strong> Channel, EventLoop (Reactor线程模型), ChannelHandler, Pipeline, ByteBuf。</li>
+</ul>
+<p><strong>14、说一下零拷贝？</strong></p>
+<ul>
+<li><strong>概念：</strong> 减少CPU在用户态和内核态之间的数据拷贝次数。</li>
+<li><strong>实现：</strong><ul>
+<li>Linux: <code>mmap</code> (内存映射), <code>sendfile</code>。</li>
+<li>Java&#x2F;Netty: <code>FileChannel.transferTo</code>, Netty的 <code>Direct Memory</code> 和 <code>CompositeByteBuf</code>。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="四、-JVM"><a href="#四、-JVM" class="headerlink" title="四、 JVM"></a>四、 JVM</h3><p><strong>15、JVM的数据区包括哪几个部分？分别存放什么？</strong></p>
+<ul>
+<li><strong>堆 (Heap)：</strong> 存放对象实例（最大的一块，GC主要区域）。</li>
+<li><strong>方法区 (Method Area&#x2F;Metaspace)：</strong> 类信息、常量、静态变量。</li>
+<li><strong>虚拟机栈 (VM Stack)：</strong> 局部变量表、操作数栈（线程私有）。</li>
+<li><strong>本地方法栈 (Native Stack)：</strong> Native方法。</li>
+<li><strong>程序计数器 (PC Register)：</strong> 当前线程执行的字节码行号。</li>
+</ul>
+<p><strong>16、JVM的堆空间是如何划分的？（经典的分代）</strong></p>
+<ul>
+<li><strong>新生代 (Young)：</strong> 占堆的1&#x2F;3。分为 Eden, Survivor 0 (S0), Survivor 1 (S1) —— 比例 8:1:1。</li>
+<li><strong>老年代 (Old)：</strong> 占堆的2&#x2F;3。存放生命周期长的对象。</li>
+</ul>
+<p><strong>17、G1的堆空间是如何划分的？</strong></p>
+<ul>
+<li>取消了物理上的新生代和老年代隔离。</li>
+<li>将堆划分为多个大小相等的 <strong>Region</strong>。</li>
+<li>Region 动态地充当 Eden, Survivor, Old, 或 Humongous (大对象区域)。</li>
+</ul>
+<p><strong>18、说一下双亲委派模型？</strong></p>
+<ul>
+<li><strong>流程：</strong> 类加载器收到请求 -&gt; 向上委托给父类 -&gt; 直到启动类加载器 (Bootstrap) -&gt; 父类能加载就加载 -&gt; 不能加载才由子类自己尝试加载。</li>
+<li><strong>作用：</strong> 保证Java核心类的安全（避免用户自定义 <code>java.lang.String</code> 覆盖核心类），避免重复加载。</li>
+</ul>
+<p><strong>19、你在项目开发中遇到过OOM相关问题吗？如何定位？如何解决？</strong></p>
+<ul>
+<li><strong>常见OOM：</strong> <code>Java heap space</code> (堆溢出), <code>StackOverflowError</code> (栈溢出&#x2F;死递归)。</li>
+<li><strong>定位：</strong><ul>
+<li>配置启动参数 <code>-XX:+HeapDumpOnOutOfMemoryError</code> 导出Dump文件。</li>
+<li>使用 MAT (Memory Analyzer Tool) 或 VisualVM 分析 Dump 文件。</li>
+<li>查看大对象，查找 GC Roots 引用链。</li>
+</ul>
+</li>
+<li><strong>解决：</strong> 优化代码（如死循环、大列表未清理），调整堆内存大小（-Xmx, -Xms）。</li>
+</ul>
+<hr>
+<h3 id="五、-MySQL数据库"><a href="#五、-MySQL数据库" class="headerlink" title="五、 MySQL数据库"></a>五、 MySQL数据库</h3><p><strong>20、说一下mysql，什么是回表？</strong></p>
+<ul>
+<li><strong>概念：</strong> 通过普通索引（非聚簇索引）查询时，只找到了主键ID，需要拿着主键ID再去主键索引树（聚簇索引）中查找完整的行记录，这个过程叫回表。</li>
+<li><strong>优化：</strong> 使用<strong>覆盖索引</strong>（查询的字段刚好都在索引中），避免回表。</li>
+</ul>
+<p><strong>21、说一下mysql的底层数据结构？</strong></p>
+<ul>
+<li><strong>B+树。</strong></li>
+<li><strong>为什么用B+树：</strong><ul>
+<li>非叶子节点只存索引，叶子节点存数据 -&gt; 树更矮胖，IO次数少。</li>
+<li>叶子节点之间有双向指针 -&gt; 适合范围查询（Range Scan）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>22、说一下mysql的事务隔离级别？</strong></p>
+<ul>
+<li><strong>读未提交 (RU)：</strong> 脏读。</li>
+<li><strong>读已提交 (RC)：</strong> 解决脏读，不可重复读。</li>
+<li><strong>可重复读 (RR)：</strong> MySQL默认。解决不可重复读，通过Next-Key Lock解决幻读。</li>
+<li><strong>串行化：</strong> 效率最低，完全锁住。</li>
+</ul>
+<p><strong>23、Mysql的MVCC是如何工作的？</strong></p>
+<ul>
+<li><strong>MVCC (多版本并发控制)：</strong> 允许读取时不加锁，实现读写并行。</li>
+<li><strong>核心：</strong> Undo Log（版本链） + Read View（一致性视图）。</li>
+<li><strong>机制：</strong> 每一行数据有隐藏列（事务ID、回滚指针）。事务读取时根据 Read View 规则判断哪个版本的数据对当前事务可见。</li>
+</ul>
+<p><strong>24、如果向mysql插入一条数据，关于bin log和redo log，具体是怎么工作的？</strong></p>
+<ul>
+<li><strong>Redo Log (重做日志)：</strong> InnoDB特有，物理日志，保证事务持久性（Crash-safe）。</li>
+<li><strong>Bin Log (归档日志)：</strong> Server层，逻辑日志，用于主从复制和恢复。</li>
+<li><strong>两阶段提交：</strong><ol>
+<li>引擎写 Redo Log (Prepare状态)。</li>
+<li>Server写 Bin Log。</li>
+<li>引擎提交 Redo Log (Commit状态)。</li>
+</ol>
+<ul>
+<li><em>目的：保证两份日志逻辑一致。</em></li>
+</ul>
+</li>
+</ul>
+<p><strong>25、在项目过程中遇到慢sql该如何优化？思路是什么？</strong></p>
+<ul>
+<li>开启慢查询日志定位SQL。</li>
+<li>使用 <code>EXPLAIN</code> 分析执行计划（看 <code>type</code>, <code>key</code>, <code>rows</code>, <code>extra</code>）。</li>
+<li><strong>优化手段：</strong><ul>
+<li>加索引、优化索引（最左前缀原则）。</li>
+<li>避免 <code>select *</code>，使用覆盖索引。</li>
+<li>小表驱动大表（Join优化）。</li>
+<li>分库分表（数据量太大时）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>26、把select * 换成查询具体字段，它解决了什么问题？</strong></p>
+<ul>
+<li>减少网络传输带宽。</li>
+<li>减少数据库解析成本。</li>
+<li><strong>最重要：</strong> 增加了使用<strong>覆盖索引</strong>的机会，避免回表。</li>
+</ul>
+<p><strong>27、索引失效的情况说一下？</strong></p>
+<ul>
+<li>未遵循最左前缀原则（联合索引）。</li>
+<li>在索引列上做计算、函数操作。</li>
+<li>类型转换（如字符串不加引号）。</li>
+<li><code>like</code> 以 <code>%</code> 开头（<code>%abc</code>）。</li>
+<li>使用 <code>!=</code> 或 <code>OR</code>（某些情况下）。</li>
+</ul>
+<hr>
+<h3 id="六、-Redis与缓存"><a href="#六、-Redis与缓存" class="headerlink" title="六、 Redis与缓存"></a>六、 Redis与缓存</h3><p><strong>28、说一下redis的持久化机制？</strong></p>
+<ul>
+<li><strong>RDB (快照)：</strong> 定时将内存数据dump到磁盘。恢复快，但可能丢数据。</li>
+<li><strong>AOF (追加日志)：</strong> 记录每次写命令。数据安全，文件大，恢复慢。</li>
+<li><strong>混合持久化：</strong> RDB + AOF（Redis 4.0+），结合两者优点。</li>
+</ul>
+<p><strong>29、了解过redis和mysql的主从同步过程吗？</strong></p>
+<ul>
+<li><strong>Redis主从：</strong><ul>
+<li><strong>全量复制：</strong> Slave发送 <code>PSYNC</code>，Master生成RDB发给Slave，Slave加载，Master再发缓冲区命令。</li>
+<li><strong>增量复制：</strong> 断线重连后，根据偏移量（Offset）在积压缓冲区内同步。</li>
+</ul>
+</li>
+<li><strong>MySQL主从：</strong><ul>
+<li>Master写 Binlog。</li>
+<li>Slave I&#x2F;O线程拉取 Binlog 写入 Relay Log（中继日志）。</li>
+<li>Slave SQL线程重放 Relay Log。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="七、-Kafka"><a href="#七、-Kafka" class="headerlink" title="七、 Kafka"></a>七、 Kafka</h3><p><strong>30、Kafka了解的多吗？说一下Kafka默认的分区策略？</strong></p>
+<ul>
+<li>如果指定了 Partition，则直接使用。</li>
+<li>如果没指定 Partition 但有 Key，按 Key 的 Hash 值取模。</li>
+<li>如果都没指定，采用轮询（Round-Robin）或 粘性分区（Sticky Partitioning，性能优化）。</li>
+</ul>
+<p><strong>31、了解过Kafka的ack机制吗，说一下它的几个取值和用途？</strong></p>
+<ul>
+<li><strong>acks&#x3D;0：</strong> 发送不管结果。最快，丢数据风险最大。</li>
+<li><strong>acks&#x3D;1：</strong> Leader 收到即成功。折中。</li>
+<li><strong>acks&#x3D;all&#x2F;-1：</strong> ISR列表中的所有副本都收到才算成功。最安全，最慢。</li>
+</ul>
+<p><strong>32、说一下Kafka消费者具体是怎么消费的？</strong></p>
+<ul>
+<li><strong>Pull模式：</strong> 消费者主动去Broker拉取数据。</li>
+<li><strong>消费组：</strong> 组内消费者共同消费一个Topic，每个Partition只能被组内一个消费者消费。</li>
+<li><strong>Offset：</strong> 消费完提交 Offset（自动提交或手动提交），记录消费进度。</li>
+</ul>
+<hr>
+<h3 id="八、-Linux与容器"><a href="#八、-Linux与容器" class="headerlink" title="八、 Linux与容器"></a>八、 Linux与容器</h3><p><strong>33、Linux常用的一些命令了解吗？</strong></p>
+<ul>
+<li><strong>文件：</strong> <code>ls</code>, <code>cd</code>, <code>cat</code>, <code>tail -f</code> (看日志), <code>grep</code> (搜索), <code>chmod</code>, <code>tar</code>.</li>
+<li><strong>进程&#x2F;网络：</strong> <code>ps -ef</code> (看进程), <code>top</code> (看负载), <code>netstat -nlp</code> 或 <code>ss</code> (看端口), <code>kill -9</code>.</li>
+</ul>
+<p><strong>34、你们项目是直接在虚拟机上部署，还是在docker或者k8s？能说一下docker的常用命令吗？</strong></p>
+<ul>
+<li><code>docker pull</code> (拉镜像)</li>
+<li><code>docker run</code> (启动容器, 常用参数 <code>-d</code>, <code>-p</code>, <code>-v</code>)</li>
+<li><code>docker ps</code> (看运行容器)</li>
+<li><code>docker exec -it &lt;id&gt; /bin/bash</code> (进入容器)</li>
+<li><code>docker logs</code> (看日志)</li>
+<li><code>docker build</code> (构建镜像)</li>
+</ul>
+<hr>
+<h3 id="九、-微服务架构"><a href="#九、-微服务架构" class="headerlink" title="九、 微服务架构"></a>九、 微服务架构</h3><p><strong>35、你们服务架构是单体的还是微服务的？说一下微服务相关的组件？</strong></p>
+<ul>
+<li><strong>Spring Cloud Alibaba 体系：</strong><ul>
+<li><strong>注册&#x2F;配置中心：</strong> Nacos</li>
+<li><strong>负载均衡：</strong> Ribbon &#x2F; LoadBalancer</li>
+<li><strong>服务调用：</strong> Feign &#x2F; OpenFeign</li>
+<li><strong>熔断限流：</strong> Sentinel &#x2F; Hystrix</li>
+<li><strong>网关：</strong> Spring Cloud Gateway</li>
+</ul>
+</li>
+</ul>
+<p><strong>36、Nacos除了配置还有什么作用？服务注册的目的是什么？</strong></p>
+<ul>
+<li><strong>Nacos作用：</strong> 配置中心（动态管理配置，无需重启）、注册中心。</li>
+<li><strong>服务注册目的：</strong><ul>
+<li><strong>解耦：</strong> 消费者不需要硬编码提供者的IP地址。</li>
+<li><strong>动态感知：</strong> 服务上下线自动发现。</li>
+<li><strong>负载均衡：</strong> 获取可用服务列表后进行轮询等策略调用。</li>
+</ul>
+</li>
+</ul>
+<p><strong>37、你有了解过分布式事务吗？</strong></p>
+<ul>
+<li><strong>理论：</strong> CAP定理，BASE理论。</li>
+<li><strong>解决方案：</strong><ul>
+<li><strong>2PC (两阶段)：</strong> Seata 的 AT 模式（常用，侵入性小）。</li>
+<li><strong>TCC：</strong> Try-Confirm-Cancel（性能好，代码量大）。</li>
+<li><strong>最终一致性：</strong> 本地消息表 + 定时任务；或者基于 MQ 的事务消息（如 RocketMQ）。</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy;
+            2022 - 2025 UNCEIR的个人博客
+            <span id="footer-icon">
+                <i class="fa-solid fa-font-awesome fa-fw"></i>
+            </span>
+            &commat;David Huang
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo Engine</a> &amp;
+            <a target="_blank" rel="noopener" href="https://github.com/theme-particlex/hexo-theme-particlex">ParticleX Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
